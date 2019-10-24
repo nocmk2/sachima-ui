@@ -1,6 +1,10 @@
 import { ADD_ARTICLE } from "../constants/action-types";
 const initialState = {
-  articles: []
+  articles: [
+    { title: "aaa", checked: true, elevation: 4 },
+    { title: "bbb", checked: true, elevation: 4 }
+  ]
+  // articles: []
 };
 function rootReducer(state = initialState, action) {
   if (action.type === ADD_ARTICLE) {
