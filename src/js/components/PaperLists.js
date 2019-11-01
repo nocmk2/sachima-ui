@@ -26,14 +26,14 @@ const PaperLists = ({ datas }) => {
   const classes = useStyles();
   // const [checked, setChecked] = React.useState(true);
   // const [elevation, setElevation] = React.useState(4);
-  return datas.map(el => {
-    // console.log(datas);
+  return datas.map((el, index) => {
+    console.log(el);
     return (
       <Grow
         key={el.title}
         in={true} //{el.checked}
         style={{ transformOrigin: "0 0 0" }}
-        // {...(true ? { timeout: 1500 } : {})}
+        {...(true ? { timeout: index * 1500 } : {})}
       >
         <Paper
           // elevation={el.elevation}

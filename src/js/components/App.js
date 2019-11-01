@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // import Chip from "@material-ui/core/Chip";
 // import Button from "@material-ui/core/Button";
 import Form from "./Form";
+import Test from "./Test";
 import PaperLists from "./PaperLists";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { connect } from "react-redux";
@@ -37,6 +38,7 @@ function ConnectedPapers({ articles }) {
         <PaperLists datas={articles} />
       </div>
       <Form />
+      <Test></Test>
     </div>
   );
 }
