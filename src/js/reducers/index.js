@@ -8,8 +8,6 @@ const initialState = {
     { title: "xxx", checked: true, elevation: 4 },
     { title: "yyy", checked: true, elevation: 4 },
     { title: "ccc1j", checked: true, elevation: 4 },
-    { title: "cccefef", checked: true, elevation: 4 },
-    { title: "cccjiej", checked: true, elevation: 4 },
     { title: "cccefef", checked: true, elevation: 4 }
   ]
   // articles: []
