@@ -1,5 +1,29 @@
 import React from "react";
 import { render } from "react-dom";
 import Main from "./components/Main";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-render(<Main />, document.getElementById("root"));
+import TTT from "./components/TTT";
+import Rules from "./components/Rules";
+import Configs from "./components/Configs";
+import Maps from "./components/Maps";
+import DashBoard from "./components/DashBoard";
+
+// const Reports = () => <TTT visible={true}></TTT>;
+
+render(
+  <Router>
+    <Main>
+      <Switch>
+        <Route exact path="/Rules" component={Rules} />
+        <Route exact path="/Configs" component={Configs} />
+        <Route exact path="/Reports">
+          <TTT visible={false} />
+        </Route>
+        <Route exact path="/Maps" component={Maps} />
+        <Route exact path="/" component={DashBoard} />
+      </Switch>
+    </Main>
+  </Router>,
+  document.getElementById("root")
+);

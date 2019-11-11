@@ -7,14 +7,10 @@ import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import FileCopyIcon from "@material-ui/icons/FileCopyOutlined";
 import SaveIcon from "@material-ui/icons/Save";
-import PrintIcon from "@material-ui/icons/Print";
 import ShareIcon from "@material-ui/icons/Share";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import { MemoryRouter as Router, Link as RouterLink } from "react-router-dom";
-
-const Link = React.forwardRef((props, ref) => (
-  <RouterLink innerRef={ref} {...props} />
-));
+import { HashRouter, Route, Switch, useHistory } from "react-router-dom";
+import { withRouter } from "react-router";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,11 +26,12 @@ const useStyles = makeStyles(theme => ({
 const actions = [
   { icon: <FileCopyIcon />, name: "Reports" },
   { icon: <SaveIcon />, name: "Rules" },
-  { icon: <ShareIcon />, name: "Config" },
-  { icon: <FavoriteIcon />, name: "Map" }
+  { icon: <ShareIcon />, name: "Configs" },
+  { icon: <FavoriteIcon />, name: "Maps" }
 ];
 
-export default function Main() {
+const Main = props => {
+  const history = useHistory();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [hidden, setHidden] = React.useState(false);
@@ -53,13 +50,13 @@ export default function Main() {
 
   const handleClick = name => {
     console.log(name);
-
-    // handleClose();
+    history.push("/" + name);
   };
 
   return (
     <div className={classes.root}>
-      <Button onClick={handleVisibility}>Main</Button>
+      {/* <Button onClick={handleVisibility}>Main</Button> */}
+      {props.children}
       <Backdrop open={open} />
       <SpeedDial
         ariaLabel="SpeedDial tooltip"
@@ -82,4 +79,6 @@ export default function Main() {
       </SpeedDial>
     </div>
   );
-}
+};
+
+export default withRouter(Main);
