@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import Backdrop from "@material-ui/core/Backdrop";
+import Button from "@material-ui/core/Button";
 import SpeedDial from "@material-ui/lab/SpeedDial";
 import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
@@ -9,7 +9,7 @@ import FileCopyIcon from "@material-ui/icons/FileCopyOutlined";
 import SaveIcon from "@material-ui/icons/Save";
 import ShareIcon from "@material-ui/icons/Share";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import { HashRouter, Route, Switch, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router";
 
 const useStyles = makeStyles(theme => ({
@@ -55,14 +55,14 @@ const Main = props => {
 
   return (
     <div className={classes.root}>
-      {/* <Button onClick={handleVisibility}>Main</Button> */}
+      <Button onClick={handleVisibility}>toggleMenu</Button>
       {props.children}
       <Backdrop open={open} />
       <SpeedDial
         ariaLabel="SpeedDial tooltip"
         className={classes.speedDial}
         hidden={hidden}
-        icon={<SpeedDialIcon />} // TODO: more pretty icon
+        icon={<SpeedDialIcon />}
         onClose={handleClose}
         onOpen={handleOpen}
         open={open}
