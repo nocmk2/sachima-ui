@@ -4,18 +4,59 @@ import axios from "axios";
 
 const Rules = () => {
   const [data, setData] = useState("ddd");
+  const [url, setUrl] = useState("http://localhost:8000/test");
+  const [isLoading, setIsLoading] = useState(false);
+
+  // simple get
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios("http://localhost:8000/test");
+      setIsLoading(true);
+      const result = await axios(url);
       console.log(result.data);
       console.log(result.data.text);
       setData(result.data.text);
+      setIsLoading(false);
     };
 
     fetchData();
+  }, [url]);
+
+  // login
+  useEffect(() => {
+    const postData = async () => {
+      const result = await axios({
+        method: "post",
+        url: "http://localhost:8000/login",
+        data: {
+          username: "admin",
+          password: "admin"
+        }
+      });
+      console.log(result);
+    };
+
+    postData();
   }, []);
 
-  return <Button>{data}</Button>;
+  return (
+    <>
+      <Button
+        onClick={() => {
+          setUrl("http://localhost:8000/test");
+        }}
+      >
+        test api
+      </Button>
+      <Button
+        onClick={() => {
+          setUrl("http://localhost:8000/test2");
+        }}
+      >
+        test2 api
+      </Button>
+      <div style={{ color: "red" }}>{data}</div>
+    </>
+  );
 };
 
 export default Rules;
