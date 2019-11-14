@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Backdrop from "@material-ui/core/Backdrop";
 import Button from "@material-ui/core/Button";
@@ -13,6 +13,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router";
 import Login from "./Login";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,8 +37,10 @@ const actions = [
 const Main = props => {
   const history = useHistory();
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [hidden, setHidden] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [token, setToken] = useState("");
+  const [logStatus, setLogStatus] = useState(true);
 
   const handleVisibility = () => {
     setHidden(prevHidden => !prevHidden);
@@ -56,9 +59,21 @@ const Main = props => {
     history.push("/" + name);
   };
 
+  const handleLogClick = () => {
+    if (logStatus) {
+      setToken("");
+      setLogStatus(false);
+    } else {
+      // TODO: popup login page
+      alert("login page");
+    }
+  };
+
   return (
     <div className={classes.root}>
       <Button onClick={handleVisibility}>Sachima</Button>
+      <Button onClick={handleLogClick}>{logStatus ? "LogOut" : "LogIn"}</Button>
+      <div style={{ color: "gray" }}>{token}</div>
       {props.children}
       <Backdrop open={open} />
       <SpeedDial
