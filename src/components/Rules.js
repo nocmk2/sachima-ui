@@ -6,12 +6,18 @@ const Rules = () => {
   const [data, setData] = useState("ddd");
   const [url, setUrl] = useState("http://localhost:8000/test");
   const [isLoading, setIsLoading] = useState(false);
+  const [token, setToken] = useState("");
+  const [logStatus, setLogStatus] = useState(true);
 
   // simple get
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const result = await axios(url);
+      const result = await axios({
+        method: "GET",
+        url: url,
+        headers: { Authorization: "Bearer " + token }
+      });
       console.log(result.data);
       console.log(result.data.text);
       setData(result.data.text);
@@ -33,10 +39,24 @@ const Rules = () => {
         }
       });
       console.log(result);
+      console.log(result.data.token);
+      console.log(result.data.expire);
+      console.log(result.data.code);
+      setToken(result.data.token);
     };
 
     postData();
   }, []);
+
+  const handleLogClick = () => {
+    if (logStatus) {
+      setToken("");
+      setLogStatus(false);
+    } else {
+      // TODO: popup login page
+      alert("login page");
+    }
+  };
 
   return (
     <>
@@ -45,16 +65,25 @@ const Rules = () => {
           setUrl("http://localhost:8000/test");
         }}
       >
-        test api
+        test public api
       </Button>
       <Button
         onClick={() => {
           setUrl("http://localhost:8000/test2");
         }}
       >
-        test2 api
+        test2 public api
       </Button>
+      <Button
+        onClick={() => {
+          setUrl("http://localhost:8000/auth/hello");
+        }}
+      >
+        test private api
+      </Button>
+      <Button onClick={handleLogClick}>{logStatus ? "LogOut" : "LogIn"}</Button>
       <div style={{ color: "red" }}>{data}</div>
+      <div style={{ color: "gray" }}>{token}</div>
     </>
   );
 };
