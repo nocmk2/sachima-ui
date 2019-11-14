@@ -10,13 +10,6 @@ import AccountTree from "@material-ui/icons/AccountTree";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { connect } from "react-redux";
-import { addArticle } from "../actions/index";
-function mapDispatchToProps(dispatch) {
-  return {
-    addArticle: article => dispatch(addArticle(article))
-  };
-}
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -43,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RuleForm = () => {
+const Login = () => {
   // const [checked, setChecked] = React.useState(true);
 
   const classes = useStyles();
@@ -128,5 +121,4 @@ const RuleForm = () => {
   );
 };
 
-const Form = connect(null, mapDispatchToProps)(RuleForm);
-export default Form;
+export default Login;

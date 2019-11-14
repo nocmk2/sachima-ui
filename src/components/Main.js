@@ -8,9 +8,11 @@ import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import FileCopyIcon from "@material-ui/icons/FileCopyOutlined";
 import SaveIcon from "@material-ui/icons/Save";
 import ShareIcon from "@material-ui/icons/Share";
+import SupervisedUserCircle from "@material-ui/icons/SupervisedUserCircle";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router";
+import Login from "./Login";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,6 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const actions = [
+  { icon: <SupervisedUserCircle />, name: "Login" },
   { icon: <FileCopyIcon />, name: "Reports" },
   { icon: <SaveIcon />, name: "Rules" },
   { icon: <ShareIcon />, name: "Configs" },
@@ -55,7 +58,7 @@ const Main = props => {
 
   return (
     <div className={classes.root}>
-      <Button onClick={handleVisibility}>toggleMenu</Button>
+      <Button onClick={handleVisibility}>Sachima</Button>
       {props.children}
       <Backdrop open={open} />
       <SpeedDial
