@@ -52,8 +52,8 @@ const Main = props => {
   const [open, setOpen] = useState(false);
   const [openBack, setOpenBack] = useState(false);
   const [hidden, setHidden] = useState(false);
-  // const [token, setToken] = useState("");
-  const [logStatus, setLogStatus] = useState(true);
+  const [isAuthed, setIsAuthed] = useState(false);
+
 
   const handleVisibility = () => {
     setHidden(prevHidden => !prevHidden);
@@ -77,21 +77,18 @@ const Main = props => {
   };
 
   const handleLogClick = () => {
-    if (logStatus) {
-      // setToken("");
+    if (isAuthed) {
       localStorage.setItem("token", "");
-      setLogStatus(false);
+      setIsAuthed(false);
     } else {
-      // TODO: popup login page
       setOpenBack(true);
-      // alert("login");
     }
   };
 
   return (
     <div className={classes.root}>
       <Button onClick={handleVisibility}>Sachima</Button>
-      <Button onClick={handleLogClick}>{logStatus ? "LogOut" : "LogIn"}</Button>
+      <Button onClick={handleLogClick}>{isAuthed ? "LogOut" : "LogIn"}</Button>
       {/* <div style={{ color: "gray" }}>{token}</div> */}
       {props.children}
       <Backdrop open={open} />
