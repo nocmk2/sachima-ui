@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,18 +11,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
-
-const login = async (username, password) => {
-  const result = await axios({
-    method: "post",
-    url: "http://localhost:8000/login",
-    data: {
-      username: username,
-      password: password
-    }
-  });
-  localStorage.setItem("token", result.data.token);
-};
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -50,9 +38,42 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Login = () => {
-  // const [checked, setChecked] = React.useState(true);
-
   const classes = useStyles();
+  const [user, setUser] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    setLoading(true);
+  };
+
+  const handleChange = event => {
+    setUser({ ...user, [event.target.name]: event.target.value });
+    console.log(user);
+  };
+
+  useEffect(() => {
+    console.log("logging in ");
+    console.log(loading);
+    if (loading) {
+      login();
+    }
+  }, [loading]);
+
+  const login = async () => {
+    console.log(user.email);
+    console.log(user.password);
+    const result = await axios({
+      method: "post",
+      url: "http://localhost:8000/login",
+      data: {
+        username: user.email,
+        password: user.password
+      }
+    });
+    localStorage.setItem("token", result.data.token);
+    console.log("set localStorage");
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -64,7 +85,7 @@ const Login = () => {
         {/* <Typography component="h1" variant="h5">
           登陆
         </Typography> */}
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             {/* <Grid item xs={12} sm={6}>
               <TextField
@@ -98,6 +119,8 @@ const Login = () => {
                 label="用户名"
                 name="email"
                 autoComplete="email"
+                value={user.email}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -110,6 +133,8 @@ const Login = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={user.password}
+                onChange={handleChange}
               />
             </Grid>
             {/* <Grid item xs={12}>
