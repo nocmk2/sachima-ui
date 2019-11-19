@@ -52,10 +52,15 @@ const Main = props => {
   const [open, setOpen] = useState(false);
   const [openBack, setOpenBack] = useState(false);
   const [hidden, setHidden] = useState(false);
-  const [isAuthed, setIsAuthed] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(!(localStorage.getItem("token") === ""));
+
+  useEffect(() => {
+    alert("isAuthed => " + isAuthed)
+  }, [isAuthed])
 
 
   const handleVisibility = () => {
+    alert("isAuthed => " + isAuthed)
     setHidden(prevHidden => !prevHidden);
   };
 

@@ -9,7 +9,6 @@ import Configs from "./components/Configs";
 import Maps from "./components/Maps";
 import DashBoard from "./components/DashBoard";
 
-// const Reports = () => <TTT visible={true}></TTT>;
 const App = () => {
   return (
     <Router>

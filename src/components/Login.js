@@ -92,6 +92,7 @@ const Login = () => {
             });
             localStorage.setItem("token", result.data.token);
             sendMessage(TransitionRight, "登陆成功，欢迎" + user.email)
+            // setOpen(false)
         } catch (err) {
             console.log(err)
             sendMessage(TransitionRight, "登陆失败，请重试。或联系管理员")
