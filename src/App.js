@@ -9,22 +9,43 @@ import Configs from "./components/Configs";
 import Maps from "./components/Maps";
 import DashBoard from "./components/DashBoard";
 
+import { StateProvider } from "./utils/state"
+
 const App = () => {
+  const initialState = {
+    count: { one: 1 }
+  };
+
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "changeCount":
+        return {
+          ...state,
+          count: action.newCount
+        };
+      default:
+        return state;
+    }
+  };
+
+
   return (
-    <Router>
-      <Main>
-        <Switch>
-          <Route exact path="/Rules" component={Rules} />
-          <Route exact path="/Login" component={Login} />
-          <Route exact path="/Configs" component={Configs} />
-          <Route exact path="/Reports">
-            <TTT visible={false} />
-          </Route>
-          <Route exact path="/Maps" component={Maps} />
-          <Route exact path="/" component={DashBoard} />
-        </Switch>
-      </Main>
-    </Router>
+    <StateProvider initialState={initialState} reducer={reducer}>
+      <Router>
+        <Main>
+          <Switch>
+            <Route exact path="/Rules" component={Rules} />
+            <Route exact path="/Login" component={Login} />
+            <Route exact path="/Configs" component={Configs} />
+            <Route exact path="/Reports">
+              <TTT visible={false} />
+            </Route>
+            <Route exact path="/Maps" component={Maps} />
+            <Route exact path="/" component={DashBoard} />
+          </Switch>
+        </Main>
+      </Router>
+    </StateProvider>
   );
 };
 
