@@ -13,6 +13,7 @@ import Container from "@material-ui/core/Container";
 import Snackbar from '@material-ui/core/Snackbar';
 import Slide from '@material-ui/core/Slide';
 import axios from "axios";
+import { useStateValue } from "../utils/state"
 
 const useStyles = makeStyles(theme => ({
     "@global": {
@@ -47,6 +48,7 @@ const Login = () => {
     const [open, setOpen] = React.useState(false);
     const [transition, setTransition] = React.useState(undefined);
     const [message, setMessage] = useState("")
+    const [{ count }, dispatch] = useStateValue();
 
     function TransitionRight(props) {
         return <Slide {...props} direction="right" />;
@@ -163,6 +165,18 @@ const Login = () => {
                         className={classes.submit}
                     >
                         提交
+          </Button>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={() => {
+                            console.log(count.one)
+                            dispatch({ type: "changeCount", newCount: { one: count.one + 1 } })
+                        }}
+                    >
+                        test
           </Button>
                 </form>
                 <Snackbar

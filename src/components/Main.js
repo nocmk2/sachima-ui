@@ -15,6 +15,7 @@ import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router";
 import Login from "./Login";
 import Fade from "@material-ui/core/Fade";
+import { useStateValue } from "../utils/state"
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -54,6 +55,8 @@ const Main = props => {
   const [hidden, setHidden] = useState(false);
   const [isAuthed, setIsAuthed] = useState(!(localStorage.getItem("token") === ""));
 
+  const [{ count }, dispatch] = useStateValue();
+
   useEffect(() => {
     alert("isAuthed => " + isAuthed)
   }, [isAuthed])
@@ -92,6 +95,7 @@ const Main = props => {
 
   return (
     <div className={classes.root}>
+      <Button>{count.one}</Button>
       <Button onClick={handleVisibility}>Sachima</Button>
       <Button onClick={handleLogClick}>{isAuthed ? "LogOut" : "LogIn"}</Button>
       {/* <div style={{ color: "gray" }}>{token}</div> */}
