@@ -53,17 +53,18 @@ const Main = props => {
   const [open, setOpen] = useState(false);
   const [openBack, setOpenBack] = useState(false);
   const [hidden, setHidden] = useState(false);
-  const [isAuthed, setIsAuthed] = useState(!(localStorage.getItem("token") === ""));
 
-  const [{ count }, dispatch] = useStateValue();
+  // const [{ count }] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
-    alert("isAuthed => " + isAuthed)
-  }, [isAuthed])
+    if (user.name) {
+      setOpenBack(false)
+    }
+  }, [user])
 
 
   const handleVisibility = () => {
-    alert("isAuthed => " + isAuthed)
     setHidden(prevHidden => !prevHidden);
   };
 
@@ -85,9 +86,10 @@ const Main = props => {
   };
 
   const handleLogClick = () => {
-    if (isAuthed) {
+    if (user.name) {
       localStorage.setItem("token", "");
-      setIsAuthed(false);
+      dispatch({ type: "changeUser", newUser: { name: "", id: "", role: "" } })
+
     } else {
       setOpenBack(true);
     }
@@ -95,10 +97,12 @@ const Main = props => {
 
   return (
     <div className={classes.root}>
-      <Button>{count.one}</Button>
       <Button onClick={handleVisibility}>Sachima</Button>
-      <Button onClick={handleLogClick}>{isAuthed ? "LogOut" : "LogIn"}</Button>
-      {/* <div style={{ color: "gray" }}>{token}</div> */}
+      {
+        user.name
+        && <span>Hello {user.name}</span>
+      }
+      <Button onClick={handleLogClick}>{user.name ? "LogOut" : "LogIn"}</Button>
       {props.children}
       <Backdrop open={open} />
 

@@ -94,6 +94,7 @@ const Login = () => {
             });
             localStorage.setItem("token", result.data.token);
             sendMessage(TransitionRight, "登陆成功，欢迎" + user.email)
+            dispatch({ type: "changeUser", newUser: { name: "admin", id: "admin", role: "admin" } })
             // setOpen(false)
         } catch (err) {
             console.log(err)
@@ -165,18 +166,6 @@ const Login = () => {
                         className={classes.submit}
                     >
                         提交
-          </Button>
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={() => {
-                            console.log(count.one)
-                            dispatch({ type: "changeCount", newCount: { one: count.one + 1 } })
-                        }}
-                    >
-                        test
           </Button>
                 </form>
                 <Snackbar

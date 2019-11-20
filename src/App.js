@@ -11,26 +11,45 @@ import DashBoard from "./components/DashBoard";
 
 import { StateProvider } from "./utils/state"
 
+// import userReducer from "./reducers/user"
+// import basketReducer from "./reducers/basket"
+// import countReducer from "./reducers/count"
+
 const App = () => {
   const initialState = {
-    count: { one: 1 }
+    count: { one: 1 },
+    user: { name: "", id: "", role: "" },
+    // basket: { message: "" }
   };
 
-  const reducer = (state, action) => {
+  const mainReducer = (state, action) => {
     switch (action.type) {
       case "changeCount":
         return {
           ...state,
           count: action.newCount
         };
+      case "changeUser":
+        return {
+          ...state,
+          user: action.newUser
+        };
       default:
         return state;
     }
   };
 
+  // const mainReducer = ({ count }, action) => {
+  //   return {
+  //     count: countReducer(count, action),
+  //     // user: userReducer(user, action),
+  //     // basket: basketReducer(basket, action)
+  //   }
+  // };
+
 
   return (
-    <StateProvider initialState={initialState} reducer={reducer}>
+    <StateProvider initialState={initialState} reducer={mainReducer}>
       <Router>
         <Main>
           <Switch>
