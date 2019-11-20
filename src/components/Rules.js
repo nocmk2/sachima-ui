@@ -23,7 +23,6 @@ const Rules = () => {
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
-        // alert(error)
       }
     };
 
