@@ -11,15 +11,20 @@ const Rules = () => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const result = await axios({
-        method: "GET",
-        url: url,
-        headers: { Authorization: "Bearer " + localStorage.token }
-      });
-      console.log(result.data);
-      console.log(result.data.text);
-      setData(result.data.text);
-      setIsLoading(false);
+      try {
+        const result = await axios({
+          method: "GET",
+          url: url,
+          headers: { Authorization: "Bearer " + localStorage.token }
+        });
+        console.log(result.data);
+        console.log(result.data.text);
+        setData(result.data.text);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        // alert(error)
+      }
     };
 
     fetchData();
@@ -46,9 +51,9 @@ const Rules = () => {
           setUrl("http://localhost:8000/auth/hello");
         }}
       >
-        test private api
+        test private api {isLoading && "loading..."}
       </Button>
-      <div style={{ color: "red" }}>{data}</div>
+      <div style={{ color: "red" }}>{isLoading ? "loading..." : data}</div>
     </>
   );
 };
