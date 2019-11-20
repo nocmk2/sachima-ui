@@ -96,7 +96,7 @@ const Login = () => {
             });
             localStorage.setItem("token", result.data.token);
             sendMessage(TransitionRight, "登陆成功，欢迎" + user.email)
-            dispatch({ type: "changeUser", newUser: { name: "admin", id: "admin", role: "admin" } })
+            dispatch({ type: "changeUser", newUser: { name: user.email, id: user.email, role: user.email } })
         } catch (err) {
             console.log(err)
             sendMessage(TransitionRight, "登陆失败，请重试。或联系管理员")
@@ -165,9 +165,10 @@ const Login = () => {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        disabled={loading ? true : false}
                     >
-                        提交
-          </Button>
+                        {loading ? "正在验证" : "提交"}
+                    </Button>
                 </form>
                 <Snackbar
                     open={open}
