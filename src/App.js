@@ -18,8 +18,8 @@ import { StateProvider } from "./utils/state"
 const App = () => {
   const initialState = {
     count: { one: 1 },
-    user: { name: "", id: "", role: "" },
-    // basket: { message: "" }
+    user: { name: "", id: "", role: "aaa" },
+    sachima: { login: "登陆" }
   };
 
   const mainReducer = (state, action) => {

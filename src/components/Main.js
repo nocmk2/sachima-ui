@@ -59,7 +59,7 @@ const Main = props => {
 
   useEffect(() => {
     if (user.name) {
-      setOpenBack(false)
+      // setOpenBack(false)
     }
   }, [user])
 

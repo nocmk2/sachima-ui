@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 // import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import VerifiedUser from "@material-ui/icons/VerifiedUser";
-// import Typography from "@material-ui/core/Typography";
+import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Snackbar from '@material-ui/core/Snackbar';
@@ -29,7 +29,9 @@ const useStyles = makeStyles(theme => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: ""
+        background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',//'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', //,
+        boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)'
+
     },
     form: {
         width: "100%", // Fix IE 11 issue.
@@ -48,7 +50,7 @@ const Login = () => {
     const [open, setOpen] = React.useState(false);
     const [transition, setTransition] = React.useState(undefined);
     const [message, setMessage] = useState("")
-    const [{ count }, dispatch] = useStateValue();
+    const [{ sachima }, dispatch] = useStateValue();
 
     function TransitionRight(props) {
         return <Slide {...props} direction="right" />;
@@ -95,7 +97,6 @@ const Login = () => {
             localStorage.setItem("token", result.data.token);
             sendMessage(TransitionRight, "登陆成功，欢迎" + user.email)
             dispatch({ type: "changeUser", newUser: { name: "admin", id: "admin", role: "admin" } })
-            // setOpen(false)
         } catch (err) {
             console.log(err)
             sendMessage(TransitionRight, "登陆失败，请重试。或联系管理员")
@@ -119,9 +120,9 @@ const Login = () => {
                 <Avatar className={classes.avatar}>
                     <VerifiedUser />
                 </Avatar>
-                {/* <Typography component="h1" variant="h5">
-          登陆
-        </Typography> */}
+                <Typography component="h1" variant="h5">
+                    {sachima.login}
+                </Typography>
                 <form className={classes.form} noValidate onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
