@@ -62,9 +62,9 @@ const Login = () => {
         setMessage(mes)
     };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+    // const handleClose = () => {
+    //     setOpen(false);
+    // };
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -172,7 +172,7 @@ const Login = () => {
                 </form>
                 <Snackbar
                     open={open}
-                    onClose={handleClose}
+                    // onClose={handleClose}
                     TransitionComponent={transition}
                     ContentProps={{
                         'aria-describedby': 'message-id',

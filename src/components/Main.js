@@ -16,6 +16,7 @@ import { withRouter } from "react-router";
 import Login from "./Login";
 import Fade from "@material-ui/core/Fade";
 import { useStateValue } from "../utils/state"
+import Message from "./Message"
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -100,6 +101,7 @@ const Main = props => {
 
   return (
     <div className={classes.root}>
+      <Message open={true} move="right" message="jijij"></Message>
       <Button onClick={handleVisibility}>Sachima</Button>
       {
         user.name

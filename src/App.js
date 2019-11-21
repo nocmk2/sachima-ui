@@ -19,7 +19,7 @@ const App = () => {
   const initialState = {
     count: { one: 1 },
     user: { name: "", id: "", role: "aaa" },
-    sachima: { login: "" }
+    sachima: { login: "", message: "" }
   };
 
   const mainReducer = (state, action) => {
