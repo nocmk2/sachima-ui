@@ -2,12 +2,19 @@ import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { useStateValue } from "../utils/state"
+import SendMessage from "../utils/message"
+
+
+const Now = () => {
+  return Math.floor(Date.now() / 1000)
+}
 
 const Rules = () => {
-  const [data, setData] = useState("ddd");
+  const [data, setData] = useState("no data");
   const [url, setUrl] = useState("http://localhost:8000/test");
   const [isLoading, setIsLoading] = useState(false);
   const [{ sachima }, dispatch] = useStateValue();
+  const [querytime, setQueryTime] = useState(Now());
 
   // simple get
   useEffect(() => {
@@ -27,22 +34,25 @@ const Rules = () => {
         console.log(error)
         setIsLoading(false);
         if (error.response.status === 401) {
-          dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "你没有权限,请登陆" } })
+          dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "您没有权限,请登陆" } })
         }
+        return error
       }
     };
 
     fetchData();
-  }, [url]);
+  }, [url, querytime]);
 
   return (
     <>
+      <Button>{Now()}</Button>
       <Button onClick={() => {
         dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "hahah" } })
       }}>message</Button>
       <Button
         onClick={() => {
           setUrl(`${sachima.url}/test`);
+          setQueryTime(Now())
         }}
       >
         test public api
@@ -50,6 +60,7 @@ const Rules = () => {
       <Button
         onClick={() => {
           setUrl(`${sachima.url}/test2`);
+          setQueryTime(Now())
         }}
       >
         test2 public api
@@ -57,6 +68,7 @@ const Rules = () => {
       <Button
         onClick={() => {
           setUrl(`${sachima.url}/auth/hello`);
+          setQueryTime(Now())
         }}
       >
         test private api {isLoading && "loading..."}
