@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { useStateValue } from "../utils/state"
-import SendMessage from "../utils/message"
+// import SendMessage from "../utils/message"
 
 
 const Now = () => {
@@ -41,6 +41,7 @@ const Rules = () => {
     };
 
     fetchData();
+    // eslint-disable-next-line
   }, [url, querytime]);
 
   return (

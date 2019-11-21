@@ -9,7 +9,7 @@ import Configs from "./components/Configs";
 import Maps from "./components/Maps";
 import DashBoard from "./components/DashBoard";
 
-import { StateProvider, StateContext } from "./utils/state"
+import { StateProvider } from "./utils/state"
 
 // import userReducer from "./reducers/user"
 // import basketReducer from "./reducers/basket"

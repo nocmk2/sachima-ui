@@ -45,8 +45,6 @@ const Login = () => {
     const [user, setUser] = useState({ email: "", password: "" });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [transition, setTransition] = React.useState(undefined);
-    const [message, setMessage] = useState("")
     const [{ sachima }, dispatch] = useStateValue();
 
 
