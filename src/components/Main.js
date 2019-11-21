@@ -56,7 +56,7 @@ const Main = props => {
   const [hidden, setHidden] = useState(false);
 
   // const [{ count }] = useStateValue();
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user, message }, dispatch] = useStateValue();
 
   useEffect(() => {
     if (user.name) {
@@ -99,9 +99,19 @@ const Main = props => {
     }
   };
 
+  const handleMessageClose = (event, reason) => {
+    console.log(reason)
+    if (reason === 'clickaway') {
+      dispatch({ type: "sendMessage", newMessage: { ...message, open: false } })
+      return;
+    }
+    console.log("handleClose")
+    dispatch({ type: "sendMessage", newMessage: { ...message, open: false } })
+  };
+
   return (
     <div className={classes.root}>
-      <Message open={true} move="right" message="jijij"></Message>
+      <Message open={message.open} move={message.move} message={message.info} handleClose={handleMessageClose}></Message>
       <Button onClick={handleVisibility}>Sachima</Button>
       {
         user.name

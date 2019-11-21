@@ -10,8 +10,6 @@ import VerifiedUser from "@material-ui/icons/VerifiedUser";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Snackbar from '@material-ui/core/Snackbar';
-import Slide from '@material-ui/core/Slide';
 import axios from "axios";
 import { useStateValue } from "../utils/state"
 
@@ -47,24 +45,10 @@ const Login = () => {
     const [user, setUser] = useState({ email: "", password: "" });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [open, setOpen] = React.useState(false);
     const [transition, setTransition] = React.useState(undefined);
     const [message, setMessage] = useState("")
     const [{ sachima }, dispatch] = useStateValue();
 
-    function TransitionRight(props) {
-        return <Slide {...props} direction="right" />;
-    }
-
-    const sendMessage = (Transition, mes) => {
-        setTransition(() => Transition);
-        setOpen(true);
-        setMessage(mes)
-    };
-
-    // const handleClose = () => {
-    //     setOpen(false);
-    // };
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -95,11 +79,11 @@ const Login = () => {
                 }
             });
             localStorage.setItem("token", result.data.token);
-            sendMessage(TransitionRight, "登陆成功，欢迎" + user.email)
+            dispatch({ type: "sendMessage", newMessage: { open: true, move: "down", info: "登陆成功，欢迎" + user.email } })
             dispatch({ type: "changeUser", newUser: { name: user.email, id: user.email, role: user.email } })
         } catch (err) {
             console.log(err)
-            sendMessage(TransitionRight, "登陆失败，请重试。或联系管理员")
+            dispatch({ type: "sendMessage", newMessage: { open: true, move: "down", info: "登陆失败，请重试。或联系管理员" } })
         }
         setLoading(false)
     };
@@ -170,15 +154,6 @@ const Login = () => {
                         {loading ? "正在验证" : "提交"}
                     </Button>
                 </form>
-                <Snackbar
-                    open={open}
-                    // onClose={handleClose}
-                    TransitionComponent={transition}
-                    ContentProps={{
-                        'aria-describedby': 'message-id',
-                    }}
-                    message={<span id="message-id">{message}</span>}
-                />
             </div>
         </Container>
     );

@@ -9,7 +9,7 @@ import Configs from "./components/Configs";
 import Maps from "./components/Maps";
 import DashBoard from "./components/DashBoard";
 
-import { StateProvider } from "./utils/state"
+import { StateProvider, StateContext } from "./utils/state"
 
 // import userReducer from "./reducers/user"
 // import basketReducer from "./reducers/basket"
@@ -19,7 +19,8 @@ const App = () => {
   const initialState = {
     count: { one: 1 },
     user: { name: "", id: "", role: "aaa" },
-    sachima: { login: "", message: "" }
+    message: { open: false, move: "down", position: "top-right", info: "" },
+    sachima: { url: "http://localhost:8000", login: "", message: "" }
   };
 
   const mainReducer = (state, action) => {
@@ -34,6 +35,11 @@ const App = () => {
           ...state,
           user: action.newUser
         };
+      case "sendMessage":
+        return {
+          ...state,
+          message: action.newMessage
+        }
       default:
         return state;
     }
