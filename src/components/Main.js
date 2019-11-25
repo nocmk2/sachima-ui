@@ -63,7 +63,7 @@ const Main = props => {
       setTimeout(() => {
         setOpenBack(false)
       }
-        , 2000)
+        , 1000)
     }
   }, [user])
 
@@ -91,7 +91,8 @@ const Main = props => {
 
   const handleLogClick = () => {
     if (user.name) {
-      localStorage.setItem("token", "");
+      localStorage.removeItem("email");
+      localStorage.removeItem("token");
       dispatch({ type: "changeUser", newUser: { name: "", id: "", role: "" } })
 
     } else {

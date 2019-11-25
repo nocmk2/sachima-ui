@@ -77,6 +77,7 @@ const Login = () => {
                 }
             });
             localStorage.setItem("token", result.data.token);
+            localStorage.setItem("email", user.email)
             dispatch({ type: "sendMessage", newMessage: { open: true, move: "down", info: "登陆成功，欢迎" + user.email } })
             dispatch({ type: "changeUser", newUser: { name: user.email, id: user.email, role: user.email } })
         } catch (err) {

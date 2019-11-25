@@ -18,7 +18,7 @@ import { StateProvider } from "./utils/state"
 const App = () => {
   const initialState = {
     count: { one: 1 },
-    user: { name: "", id: "", role: "aaa" },
+    user: { name: localStorage.getItem("email"), id: "", role: "aaa" },
     message: { open: false, move: "down", position: "top-right", info: "" },
     sachima: { url: "http://localhost:8000", login: "", message: "" }
   };
