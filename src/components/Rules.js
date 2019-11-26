@@ -47,10 +47,13 @@ const Rules = () => {
   return (
     <>
       <Button>{Now()}</Button>
-      <Button onClick={() => {
-        dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "hahah" } })
-      }}>message</Button>
       <Button
+        variant="contained"
+        onClick={() => {
+          dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "hahah" } })
+        }}>message</Button>
+      <Button
+        variant="contained"
         onClick={() => {
           setUrl(`${sachima.url}/test`);
           setQueryTime(Now())
@@ -59,6 +62,7 @@ const Rules = () => {
         test public api
       </Button>
       <Button
+        variant="contained"
         onClick={() => {
           setUrl(`${sachima.url}/test2`);
           setQueryTime(Now())
@@ -67,12 +71,22 @@ const Rules = () => {
         test2 public api
       </Button>
       <Button
+        variant="contained"
         onClick={() => {
           setUrl(`${sachima.url}/auth/hello`);
           setQueryTime(Now())
         }}
       >
         test private api {isLoading && "loading..."}
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => {
+          setUrl(`${sachima.url}/auth/rules`);
+          setQueryTime(Now())
+        }}
+      >
+        test rules {isLoading && "loading..."}
       </Button>
       <div style={{ color: "red" }}>{isLoading ? "loading..." : data}</div>
     </>
