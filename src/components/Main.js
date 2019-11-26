@@ -118,9 +118,9 @@ const Main = props => {
         user.name
         && <span>Hello {user.name}</span>
       }
-      <Button onClick={handleLogClick}>{user.name ? "LogOut" : "LogIn"}</Button>
+      <Button variant="contained" onClick={handleLogClick}>{user.name ? "LogOut" : "LogIn"}</Button>
       {props.children}
-      <Backdrop open={open} />
+      {/* <Backdrop open={open} /> */}
 
       <Modal
         aria-labelledby="transition-modal-title"

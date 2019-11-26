@@ -16,6 +16,7 @@ const Rules = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [{ sachima }, dispatch] = useStateValue();
   const [querytime, setQueryTime] = useState(Now());
+  const [features, setFeatures] = useState([]);
 
   // simple get
   useEffect(() => {
@@ -30,6 +31,9 @@ const Rules = () => {
         console.log(result.data);
         console.log(result.data.text);
         setData(result.data.text);
+        if (url === `${sachima.url}/auth/rules`) {
+          setFeatures(result.data.text)
+        }
         setIsLoading(false);
       } catch (error) {
         console.log(error)
@@ -90,7 +94,7 @@ const Rules = () => {
         test rules {isLoading && "loading..."}
       </Button>
       <div style={{ color: "red" }}>{isLoading ? "loading..." : data}</div>
-      <TabList></TabList>
+      <TabList items={features}></TabList>
     </>
   );
 };
