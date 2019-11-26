@@ -1,33 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import FeatureDetail from "./FeatureDetail"
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <Typography
-            component="div"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            <Box p={3}>{children}</Box>
-        </Typography>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
 
 function a11yProps(index) {
     return {
@@ -71,9 +47,9 @@ const VerticalTabs = props => {
                 ))}
             </Tabs>
             {props.items.map((item, index) => (
-                <TabPanel key={"tp" + item} value={value} index={index}>
+                <FeatureDetail key={"tp" + item} value={value} index={index}>
                     {item}
-                </TabPanel>
+                </FeatureDetail>
             ))}
         </div>
     );

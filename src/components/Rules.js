@@ -31,7 +31,7 @@ const Rules = () => {
         console.log(result.data);
         console.log(result.data.text);
         setData(result.data.text);
-        if (url === `${sachima.url}/auth/rules`) {
+        if (url === `${sachima.url}/sachima/featurelists`) {
           setFeatures(result.data.text)
         }
         setIsLoading(false);
@@ -78,7 +78,7 @@ const Rules = () => {
       <Button
         variant="contained"
         onClick={() => {
-          setUrl(`${sachima.url}/auth/hello`);
+          setUrl(`${sachima.url}/sachima/hello`);
           setQueryTime(Now())
         }}
       >
@@ -87,7 +87,7 @@ const Rules = () => {
       <Button
         variant="contained"
         onClick={() => {
-          setUrl(`${sachima.url}/auth/rules`);
+          setUrl(`${sachima.url}/sachima/featurelists`);
           setQueryTime(Now())
         }}
       >
