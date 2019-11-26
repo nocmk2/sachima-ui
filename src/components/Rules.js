@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { useStateValue } from "../utils/state"
 // import SendMessage from "../utils/message"
+import TabList from "./TabList"
 
 
 const Now = () => {
@@ -89,6 +90,7 @@ const Rules = () => {
         test rules {isLoading && "loading..."}
       </Button>
       <div style={{ color: "red" }}>{isLoading ? "loading..." : data}</div>
+      <TabList></TabList>
     </>
   );
 };
