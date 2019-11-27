@@ -5,6 +5,7 @@ import Tab from '@material-ui/core/Tab';
 import FeatureDetail from "./FeatureDetail";
 import axios from "axios";
 import { useStateValue } from "../utils/state"
+import BinSetter from "./BinSetter"
 
 
 function a11yProps(index) {
@@ -31,7 +32,7 @@ const VerticalTabs = props => {
     const [value, setValue] = React.useState(0);
     const [feature, setFeature] = React.useState(props.items[value]);
     const [{ sachima }, dispatch] = useStateValue()
-    const [detail, setDetail] = React.useState(0)
+    const [data, setData] = React.useState(0)
 
     // React.useEffect(() => {
     //     setFeature(props.items[value])
@@ -44,8 +45,8 @@ const VerticalTabs = props => {
                 url: `${sachima.url}/sachima/featuredetail/${feature}`,
                 headers: { Authorization: "Bearer " + localStorage.token }
             });
-            console.log(result.data.text)
-            setDetail(result.data.text)
+            setData(result.data)
+            console.log(data.bin)
         };
 
         fetchData();
@@ -77,7 +78,9 @@ const VerticalTabs = props => {
             </Tabs>
             {props.items.map((item, index) => (
                 <FeatureDetail key={"tp" + item} value={value} index={index}>
-                    {detail}
+                    {data.name}
+                    {data.bin.a}
+                    <BinSetter />
                 </FeatureDetail>
             ))}
         </div>
