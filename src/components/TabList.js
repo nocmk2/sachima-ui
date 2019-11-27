@@ -2,7 +2,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import FeatureDetail from "./FeatureDetail"
+import FeatureDetail from "./FeatureDetail";
+import axios from "axios";
+import { useStateValue } from "../utils/state"
 
 
 function a11yProps(index) {
@@ -27,9 +29,36 @@ const useStyles = makeStyles(theme => ({
 const VerticalTabs = props => {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
+    const [feature, setFeature] = React.useState(props.items[value]);
+    const [{ sachima }, dispatch] = useStateValue()
+    const [detail, setDetail] = React.useState(0)
+
+    // React.useEffect(() => {
+    //     setFeature(props.items[value])
+    // }, [])
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios({
+                method: "GET",
+                url: `${sachima.url}/sachima/featuredetail/${feature}`,
+                headers: { Authorization: "Bearer " + localStorage.token }
+            });
+            console.log(result.data.text)
+            setDetail(result.data.text)
+        };
+
+        fetchData();
+    }, [feature]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        setFeature(props.items[newValue])
+    };
+
+    const getDetail = (item) => {
+
+
     };
 
     return (
@@ -48,7 +77,7 @@ const VerticalTabs = props => {
             </Tabs>
             {props.items.map((item, index) => (
                 <FeatureDetail key={"tp" + item} value={value} index={index}>
-                    {item}
+                    {detail}
                 </FeatureDetail>
             ))}
         </div>
