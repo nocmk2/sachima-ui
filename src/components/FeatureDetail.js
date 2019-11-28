@@ -16,7 +16,7 @@ function TabPanel(props) {
             aria-labelledby={`vertical-tab-${index}`}
             {...other}
         >
-            <Box p={3}>{children}</Box>
+            <Box p={2}>{children}</Box>
         </Typography>
     );
 }
