@@ -6,6 +6,7 @@ import FeatureDetail from "./FeatureDetail";
 import axios from "axios";
 import { useStateValue } from "../utils/state"
 import BinSetter from "./BinSetter"
+import { maxHeight, maxWidth } from '@material-ui/system';
 
 
 function a11yProps(index) {
@@ -21,6 +22,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
         height: 400,
+        width: maxWidth,
     },
     tabs: {
         borderRight: `1px solid ${theme.palette.divider}`,
@@ -80,6 +82,7 @@ const VerticalTabs = props => {
                 <FeatureDetail key={"tp" + item} value={value} index={index}>
                     {data.name}
                     {data.bin.a}
+                    {data.bin.b}
                     <BinSetter />
                 </FeatureDetail>
             ))}
