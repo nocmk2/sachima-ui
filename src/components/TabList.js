@@ -6,7 +6,7 @@ import FeatureDetail from "./FeatureDetail";
 import axios from "axios";
 import { useStateValue } from "../utils/state"
 import BinSetter from "./BinSetter"
-import { maxHeight, maxWidth } from '@material-ui/system';
+import { maxWidth } from '@material-ui/system';
 
 
 function a11yProps(index) {
@@ -33,7 +33,7 @@ const VerticalTabs = props => {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const [feature, setFeature] = React.useState(props.items[value]);
-    const [{ sachima }, dispatch] = useStateValue()
+    const [{ sachima }] = useStateValue()
     const [data, setData] = React.useState(0)
 
     // React.useEffect(() => {
