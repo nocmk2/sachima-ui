@@ -275,8 +275,9 @@ export default function BinSetter() {
                     <Grid item >
                         <TextField
                             // className={classes.input}
-                            value={typeof value === "object" ? value[0] : value}
-                            label={leftbound === "[" ? "≥" : ">"}
+                            value={typeof value === "object" ? value[0] : (inf === -1 ? "" : value)}
+                            label={inf === -1 ? "-inf" : (leftbound === "[" ? "≥" : ">")}
+                            disabled={inf === -1 ? true : false}
                             // margin="dense"
                             // multiline={true}
                             onChange={handleLeftInputChange}
@@ -296,10 +297,11 @@ export default function BinSetter() {
                     <Grid item >
                         <TextField
                             // className={classes.input}
-                            label={rightbound === "]" ? "≤" : "<"}
-                            value={typeof value === "object" ? value[1] : value}
+                            label={inf === 1 ? "+inf" : (rightbound === "]" ? "≤" : "<")}
+                            value={typeof value === "object" ? value[1] : (inf === 1 ? "" : value)}
                             // margin="dense"
                             // multiline={true}
+                            disabled={inf === 1 ? true : false}
                             onChange={handleRightInputChange}
                             onBlur={handleRightInputBlur}
                             inputProps={{
