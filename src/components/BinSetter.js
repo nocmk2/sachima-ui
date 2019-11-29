@@ -90,9 +90,17 @@ export default function BinSetter() {
     const classes = useStyles();
     const [value, setValue] = React.useState([-20, 37]);
     const [inf, setinf] = React.useState(0)
-    const [score, setScore] = React.useState(0)
+    const [score, setScore] = React.useState(23)
     const [leftbound, setLeftbound] = React.useState("[")
-    const [rightbound, setRightbound] = React.useState("]")
+    const [rightbound, setRightbound] = React.useState(")")
+    const [min, setMin] = React.useState(-100)
+    const [max, setMax] = React.useState(100)
+    const [his, setHis] = React.useState([-20, 37])
+    const [marks, setMarks] = React.useState([])
+
+    React.useEffect(() => {
+        getMarks()
+    }, [value])
 
 
     const handleChange = (event, newValue) => {
@@ -100,22 +108,38 @@ export default function BinSetter() {
     };
 
     const handleMinInfChange = () => {
-        if (inf !== -1) {
-            setinf(-1)
-            setValue(-20)
-        } else {
-            setinf(0)
-            setValue([-20, 37])
+        switch (inf) {
+            case 0: //从范围状态打开负无穷开关
+                setinf(-1) // 设置成负无穷
+                setHis(value) // 记录value状态历史，为了关闭负无穷开关的时候恢复value
+                setValue(value[1]) // 设置成 负无穷到右值
+                break;
+            case 1: // 从正无穷状态打开负无穷开关
+                setinf(-1)
+                setValue(his[1])
+                break;
+            case -1: // 关闭负无穷开关
+                setinf(0) // 关闭
+                setValue(his) // 恢复原来的value状态
+                break
         }
     }
 
     const handleMaxInfChange = () => {
-        if (inf !== 1) {
-            setinf(1)
-            setValue(37)
-        } else {
-            setinf(0)
-            setValue([-20, 37])
+        switch (inf) {
+            case 0:
+                setinf(1)
+                setHis(value)
+                setValue(value[0])
+                break;
+            case 1:
+                setinf(0)
+                setValue(his)
+                break;
+            case -1:
+                setinf(1)
+                setValue(his[0])
+                break
         }
     }
 
@@ -129,6 +153,73 @@ export default function BinSetter() {
 
     const handleLeftboundChange = event => {
         setLeftbound(event.target.value)
+    }
+
+    const handleLeftInputChange = event => {
+        if (Number(event.target.value) < value[1]) {
+            setValue([Number(event.target.value), value[1]])
+        }
+        if (inf !== 0) {
+            setValue(Number(event.target.value))
+        }
+    }
+
+    const handleRightInputChange = event => {
+        if (value[0] < Number(event.target.value)) {
+            setValue([value[0], Number(event.target.value)])
+        }
+        if (inf !== 0) {
+            setValue(Number(event.target.value))
+        }
+    }
+
+    // const leftValue = () => {
+    //     if (typeof value === "object") {
+    //         return value[0]
+    //     } else if (typeof value === "number") {
+    //         return value
+    //     }
+    // }
+
+    // const rightValue = () => {
+    //     if (typeof value === "object") {
+    //         return value[1]
+    //     } else if (typeof value === "number") {
+    //         return value
+    //     }
+    // }
+
+    // const disableLeftInput = () => {
+
+    // }
+
+    // const disableInput = () => {
+
+    // }
+
+    const handleLeftInputBlur = event => {
+        if (value[0] >= value[1]) {
+            setValue([value[1] - 1, value[1]])
+        }
+    }
+
+    const handleRightInputBlur = event => {
+        if (value[1] <= value[0]) {
+            setValue([value[0], value[0] + 1])
+        }
+    }
+
+    const getMarks = () => {
+        if (typeof value === "object") {
+            setMarks([
+                { key: 1, value: value[0], label: `${value[0]}` },
+                { key: 2, value: value[1], label: `${value[1]}` },
+            ])
+        } else if (typeof value === "number") {
+            setMarks([
+                { key: 1, value: value, label: `${value}` },
+            ])
+        }
     }
 
     return (
@@ -145,16 +236,13 @@ export default function BinSetter() {
                             // className={classes.slider}
                             left={leftbound}
                             right={rightbound}
-                            track={(inf === 1) ? "inverted" : "normal"} //normal
-                            marks={[
-                                { key: 1, value: value[0], label: `${value[0]}` },
-                                { key: 2, value: value[1], label: `${value[1]}` },
-                            ]}
-                            value={value}
+                            track={(inf === 1) ? "inverted" : "normal"} // 控制slider的方向 , 当正无穷的时候右边的数到最右边是有颜色的
+                            marks={marks}                               // slider 下方的标注 这里实现成动态的
+                            value={value}                               // value有两种 number 和 [number,number], 分别表示无穷和区间
                             onChange={handleChange}
                             valueLabelDisplay="auto"
-                            min={-100}
-                            max={100}
+                            min={min}
+                            max={max}
                             aria-labelledby="range-slider"
                             getAriaValueText={valuetext}
                         />
@@ -187,18 +275,18 @@ export default function BinSetter() {
                     <Grid item >
                         <TextField
                             // className={classes.input}
-                            value={-20}
+                            value={typeof value === "object" ? value[0] : value}
                             label={leftbound === "[" ? "≥" : ">"}
                             // margin="dense"
                             // multiline={true}
-                            // onChange={handleInputChange}
-                            // onBlur={handleBlur}
+                            onChange={handleLeftInputChange}
+                            onBlur={handleLeftInputBlur}
                             inputProps={{
-                                step: 10,
-                                min: 0,
-                                max: 100,
+                                step: 1,
+                                min: min,
+                                max: max,
                                 type: 'number',
-                                'aria-labelledby': 'input-slider',
+                                // 'aria-labelledby': 'input-slider',
                             }}
                         />
                     </Grid>
@@ -209,15 +297,15 @@ export default function BinSetter() {
                         <TextField
                             // className={classes.input}
                             label={rightbound === "]" ? "≤" : "<"}
-                            value={70}
+                            value={typeof value === "object" ? value[1] : value}
                             // margin="dense"
                             // multiline={true}
-                            // onChange={handleInputChange}
-                            // onBlur={handleBlur}
+                            onChange={handleRightInputChange}
+                            onBlur={handleRightInputBlur}
                             inputProps={{
-                                step: 10,
-                                min: 0,
-                                max: 100,
+                                step: 1,
+                                min: min,
+                                max: max,
                                 type: 'number',
                                 'aria-labelledby': 'input-slider',
                             }}
