@@ -36,9 +36,9 @@ const VerticalTabs = props => {
     const [{ sachima }] = useStateValue()
     const [data, setData] = React.useState(0)
 
-    // React.useEffect(() => {
-    //     setFeature(props.items[value])
-    // }, [])
+    React.useEffect(() => {
+        setFeature(props.items[value])
+    }, [])
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -48,21 +48,21 @@ const VerticalTabs = props => {
                 headers: { Authorization: "Bearer " + localStorage.token }
             });
             setData(result.data)
-            console.log(data.bin)
+            // console.log(data.bin)
         };
 
         fetchData();
-    }, [feature]);
+    }, [feature, sachima.url]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
         setFeature(props.items[newValue])
     };
 
-    const getDetail = (item) => {
+    // const getDetail = (item) => {
 
 
-    };
+    // };
 
     return (
         <div className={classes.root}>

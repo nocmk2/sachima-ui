@@ -100,6 +100,13 @@ export default function BinSetter() {
 
     React.useEffect(() => {
         getMarks()
+        if (leftValue() < -100) {
+            setMin(leftValue() - 20)
+        }
+
+        if (rightValue() > 100) {
+            setMax(rightValue() + 20)
+        }
     }, [value])
 
 
@@ -109,6 +116,7 @@ export default function BinSetter() {
 
     const handleMinInfChange = () => {
         switch (inf) {
+            default:
             case 0: //从范围状态打开负无穷开关
                 setinf(-1) // 设置成负无穷
                 setHis(value) // 记录value状态历史，为了关闭负无穷开关的时候恢复value
@@ -127,6 +135,7 @@ export default function BinSetter() {
 
     const handleMaxInfChange = () => {
         switch (inf) {
+            default:
             case 0:
                 setinf(1)
                 setHis(value)
@@ -173,21 +182,21 @@ export default function BinSetter() {
         }
     }
 
-    // const leftValue = () => {
-    //     if (typeof value === "object") {
-    //         return value[0]
-    //     } else if (typeof value === "number") {
-    //         return value
-    //     }
-    // }
+    const leftValue = () => {
+        if (typeof value === "object") {
+            return value[0]
+        } else if (typeof value === "number") {
+            return value
+        }
+    }
 
-    // const rightValue = () => {
-    //     if (typeof value === "object") {
-    //         return value[1]
-    //     } else if (typeof value === "number") {
-    //         return value
-    //     }
-    // }
+    const rightValue = () => {
+        if (typeof value === "object") {
+            return value[1]
+        } else if (typeof value === "number") {
+            return value
+        }
+    }
 
     // const disableLeftInput = () => {
 
