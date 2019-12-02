@@ -29,40 +29,38 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const VerticalTabs = props => {
+const VerticalTabs = ({ items }) => {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
-    const [feature, setFeature] = React.useState(props.items[value]);
+    const [value, setValue] = React.useState(5);
     const [{ sachima }] = useStateValue()
     const [data, setData] = React.useState(0)
 
-    React.useEffect(() => {
-        setFeature(props.items[value])
-    }, [])
+
+    // React.useEffect(() => {
+    //     setFeature(props.items[value])
+    // }, [value])
 
     React.useEffect(() => {
+        console.log("items[value] => " + items[value])
         const fetchData = async () => {
-            const result = await axios({
-                method: "GET",
-                url: `${sachima.url}/sachima/featuredetail/${feature}`,
-                headers: { Authorization: "Bearer " + localStorage.token }
-            });
-            setData(result.data)
-            // console.log(data.bin)
+            try {
+                const result = await axios({
+                    method: "GET",
+                    url: `${sachima.url}/sachima/featuredetail/${items[value]}`,
+                    headers: { Authorization: "Bearer " + localStorage.token }
+                });
+                setData(result.data)
+            } catch (error) {
+                console.log(error)
+            }
         };
 
         fetchData();
-    }, [feature, sachima.url]);
+    }, [value]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        setFeature(props.items[newValue])
     };
-
-    // const getDetail = (item) => {
-
-
-    // };
 
     return (
         <div className={classes.root}>
@@ -74,15 +72,13 @@ const VerticalTabs = props => {
                 aria-label="Vertical tabs example"
                 className={classes.tabs}
             >
-                {props.items.map((item, index) => (
+                {items.map((item, index) => (
                     <Tab label={item} key={item} {...a11yProps(index)} />
                 ))}
             </Tabs>
-            {props.items.map((item, index) => (
+            {items.map((item, index) => (
                 <FeatureDetail key={"tp" + item} value={value} index={index}>
                     {data.name}
-                    {data.bin.a}
-                    {data.bin.b}
                     <BinSetter />
                 </FeatureDetail>
             ))}

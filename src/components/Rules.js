@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
 import axios from "axios";
 import { useStateValue } from "../utils/state"
 // import SendMessage from "../utils/message"
@@ -43,8 +44,8 @@ const Rules = () => {
           url: url,
           headers: { Authorization: "Bearer " + localStorage.token }
         }, { cancelToken: signal.token });
-        console.log(result.data);
-        console.log(result.data.text);
+        // console.log(result.data);
+        // console.log(result.data.text);
         setData(result.data.text);
         if (url === `${sachima.url}/sachima/featurelists`) {
           setFeatures(result.data.text)
@@ -116,8 +117,22 @@ const Rules = () => {
       >
         test rules {isLoading && "loading..."}
       </Button>
-      <div style={{ color: "red" }}>{isLoading ? "loading..." : data}</div>
-      <TabList items={features}></TabList>
+      <div style={{ color: "gray" }}>{isLoading ? "loading..." : data}</div>
+      <Card>
+        {
+          features.length !== 0
+            ?
+            <>
+              {
+                console.log(features
+                  // + " data => " + data
+                  // + " url => " + url
+                )
+              }
+              < TabList items={features}></TabList>
+            </>
+            : <></>
+        }</Card>
     </>
   );
 };
