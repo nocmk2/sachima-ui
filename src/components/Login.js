@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
 import { useStateValue } from "../utils/state"
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     "@global": {
@@ -46,6 +47,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [{ sachima }, dispatch] = useStateValue();
+    const history = useHistory()
 
 
     const handleSubmit = event => {
@@ -80,6 +82,7 @@ const Login = () => {
             localStorage.setItem("email", user.email)
             dispatch({ type: "sendMessage", newMessage: { open: true, move: "down", info: "登陆成功，欢迎" + user.email } })
             dispatch({ type: "changeUser", newUser: { name: user.email, id: user.email, role: user.email } })
+            history.push("/")
         } catch (err) {
             console.log(err)
             dispatch({ type: "sendMessage", newMessage: { open: true, move: "down", info: "登陆失败，请重试。或联系管理员" } })
