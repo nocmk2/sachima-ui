@@ -45,7 +45,8 @@ const actions = [
   { icon: <FileCopyIcon />, name: "Reports" },
   { icon: <SaveIcon />, name: "Rules" },
   { icon: <ShareIcon />, name: "Configs" },
-  { icon: <FavoriteIcon />, name: "Maps" }
+  { icon: <FavoriteIcon />, name: "Maps" },
+  { icon: <FavoriteIcon />, name: "Ref" }
 ];
 
 const Main = props => {

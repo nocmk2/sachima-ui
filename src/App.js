@@ -2,6 +2,7 @@ import React from "react";
 import Main from "./components/Main";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import Ref from "./components/Ref";
 import TTT from "./components/TTT";
 import Rules from "./components/Rules";
 import Login from "./components/Login";
@@ -59,6 +60,7 @@ const App = () => {
       <Router>
         <Main>
           <Switch>
+            <Route exact path="/Ref" component={Ref} />
             <Route exact path="/Rules" component={Rules} />
             <Route exact path="/Login" component={Login} />
             <Route exact path="/Configs" component={Configs} />
