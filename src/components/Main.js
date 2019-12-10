@@ -17,6 +17,7 @@ import Login from "./Login";
 import Fade from "@material-ui/core/Fade";
 import { useStateValue } from "../utils/state"
 import Message from "./Message"
+import * as API from "../utils/api"
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -58,6 +59,14 @@ const Main = props => {
 
   // const [{ count }] = useStateValue();
   const [{ user, message }, dispatch] = useStateValue();
+
+  useEffect(() => {
+    if (API.getUserStatus()) {
+      console.log("valid user")
+    } else {
+      API.clearUserStatus()
+    }
+  }, [])
 
   useEffect(() => {
     if (user.name) {
