@@ -11,13 +11,14 @@ import SaveIcon from "@material-ui/icons/Save";
 import ShareIcon from "@material-ui/icons/Share";
 import SupervisedUserCircle from "@material-ui/icons/SupervisedUserCircle";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import Adb from "@material-ui/icons/Adb"
 import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router";
 import Login from "./Login";
 import Fade from "@material-ui/core/Fade";
 import { useStateValue } from "../utils/state"
 import Message from "./Message"
-import * as API from "../apis/api"
+// import * as API from "../apis/api"
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -47,7 +48,7 @@ const actions = [
   { icon: <SaveIcon />, name: "Rules" },
   { icon: <ShareIcon />, name: "Configs" },
   { icon: <FavoriteIcon />, name: "Maps" },
-  { icon: <FavoriteIcon />, name: "Ref" }
+  { icon: <Adb />, name: "DashBoard" }
 ];
 
 const Main = props => {
@@ -60,13 +61,13 @@ const Main = props => {
   // const [{ count }] = useStateValue();
   const [{ user, message }, dispatch] = useStateValue();
 
-  useEffect(() => {
-    if (API.getUserStatus()) {
-      console.log("valid user")
-    } else {
-      API.clearUserStatus()
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (API.getUserStatus()) {
+  //     console.log("valid user")
+  //   } else {
+  //     API.clearUserStatus()
+  //   }
+  // }, [])
 
   useEffect(() => {
     if (user.name) {
@@ -95,7 +96,6 @@ const Main = props => {
   };
 
   const handleClick = name => {
-    console.log(name);
     history.push("/" + name);
   };
 

@@ -1,40 +1,27 @@
 import { useStateValue } from "../utils/state"
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios"
 
 const Now = () => {
     return Math.floor(Date.now() / 1000)
 }
 
-const url = `http://localhost:8000/sachima/role`
-const signal = axios.CancelToken.source();
-// const [{ sachima }, dispatch] = useStateValue();
+// const url = `http://localhost:8000/sachima/role`
+// const signal = axios.CancelToken.source();
+// export const getUserStatus = function () {
+//     const fetchData = async () => {
+//         const result = await axios({
+//             method: "GET",
+//             url: url,
+//             headers: { Authorization: "Bearer " + localStorage.token }
+//         }, { cancelToken: signal.token });
+//     };
+//     fetchData();
+// }
 
-// axios.interceptors.response.use(response => {
-//     return response;
-// }, error => {
-//     if (error.response.status === 401) {
-//         //place your reentry code
-//         // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "您没有权限,请登陆" } })
-//         console.log("401....")
-//     }
-//     return error;
-// });
-
-export const getUserStatus = function () {
-    const fetchData = async () => {
-        const result = await axios({
-            method: "GET",
-            url: url,
-            headers: { Authorization: "Bearer " + localStorage.token }
-        }, { cancelToken: signal.token });
-    };
-    fetchData();
-}
-
-export const clearUserStatus = function () {
-    console.log("clearUser")
-}
+// export const clearUserStatus = function () {
+//     console.log("clearUser")
+// }
 
 export const useDataApi = () => {
     const [data, setData] = useState("no data");

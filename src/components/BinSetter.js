@@ -98,7 +98,23 @@ export default function BinSetter() {
     const [his, setHis] = React.useState([-20, 37])
     const [marks, setMarks] = React.useState([])
 
-    React.useEffect(() => {
+    const leftValue = () => {
+        if (typeof value === "object") {
+            return value[0]
+        } else if (typeof value === "number") {
+            return value
+        }
+    }
+
+    const rightValue = () => {
+        if (typeof value === "object") {
+            return value[1]
+        } else if (typeof value === "number") {
+            return value
+        }
+    }
+
+    const scaleSlider = () => {
         getMarks()
         if (leftValue() < -100) {
             setMin(leftValue() - 20)
@@ -107,7 +123,11 @@ export default function BinSetter() {
         if (rightValue() > 100) {
             setMax(rightValue() + 20)
         }
-    }, [value])
+    }
+
+    React.useEffect(() => {
+        scaleSlider()
+    }, [value, scaleSlider])
 
 
     const handleChange = (event, newValue) => {
@@ -182,21 +202,6 @@ export default function BinSetter() {
         }
     }
 
-    const leftValue = () => {
-        if (typeof value === "object") {
-            return value[0]
-        } else if (typeof value === "number") {
-            return value
-        }
-    }
-
-    const rightValue = () => {
-        if (typeof value === "object") {
-            return value[1]
-        } else if (typeof value === "number") {
-            return value
-        }
-    }
 
     // const disableLeftInput = () => {
 
