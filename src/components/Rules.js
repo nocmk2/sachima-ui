@@ -1,81 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import axios from "axios";
 import { useStateValue } from "../utils/state"
 // import SendMessage from "../utils/message"
 import TabList from "./TabList"
+import * as API from "../apis/api"
 
-
-const Now = () => {
-  return Math.floor(Date.now() / 1000)
-}
 
 const Rules = () => {
-  const [data, setData] = useState("no data");
-  const [url, setUrl] = useState("http://localhost:8000/test");
-  const [isLoading, setIsLoading] = useState(false);
   const [{ sachima }, dispatch] = useStateValue();
-  const [querytime, setQueryTime] = useState(Now());
-  const [features, setFeatures] = useState([]);
-
-  axios.interceptors.response.use(response => {
-    return response;
-  }, error => {
-    if (error.response.status === 401) {
-      //place your reentry code
-      dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "您没有权限,请登陆" } })
-    }
-    return error;
-  });
-
-  // simple get
-  useEffect(() => {
-    // const abortController = new AbortController()
-    // const signal = abortController.signal
-    const signal = axios.CancelToken.source();
-
-
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const result = await axios({
-          method: "GET",
-          url: url,
-          headers: { Authorization: "Bearer " + localStorage.token }
-        }, { cancelToken: signal.token });
-        // console.log(result.data);
-        // console.log(result.data.text);
-        setData(result.data.text);
-        if (url === `${sachima.url}/sachima/featurelists`) {
-          setFeatures(result.data.text)
-        }
-        setIsLoading(false);
-      } catch (error) {
-
-        console.log(error)
-        if (axios.isCancel(error)) {
-          console.log('Error: ', error.message); // => prints: Api is being canceled
-        } else {
-          setIsLoading(false);
-        }
-        // if (error.response.status === 401) {
-        //   dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "您没有权限,请登陆" } })
-        // }
-        return error
-      }
-    };
-
-    fetchData();
-    return function cleanup() {
-      signal.cancel("Cancelling in cleanup")
-    }
-    // eslint-disable-next-line
-  }, [url, querytime]);
+  const [{ data, features, isLoading, querytime }, get] = API.useDataApi();
 
   return (
     <>
-      <Button>{Now()}</Button>
+      <Button>{querytime}</Button>
       <Button
         variant="contained"
         onClick={() => {
@@ -84,8 +22,7 @@ const Rules = () => {
       <Button
         variant="contained"
         onClick={() => {
-          setUrl(`${sachima.url}/test`);
-          setQueryTime(Now())
+          get(`${sachima.url}/test`);
         }}
       >
         test public api
@@ -93,8 +30,7 @@ const Rules = () => {
       <Button
         variant="contained"
         onClick={() => {
-          setUrl(`${sachima.url}/test2`);
-          setQueryTime(Now())
+          get(`${sachima.url}/test2`);
         }}
       >
         test2 public api
@@ -102,8 +38,7 @@ const Rules = () => {
       <Button
         variant="contained"
         onClick={() => {
-          setUrl(`${sachima.url}/sachima/hello`);
-          setQueryTime(Now())
+          get(`${sachima.url}/sachima/hello`);
         }}
       >
         test private api {isLoading && "loading..."}
@@ -111,8 +46,7 @@ const Rules = () => {
       <Button
         variant="contained"
         onClick={() => {
-          setUrl(`${sachima.url}/sachima/featurelists`);
-          setQueryTime(Now())
+          get(`${sachima.url}/sachima/featurelists`);
         }}
       >
         test rules {isLoading && "loading..."}

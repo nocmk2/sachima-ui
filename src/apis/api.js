@@ -99,7 +99,7 @@ export const useDataApi = () => {
         // eslint-disable-next-line
     }, [url, querytime]);
 
-    return [{ data, isLoading, querytime }, setUrl]
+    return [{ data, features, isLoading, querytime }, setUrl]
 
 }
 
