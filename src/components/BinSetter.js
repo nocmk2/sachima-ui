@@ -98,34 +98,47 @@ export default function BinSetter() {
     const [his, setHis] = React.useState([-20, 37])
     const [marks, setMarks] = React.useState([])
 
-    const leftValue = () => {
-        if (typeof value === "object") {
-            return value[0]
-        } else if (typeof value === "number") {
-            return value
-        }
-    }
 
-    const rightValue = () => {
-        if (typeof value === "object") {
-            return value[1]
-        } else if (typeof value === "number") {
-            return value
-        }
-    }
-
-    const scaleSlider = () => {
-        getMarks()
-        if (leftValue() < -100) {
-            setMin(leftValue() - 20)
-        }
-
-        if (rightValue() > 100) {
-            setMax(rightValue() + 20)
-        }
-    }
 
     React.useEffect(() => {
+        const getMarks = () => {
+            if (typeof value === "object") {
+                setMarks([
+                    { key: 1, value: value[0], label: `${value[0]}` },
+                    { key: 2, value: value[1], label: `${value[1]}` },
+                ])
+            } else if (typeof value === "number") {
+                setMarks([
+                    { key: 1, value: value, label: `${value}` },
+                ])
+            }
+        }
+
+        const leftValue = () => {
+            if (typeof value === "object") {
+                return value[0]
+            } else if (typeof value === "number") {
+                return value
+            }
+        }
+
+        const rightValue = () => {
+            if (typeof value === "object") {
+                return value[1]
+            } else if (typeof value === "number") {
+                return value
+            }
+        }
+        const scaleSlider = () => {
+            getMarks()
+            if (leftValue() < -100) {
+                setMin(leftValue() - 20)
+            }
+
+            if (rightValue() > 100) {
+                setMax(rightValue() + 20)
+            }
+        }
         scaleSlider()
     }, [value])
 
@@ -223,18 +236,6 @@ export default function BinSetter() {
         }
     }
 
-    const getMarks = () => {
-        if (typeof value === "object") {
-            setMarks([
-                { key: 1, value: value[0], label: `${value[0]}` },
-                { key: 2, value: value[1], label: `${value[1]}` },
-            ])
-        } else if (typeof value === "number") {
-            setMarks([
-                { key: 1, value: value, label: `${value}` },
-            ])
-        }
-    }
 
     return (
         <Grid container className={classes.root} spacing={2}>
