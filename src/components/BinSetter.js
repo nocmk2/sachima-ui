@@ -127,7 +127,7 @@ export default function BinSetter() {
 
     React.useEffect(() => {
         scaleSlider()
-    }, [value, scaleSlider])
+    }, [value])
 
 
     const handleChange = (event, newValue) => {
