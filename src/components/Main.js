@@ -17,7 +17,7 @@ import Login from "./Login";
 import Fade from "@material-ui/core/Fade";
 import { useStateValue } from "../utils/state"
 import Message from "./Message"
-import * as API from "../utils/api"
+import * as API from "../apis/api"
 
 const useStyles = makeStyles(theme => ({
   modal: {
