@@ -21,7 +21,7 @@ const App = () => {
     count: { one: 1 },
     user: { name: localStorage.getItem("email"), id: "", role: "aaa" },
     message: { open: false, move: "down", position: "top-right", info: "" },
-    sachima: { url: "http://localhost:8000", login: "", message: "" }
+    sachima: { url: "http://localhost:8000", login: "", message: "admin@sachima.ai" }
   };
 
   const mainReducer = (state, action) => {

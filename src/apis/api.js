@@ -2,9 +2,6 @@ import { useStateValue } from "../utils/state"
 import { useState, useEffect } from "react";
 import axios from "axios"
 
-const Now = () => {
-    return Math.floor(Date.now() / 1000)
-}
 
 // const url = `http://localhost:8000/sachima/role`
 // const signal = axios.CancelToken.source();
@@ -23,31 +20,22 @@ const Now = () => {
 //     console.log("clearUser")
 // }
 
-export const useDataApi = () => {
-    const [data, setData] = useState("no data");
-    const [url, setUrl] = useState("http://localhost:8000/test");
+export const useDataApi = (initialURL, initialData) => {
+    const [data, setData] = useState(initialData);
+    const [url, setUrl] = useState(initialURL);
     const [isLoading, setIsLoading] = useState(false);
     const [{ sachima }, dispatch] = useStateValue();
-    const [querytime, setQueryTime] = useState(Now());
-    const [features, setFeatures] = useState([]);
 
     axios.interceptors.response.use(response => {
         return response;
     }, error => {
         if (error.response.status === 401) {
-            //place your reentry code
-            dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "您没有权限,请登陆" } })
+            dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: `您没有权限,请登陆,或联系管理员${sachima.message}` } })
         }
-        return error;
+        // return error;
     });
 
-    // simple get
     useEffect(() => {
-        // const abortController = new AbortController()
-        // const signal = abortController.signal
-        const signal = axios.CancelToken.source();
-
-
         const fetchData = async () => {
             setIsLoading(true);
             try {
@@ -55,38 +43,17 @@ export const useDataApi = () => {
                     method: "GET",
                     url: url,
                     headers: { Authorization: "Bearer " + localStorage.token }
-                }, { cancelToken: signal.token });
-                // console.log(result.data);
-                // console.log(result.data.text);
-                setData(result.data.text);
-                setQueryTime(Now());
-                if (url === `${sachima.url}/sachima/featurelists`) {
-                    setFeatures(result.data.text)
-                }
-                setIsLoading(false);
+                });
+                setData(result.data);
             } catch (error) {
-
                 console.log(error)
-                if (axios.isCancel(error)) {
-                    console.log('Error: ', error.message); // => prints: Api is being canceled
-                } else {
-                    setIsLoading(false);
-                }
-                // if (error.response.status === 401) {
-                //   dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "您没有权限,请登陆" } })
-                // }
-                return error
             }
+            setIsLoading(false);
         };
-
         fetchData();
-        return function cleanup() {
-            signal.cancel("Cancelling in cleanup")
-        }
-        // eslint-disable-next-line
-    }, [url, querytime]);
+    }, [url]);
 
-    return [{ data, features, isLoading, querytime }, setUrl]
+    return [{ data, isLoading }, setUrl]
 
 }
 

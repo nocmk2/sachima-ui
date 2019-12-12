@@ -7,19 +7,22 @@ import TabList from "./TabList"
 import * as API from "../apis/api"
 
 
+const Now = () => {
+  return Math.floor(Date.now() / 1000)
+}
+
 const Rules = () => {
   const [{ sachima }, dispatch] = useStateValue();
-  const [{ data, features, isLoading, querytime }, get] = API.useDataApi();
+  const [{ data, isLoading }, get] = API.useDataApi(`${sachima.url}/sachima/featurelists`, { features: [] });
 
   return (
     <>
-      <Button>{querytime}</Button>
       <Button
         variant="contained"
         onClick={() => {
           dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "hahah" } })
         }}>message</Button>
-      <Button
+      {/* <Button
         variant="contained"
         onClick={() => {
           get(`${sachima.url}/test`);
@@ -42,27 +45,27 @@ const Rules = () => {
         }}
       >
         test private api {isLoading && "loading..."}
-      </Button>
+      </Button> */}
       <Button
         variant="contained"
         onClick={() => {
-          get(`${sachima.url}/sachima/featurelists`);
+          get(`${sachima.url}/sachima/featurelists?time=${Now()}`);
         }}
       >
         配置规则 {isLoading && "loading..."}
       </Button>
-      <div style={{ color: "gray" }}>{isLoading ? "loading..." : data}</div>
-      <Card>
-        {
-          features.length !== 0
-            ?
-            <>
-              < TabList items={features}></TabList>
-            </>
-            : <></>
-        }</Card>
-    </>
-  );
+
+      {isLoading ? (<div>loading...</div>) : (
+        <Card>
+          {data.features.length > 0 ?
+            < TabList items={data.features}></TabList>
+            : <div>empty features</div>
+          }
+        </Card>
+      )
+      }
+    </>)
 };
+
 
 export default Rules;

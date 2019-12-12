@@ -35,13 +35,7 @@ const VerticalTabs = ({ items }) => {
     const [{ sachima }] = useStateValue()
     const [data, setData] = React.useState(0)
 
-
-    // React.useEffect(() => {
-    //     setFeature(props.items[value])
-    // }, [value])
-
     React.useEffect(() => {
-        console.log("items[value] => " + items[value])
         const fetchData = async () => {
             try {
                 const result = await axios({
@@ -50,13 +44,14 @@ const VerticalTabs = ({ items }) => {
                     headers: { Authorization: "Bearer " + localStorage.token }
                 });
                 setData(result.data)
+                console.log(result.data)
             } catch (error) {
                 console.log(error)
             }
         };
 
         fetchData();
-    }, []);
+    }, [value]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -76,13 +71,10 @@ const VerticalTabs = ({ items }) => {
                     <Tab label={item} key={item} {...a11yProps(index)} />
                 ))}
             </Tabs>
-            {/* TODO: 每次点击tab才渲染FeatureDetail组件  render FeatureDetail after tab click*/}
-            {/* {items.map((item, index) => (
-                <FeatureDetail key={"tp" + item} value={value} index={index}>
-                    {items[value]}
-                    <BinSetter />
-                </FeatureDetail>
-            ))} */}
+            <FeatureDetail value={value} index={value}>
+                {data.name}
+                <BinSetter data={data.bin} />
+            </FeatureDetail>
         </div>
     );
 }

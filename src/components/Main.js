@@ -113,12 +113,10 @@ const Main = props => {
   };
 
   const handleMessageClose = (event, reason) => {
-    console.log(reason)
     if (reason === 'clickaway') {
       dispatch({ type: "sendMessage", newMessage: { ...message, open: false } })
       return;
     }
-    console.log("handleClose")
     dispatch({ type: "sendMessage", newMessage: { ...message, open: false } })
   };
 
