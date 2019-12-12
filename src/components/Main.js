@@ -11,6 +11,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import ShareIcon from "@material-ui/icons/Share";
 import SupervisedUserCircle from "@material-ui/icons/SupervisedUserCircle";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import MusicNote from "@material-ui/icons/MusicNote";
 import Adb from "@material-ui/icons/Adb"
 import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router";
@@ -48,7 +49,8 @@ const actions = [
   { icon: <SaveIcon />, name: "Rules" },
   { icon: <ShareIcon />, name: "Configs" },
   { icon: <FavoriteIcon />, name: "Maps" },
-  { icon: <Adb />, name: "DashBoard" }
+  { icon: <Adb />, name: "DashBoard" },
+  { icon: <MusicNote />, name: "Test" }
 ];
 
 const Main = props => {

@@ -6,6 +6,7 @@ import TTT from "./components/TTT";
 import Rules from "./components/Rules";
 import Login from "./components/Login";
 import Configs from "./components/Configs";
+import BinSetter from "./components/BinSetter"
 import Maps from "./components/Maps";
 import DashBoard from "./components/DashBoard";
 
@@ -63,6 +64,7 @@ const App = () => {
             <Route exact path="/Rules" component={Rules} />
             <Route exact path="/Login" component={Login} />
             <Route exact path="/Configs" component={Configs} />
+            <Route exact path="/Test" component={BinSetter} />
             <Route exact path="/Reports">
               <TTT visible={false} />
             </Route>

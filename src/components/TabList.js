@@ -56,7 +56,7 @@ const VerticalTabs = ({ items }) => {
         };
 
         fetchData();
-    }, [value]);
+    }, []);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -67,7 +67,7 @@ const VerticalTabs = ({ items }) => {
             <Tabs
                 orientation="vertical"
                 variant="scrollable"
-                value={value}
+                value={value} // 0 1 2 3 4....
                 onChange={handleChange}
                 aria-label="Vertical tabs example"
                 className={classes.tabs}
@@ -76,12 +76,13 @@ const VerticalTabs = ({ items }) => {
                     <Tab label={item} key={item} {...a11yProps(index)} />
                 ))}
             </Tabs>
-            {items.map((item, index) => (
+            {/* TODO: 每次点击tab才渲染FeatureDetail组件  render FeatureDetail after tab click*/}
+            {/* {items.map((item, index) => (
                 <FeatureDetail key={"tp" + item} value={value} index={index}>
-                    {data.name}
+                    {items[value]}
                     <BinSetter />
                 </FeatureDetail>
-            ))}
+            ))} */}
         </div>
     );
 }
