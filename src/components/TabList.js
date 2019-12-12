@@ -7,6 +7,7 @@ import axios from "axios";
 import { useStateValue } from "../utils/state"
 import BinSetter from "./BinSetter"
 import { maxWidth } from '@material-ui/system';
+import GroupSelect from "./GroupSelect"
 
 
 function a11yProps(index) {
@@ -72,7 +73,8 @@ const VerticalTabs = ({ items }) => {
                 ))}
             </Tabs>
             <FeatureDetail value={value} index={value}>
-                {data.name}
+                {/* {data.name} */}
+                <GroupSelect value={1} options={[{ name: "文字1", catalog: "math", index: 0 }, { name: "文字2", catalog: "text", index: 1 }]} />
                 <BinSetter data={data.bin} />
             </FeatureDetail>
         </div>
