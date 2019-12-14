@@ -14,10 +14,10 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const GroupSelect = ({ value, options }) => {
+const GroupSelect = ({ value, features }) => {
     const classes = useStyles();
 
-    const pre = options.reduce((pre, current, index) => {
+    const pre = features.reduce((pre, current, index) => {
         pre[current.catalog] = pre[current.catalog] || []
         pre[current.catalog].push(current.name)
         return pre

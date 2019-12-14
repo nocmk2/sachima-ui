@@ -30,37 +30,38 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const VerticalTabs = ({ items }) => {
+const FeatureLists = ({ features }) => {
     const classes = useStyles();
     const [value, setValue] = React.useState(5);
     const [{ sachima }] = useStateValue()
-    const [data, setData] = React.useState(0)
+    const [currentFeature, setCurrentFeature] = React.useState("")
 
-    React.useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const result = await axios({
-                    method: "GET",
-                    url: `${sachima.url}/sachima/featuredetail/${items[value]}`,
-                    headers: { Authorization: "Bearer " + localStorage.token }
-                });
-                setData(result.data)
-                console.log(result.data)
-            } catch (error) {
-                console.log(error)
-            }
-        };
+    // React.useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const result = await axios({
+    //                 method: "GET",
+    //                 url: `${sachima.url}/sachima/featuredetail/${items[value]}`,
+    //                 headers: { Authorization: "Bearer " + localStorage.token }
+    //             });
+    //             setData(result.data)
+    //             console.log(result.data)
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     };
 
-        fetchData();
-    }, [value]);
+    //     fetchData();
+    // }, [value]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        setCurrentFeature()
     };
 
     return (
         <div className={classes.root}>
-            <Tabs
+            {/* <Tabs
                 orientation="vertical"
                 variant="scrollable"
                 value={value} // 0 1 2 3 4....
@@ -73,12 +74,30 @@ const VerticalTabs = ({ items }) => {
                 ))}
             </Tabs>
             <FeatureDetail value={value} index={value}>
-                {/* {data.name} */}
                 <GroupSelect value={1} options={[{ name: "文字1", catalog: "math", index: 0 }, { name: "文字2", catalog: "text", index: 1 }]} />
-                <BinSetter data={data.bin} />
-            </FeatureDetail>
-        </div>
+                <BinSetter data={data.bin} /> 
+             </FeatureDetail> */}
+            {/* {JSON.stringify(features)} */}
+            <Tabs
+                orientation="vertical"
+                variant="scrollable"
+                value={value} // 0 1 2 3 4....
+                onChange={handleChange}
+                aria-label="Vertical tabs example"
+                className={classes.tabs}
+            >
+                {Object.keys(features).map((item, index) => (
+                    <Tab label={item} key={item} {...a11yProps(index)} />
+                ))}
+            </Tabs>
+            <FeatureDetail value={value} index={value} >
+                {/* <GroupSelect value={1} features={features} /> */}
+                {value}
+                {features[value]}
+                {/* <BinSetter data={data.bin} /> */}
+            </FeatureDetail >
+        </div >
     );
 }
 
-export default VerticalTabs
+export default FeatureLists 
