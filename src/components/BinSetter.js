@@ -86,7 +86,7 @@ function valuetext(value) {
     return `${value}`;
 }
 const BinSetter = ({ express, binscore }) => {
-    // const textColor = useMemo(
+    // const textColor = React.useMemo(
     //     () => slowlyCalculateTextColor(color),
     //     [color] // ✅ Don’t recalculate until `color` changes
     // );
