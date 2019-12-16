@@ -14,24 +14,30 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const GroupSelect = ({ value, features }) => {
+const GroupSelect = ({ value, features, onSelect }) => {
     const classes = useStyles();
 
-    const pre = features.reduce((pre, current, index) => {
-        pre[current.catalog] = pre[current.catalog] || []
-        pre[current.catalog].push(current.name)
+    const pre = Object.keys(features).reduce((pre, k, index) => {
+        pre[features[k].catalog] = pre[features[k].catalog] || []
+        pre[features[k].catalog].push({ index: index, name: features[k].name, key: k })
         return pre
     }, {})
+
+    // const onS = (event) => {
+    //     console.log(event.target.value)
+    // }
+
+    // const pre = Object.keys(features).map()
 
     return (
         <div>
             <FormControl className={classes.formControl}>
                 {/* <InputLabel htmlFor="grouped-native-select">value</InputLabel> */}
-                <Select native defaultValue={1} input={<Input id="grouped-native-select" />}>
+                <Select native value={value} onChange={onSelect} input={<Input id="grouped-native-select" />}>
                     {Object.keys(pre).map((catalog, index) => (
                         <optgroup key={index} label={catalog}>
-                            {pre[catalog].map((item, index) => (
-                                <option value={index} key={index}>{item}</option>
+                            {pre[catalog].map((item, x) => (
+                                <option value={item.key} key={item.key}>{item.name + " " + item.key}</option>
                             ))}
                         </optgroup>
                     ))}

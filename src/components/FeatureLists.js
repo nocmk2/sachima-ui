@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
-        height: 400,
+        height: 500,
         width: maxWidth,
     },
     tabs: {
@@ -54,46 +54,33 @@ const FeatureLists = ({ features }) => {
     //     fetchData();
     // }, [value]);
 
-    const handleChange = (event, newValue) => {
+    const handleTabChange = (event, newValue) => {
         setValue(newValue);
-        setCurrentFeature()
+    };
+
+    const handleSelectChange = (event) => {
+        console.log(event.target.value)
+        setValue(Object.keys(features).indexOf(event.target.value));
     };
 
     return (
         <div className={classes.root}>
-            {/* <Tabs
-                orientation="vertical"
-                variant="scrollable"
-                value={value} // 0 1 2 3 4....
-                onChange={handleChange}
-                aria-label="Vertical tabs example"
-                className={classes.tabs}
-            >
-                {items.map((item, index) => (
-                    <Tab label={item} key={item} {...a11yProps(index)} />
-                ))}
-            </Tabs>
-            <FeatureDetail value={value} index={value}>
-                <GroupSelect value={1} options={[{ name: "文字1", catalog: "math", index: 0 }, { name: "文字2", catalog: "text", index: 1 }]} />
-                <BinSetter data={data.bin} /> 
-             </FeatureDetail> */}
-            {/* {JSON.stringify(features)} */}
             <Tabs
                 orientation="vertical"
                 variant="scrollable"
                 value={value} // 0 1 2 3 4....
-                onChange={handleChange}
+                onChange={handleTabChange}
                 aria-label="Vertical tabs example"
                 className={classes.tabs}
             >
                 {Object.keys(features).map((item, index) => (
-                    <Tab label={item} key={item} {...a11yProps(index)} />
+                    <Tab label={item} key={item} index={item} {...a11yProps(index)} />
                 ))}
             </Tabs>
             <FeatureDetail value={value} index={value} >
-                {/* <GroupSelect value={1} features={features} /> */}
-                {value}
-                {features[value]}
+                <GroupSelect value={Object.keys(features)[value]} features={features} onSelect={handleSelectChange} />
+
+                {/* {value} -> {Object.keys(features)[value]} */}
                 {/* <BinSetter data={data.bin} /> */}
             </FeatureDetail >
         </div >
