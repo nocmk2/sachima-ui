@@ -23,12 +23,6 @@ const GroupSelect = ({ value, features, onSelect }) => {
         return pre
     }, {})
 
-    // const onS = (event) => {
-    //     console.log(event.target.value)
-    // }
-
-    // const pre = Object.keys(features).map()
-
     return (
         <div>
             <FormControl className={classes.formControl}>

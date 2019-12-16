@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
+import Button from '@material-ui/core/Button';
 import Tab from '@material-ui/core/Tab';
 import FeatureDetail from "./FeatureDetail";
 import axios from "axios";
@@ -32,27 +33,8 @@ const useStyles = makeStyles(theme => ({
 
 const FeatureLists = ({ features }) => {
     const classes = useStyles();
-    const [value, setValue] = React.useState(5);
+    const [value, setValue] = React.useState(9);
     const [{ sachima }] = useStateValue()
-    const [currentFeature, setCurrentFeature] = React.useState("")
-
-    // React.useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const result = await axios({
-    //                 method: "GET",
-    //                 url: `${sachima.url}/sachima/featuredetail/${items[value]}`,
-    //                 headers: { Authorization: "Bearer " + localStorage.token }
-    //             });
-    //             setData(result.data)
-    //             console.log(result.data)
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, [value]);
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
@@ -81,7 +63,17 @@ const FeatureLists = ({ features }) => {
                 <GroupSelect value={Object.keys(features)[value]} features={features} onSelect={handleSelectChange} />
 
                 {/* {value} -> {Object.keys(features)[value]} */}
-                {/* <BinSetter data={data.bin} /> */}
+                {/* {features[Object.keys(features)[value]].bin.map((item, index) => (
+                    <BinSetter data={} />
+                ))} */}
+
+                {
+                    Object.entries(features).length === 0 ? "loading..." :
+                        Object.keys(features[Object.keys(features)[value]]["bin"]).map((item, index) => (
+                            <BinSetter key={item + "-" + index} express={item} binscore={features[Object.keys(features)[value]]["bin"][item]} />
+                        ))
+                }
+                {/* {value ? "loading" : JSON.stringify(Object.keys(features[Object.keys(features)[value]]["bin"]))} */}
             </FeatureDetail >
         </div >
     );

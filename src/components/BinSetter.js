@@ -85,12 +85,15 @@ const useStyles = makeStyles({
 function valuetext(value) {
     return `${value}`;
 }
-
-export default function BinSetter() {
+const BinSetter = ({ express, binscore }) => {
+    // const textColor = useMemo(
+    //     () => slowlyCalculateTextColor(color),
+    //     [color] // ✅ Don’t recalculate until `color` changes
+    // );
     const classes = useStyles();
-    const [value, setValue] = React.useState([-20, 37]);
-    const [inf, setinf] = React.useState(0)
-    const [score, setScore] = React.useState(23)
+    const [value, setValue] = React.useState(38); // inf=-1 value=38 means (-inf,38)
+    const [inf, setinf] = React.useState(-1) // -1 -Inf    0     1   Inf
+    const [score, setScore] = React.useState(binscore) // should i use props ?
     const [leftbound, setLeftbound] = React.useState("[")
     const [rightbound, setRightbound] = React.useState(")")
     const [min, setMin] = React.useState(-100)
@@ -164,6 +167,7 @@ export default function BinSetter() {
                 setValue(his) // 恢复原来的value状态
                 break
         }
+        console.log(value)
     }
 
     const handleMaxInfChange = () => {
@@ -239,6 +243,8 @@ export default function BinSetter() {
 
     return (
         <Grid container className={classes.root} spacing={2}>
+            <div>{binscore}</div>
+            <div>{express}</div>
             <Grid item xs={12}>
                 <Grid container direction="row" justify="center" alignItems="flex-end" spacing={1}>
                     <Grid item >
@@ -367,3 +373,5 @@ export default function BinSetter() {
         </Grid >
     );
 }
+
+export default BinSetter
