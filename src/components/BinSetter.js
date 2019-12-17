@@ -85,20 +85,25 @@ const useStyles = makeStyles({
 function valuetext(value) {
     return `${value}`;
 }
+
+const getMathInterval = (express) => {
+    return { interval: [0, 20], inf: 0, left: "(", right: ")", min: -100, max: 100 }
+}
+
 const BinSetter = ({ express, binscore }) => {
-    // const textColor = React.useMemo(
-    //     () => slowlyCalculateTextColor(color),
-    //     [color] // ✅ Don’t recalculate until `color` changes
-    // );
+    const initValue = React.useMemo(
+        () => getMathInterval(express),  // [-inf,1.0)
+        [express] // ✅ Don’t recalculate until `color` changes
+    );
     const classes = useStyles();
-    const [value, setValue] = React.useState(38); // inf=-1 value=38 means (-inf,38)
-    const [inf, setinf] = React.useState(-1) // -1 -Inf    0     1   Inf
+    const [value, setValue] = React.useState(initValue.interval); // inf=-1 value=38 means (-inf,38)
+    const [inf, setinf] = React.useState(initValue.inf) // -1 -Inf    0     1   Inf
     const [score, setScore] = React.useState(binscore) // should i use props ?
-    const [leftbound, setLeftbound] = React.useState("[")
-    const [rightbound, setRightbound] = React.useState(")")
-    const [min, setMin] = React.useState(-100)
-    const [max, setMax] = React.useState(100)
-    const [his, setHis] = React.useState([-20, 37])
+    const [leftbound, setLeftbound] = React.useState(initValue.left)
+    const [rightbound, setRightbound] = React.useState(initValue.right)
+    const [min, setMin] = React.useState(initValue.min)
+    const [max, setMax] = React.useState(initValue.max)
+    const [his, setHis] = React.useState(initValue.interval)
     const [marks, setMarks] = React.useState([])
 
 
@@ -243,8 +248,8 @@ const BinSetter = ({ express, binscore }) => {
 
     return (
         <Grid container className={classes.root} spacing={2}>
-            <div>{binscore}</div>
-            <div>{express}</div>
+            {/* <div>{binscore}</div>
+            <div>{express}</div> */}
             <Grid item xs={12}>
                 <Grid container direction="row" justify="center" alignItems="flex-end" spacing={1}>
                     <Grid item >
