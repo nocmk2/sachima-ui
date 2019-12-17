@@ -9,6 +9,7 @@ import { useStateValue } from "../utils/state"
 import BinSetter from "./BinSetter"
 import { maxWidth } from '@material-ui/system';
 import GroupSelect from "./GroupSelect"
+import { sortMathIntervalBin } from '../utils/mathInterval';
 
 
 function a11yProps(index) {
@@ -70,7 +71,8 @@ const FeatureLists = ({ features }) => {
 
                 {
                     Object.entries(features).length === 0 ? "loading..." :
-                        Object.keys(features[Object.keys(features)[value]]["bin"]).sort().map((item, index) => (
+                        Object.keys(features[Object.keys(features)[value]]["bin"]).sort((a, b) => sortMathIntervalBin(a, b)).map((item, index) => (
+                            // (-inf,100]    (0,20)
                             <BinSetter key={item + "-" + index} express={item} binscore={features[Object.keys(features)[value]]["bin"][item]} />
                         ))
                 }

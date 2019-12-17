@@ -14,6 +14,7 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 // import { maxWidth } from '@material-ui/system';
 // import FilledInput from '@material-ui/core/FilledInput';
+import { getMathInterval } from "../utils/mathInterval"
 
 const PrettoSlider = withStyles({
     root: props => ({
@@ -86,29 +87,6 @@ function valuetext(value) {
     return `${value}`;
 }
 
-const getMathInterval = (express) => {
-    let inf = 0
-    let his = [-10, 10]
-    let temp = express.replace(" ", "")
-    let left = temp[0]
-    let right = temp[temp.length - 1]
-    let s = temp.substr(1, temp.length - 2)
-    let a = s.split(",")
-    let interval = [Number(a[0]), Number(a[1])]
-
-    if (a[0] === "-inf") {
-        inf = -1
-        interval = interval[1]
-        his = [0, interval]
-    }
-
-    if (a[1] === "inf") {
-        inf = 1
-        interval = interval[0]
-        his = [interval, 100]
-    }
-    return { interval: interval, inf: inf, left: left, right: right, his: his, min: -100, max: 100 }
-}
 
 const BinSetter = ({ express, binscore }) => {
     const initValue = React.useMemo(
