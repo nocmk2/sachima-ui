@@ -45,7 +45,7 @@ export const useDataApi = (initialURL, initialData) => {
                     headers: { Authorization: "Bearer " + localStorage.token }
                 });
                 setData(result.data);
-                console.log(result.data)
+                // console.log(result.data)
             } catch (error) {
                 console.log(error)
             }
@@ -54,6 +54,8 @@ export const useDataApi = (initialURL, initialData) => {
         fetchData();
     }, [url]);
 
+    console.log("--------api called--------")
+    console.log(data)
     return [{ data, isLoading }, setUrl]
 
 }

@@ -55,11 +55,12 @@ const Rules = () => {
       >
         配置规则 {isLoading && "loading..."}
       </Button>
-      <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features["1PD7_pct"]["bintype"]) : "b"}</div>
+      {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features["1PD7_pct"]["bintype"]) : "b"}</div> */}
+      {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features) : "b"}</div> */}
       {isLoading ? (<div>loading...</div>) : (
         <Card>
           {data ?
-            < FeatureLists features={data.features}></FeatureLists>
+            <FeatureLists features={data.features}></FeatureLists>
             : <div>empty features</div>
           }
         </Card>

@@ -87,13 +87,33 @@ function valuetext(value) {
 }
 
 const getMathInterval = (express) => {
-    return { interval: [0, 20], inf: 0, left: "(", right: ")", min: -100, max: 100 }
+    let inf = 0
+    let his = [-10, 10]
+    let temp = express.replace(" ", "")
+    let left = temp[0]
+    let right = temp[temp.length - 1]
+    let s = temp.substr(1, temp.length - 2)
+    let a = s.split(",")
+    let interval = [Number(a[0]), Number(a[1])]
+
+    if (a[0] === "-inf") {
+        inf = -1
+        interval = interval[1]
+        his = [0, interval]
+    }
+
+    if (a[1] === "inf") {
+        inf = 1
+        interval = interval[0]
+        his = [interval, 100]
+    }
+    return { interval: interval, inf: inf, left: left, right: right, his: his, min: -100, max: 100 }
 }
 
 const BinSetter = ({ express, binscore }) => {
     const initValue = React.useMemo(
         () => getMathInterval(express),  // [-inf,1.0)
-        [express] // ✅ Don’t recalculate until `color` changes
+        [express] // ✅ Don’t recalculate until `express` changes
     );
     const classes = useStyles();
     const [value, setValue] = React.useState(initValue.interval); // inf=-1 value=38 means (-inf,38)
@@ -103,7 +123,7 @@ const BinSetter = ({ express, binscore }) => {
     const [rightbound, setRightbound] = React.useState(initValue.right)
     const [min, setMin] = React.useState(initValue.min)
     const [max, setMax] = React.useState(initValue.max)
-    const [his, setHis] = React.useState(initValue.interval)
+    const [his, setHis] = React.useState(initValue.his)
     const [marks, setMarks] = React.useState([])
 
 
@@ -250,6 +270,7 @@ const BinSetter = ({ express, binscore }) => {
         <Grid container className={classes.root} spacing={2}>
             {/* <div>{binscore}</div>
             <div>{express}</div> */}
+            <div>{JSON.stringify(value)}</div>
             <Grid item xs={12}>
                 <Grid container direction="row" justify="center" alignItems="flex-end" spacing={1}>
                     <Grid item >

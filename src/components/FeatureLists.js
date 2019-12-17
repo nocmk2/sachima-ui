@@ -66,10 +66,11 @@ const FeatureLists = ({ features }) => {
                 {/* {features[Object.keys(features)[value]].bin.map((item, index) => (
                     <BinSetter data={} />
                 ))} */}
+                {/* {Object.entries(features).length === 0 ? "loading..." : JSON.stringify(features[Object.keys(features)[value]])} */}
 
                 {
                     Object.entries(features).length === 0 ? "loading..." :
-                        Object.keys(features[Object.keys(features)[value]]["bin"]).map((item, index) => (
+                        Object.keys(features[Object.keys(features)[value]]["bin"]).sort().map((item, index) => (
                             <BinSetter key={item + "-" + index} express={item} binscore={features[Object.keys(features)[value]]["bin"][item]} />
                         ))
                 }
