@@ -9,7 +9,7 @@ import { useStateValue } from "../utils/state"
 import BinSetter from "./BinSetter"
 import { maxWidth } from '@material-ui/system';
 import GroupSelect from "./GroupSelect"
-import { sortMathIntervalBin } from '../utils/mathInterval';
+import { sortMathIntervalBin, getMinMax } from '../utils/mathInterval';
 
 
 function a11yProps(index) {
@@ -69,6 +69,7 @@ const FeatureLists = ({ features }) => {
                 ))} */}
                 {/* {Object.entries(features).length === 0 ? "loading..." : JSON.stringify(features[Object.keys(features)[value]])} */}
 
+
                 {
                     Object.entries(features).length === 0 ? "loading..." :
                         features[Object.keys(features)[value]]["bintype"] === "math" ? (
@@ -77,7 +78,11 @@ const FeatureLists = ({ features }) => {
                                 .sort(sortMathIntervalBin)
                                 .map((item, index) => (
                                     // (-inf,100]    (0,20)
-                                    <BinSetter key={item + "-" + index} express={item} binscore={features[Object.keys(features)[value]]["bin"][item]} />
+                                    <BinSetter
+                                        key={item + "-" + index}
+                                        express={item}
+                                        binscore={features[Object.keys(features)[value]]["bin"][item]}
+                                        minmax={getMinMax(features[Object.keys(features)[value]]["bin"])} />
                                 ))
                         ) : "aaaaaaa"
                 }

@@ -4,6 +4,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
+import Button from "@material-ui/core/Button";
 import AllInclusive from "@material-ui/icons/AllInclusive";
 import Remove from "@material-ui/icons/Remove";
 import MenuItem from '@material-ui/core/MenuItem';
@@ -88,7 +89,7 @@ function valuetext(value) {
 }
 
 
-const BinSetter = ({ express, binscore }) => {
+const BinSetter = ({ express, binscore, minmax }) => {
     const initValue = React.useMemo(
         () => getMathInterval(express),  // [-inf,1.0)
         [express] // ✅ Don’t recalculate until `express` changes
@@ -99,8 +100,8 @@ const BinSetter = ({ express, binscore }) => {
     const [score, setScore] = React.useState(binscore) // should i use props ?
     const [leftbound, setLeftbound] = React.useState(initValue.left)
     const [rightbound, setRightbound] = React.useState(initValue.right)
-    const [min, setMin] = React.useState(initValue.min)
-    const [max, setMax] = React.useState(initValue.max)
+    const [min, setMin] = React.useState(minmax[0])
+    const [max, setMax] = React.useState(minmax[1])
     const [his, setHis] = React.useState(initValue.his)
     const [marks, setMarks] = React.useState([])
 
@@ -137,11 +138,11 @@ const BinSetter = ({ express, binscore }) => {
         }
         const scaleSlider = () => {
             getMarks()
-            if (leftValue() < -100) {
+            if (leftValue() <= min) {
                 setMin(leftValue() - 20)
             }
 
-            if (rightValue() > 100) {
+            if (rightValue() >= max) {
                 setMax(rightValue() + 20)
             }
         }
@@ -248,7 +249,9 @@ const BinSetter = ({ express, binscore }) => {
         <Grid container className={classes.root} spacing={2}>
             {/* <div>{binscore}</div>
             <div>{express}</div> */}
-            <div>{JSON.stringify(value)}</div>
+            {/* <div>{JSON.stringify(minmax)}</div>
+            <div>{JSON.stringify(value)}</div> */}
+            <Button>+</Button>
             <Grid item xs={12}>
                 <Grid container direction="row" justify="center" alignItems="flex-end" spacing={1}>
                     <Grid item >
@@ -262,9 +265,10 @@ const BinSetter = ({ express, binscore }) => {
                             left={leftbound}
                             right={rightbound}
                             track={(inf === 1) ? "inverted" : "normal"} // 控制slider的方向 , 当正无穷的时候右边的数到最右边是有颜色的
-                            marks={marks}                               // slider 下方的标注 这里实现成动态的
+                            // marks={marks}                               // slider 下方的标注 这里实现成动态的
                             value={value}                               // value有两种 number 和 [number,number], 分别表示无穷和区间
                             onChange={handleChange}
+                            step={0.01}
                             valueLabelDisplay="auto"
                             min={min}
                             max={max}

@@ -23,23 +23,28 @@ export const getMathInterval = (express) => {
 }
 
 
-const expressToNumber = (express) => {
+const expressToNumber = (express, withInf = true) => {
     let s = express.substr(1, express.length - 2)
     let ns = s.split(",")
     let left = Number(ns[0])
     let right = Number(ns[1])
     if (ns[0] === "-inf") {
-        left = -Infinity
+        if (withInf) {
+            left = -Infinity
+        } else {
+            left = Number(ns[1])
+        }
     } else if (ns[1] === "inf") {
-        right = Infinity
+        if (withInf) {
+            right = Infinity
+        } else {
+            right = Number(ns[0])
+        }
     }
     return [left, right]
 }
 
 export const sortMathIntervalBin = (a, b) => {
-    console.log(expressToNumber(a)[0])
-    console.log(expressToNumber(b)[0])
-    console.log(expressToNumber(a)[0] > expressToNumber(b)[0])
     if (expressToNumber(a)[0] > expressToNumber(b)[0]) {
         return 1
     }
@@ -59,5 +64,16 @@ export const getMinMax = (bin) => {
     //     "[40,inf)": 80,
     //     "[5,10)": 30
     // }
-    return [-100, 120]
+    // distance = 40
+    // x * (2 / 3)=40
+    let param = 0.5
+    let all = []
+    Object.keys(bin).forEach((item, index) => {
+        all = all.concat(expressToNumber(item, false))
+    })
+    let max = Math.max.apply(Math, all)
+    let min = Math.min.apply(Math, all)
+    // console.log(min, max)
+    // console.log(min - ((max - min) * 0.5 * 0.5))
+    return [min - ((max - min) * param * 0.5), max + ((max - min) * param * 0.5)]
 }
