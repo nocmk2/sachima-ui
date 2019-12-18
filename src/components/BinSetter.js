@@ -251,7 +251,6 @@ const BinSetter = ({ express, binscore, minmax }) => {
             <div>{express}</div> */}
             {/* <div>{JSON.stringify(minmax)}</div>
             <div>{JSON.stringify(value)}</div> */}
-            <Button>+</Button>
             <Grid item xs={12}>
                 <Grid container direction="row" justify="center" alignItems="flex-end" spacing={1}>
                     <Grid item >

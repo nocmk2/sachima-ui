@@ -30,6 +30,9 @@ const useStyles = makeStyles(theme => ({
     tabs: {
         borderRight: `1px solid ${theme.palette.divider}`,
     },
+    binsetter: {
+        width: maxWidth
+    }
 }));
 
 const FeatureLists = ({ features }) => {
@@ -69,6 +72,16 @@ const FeatureLists = ({ features }) => {
                 ))} */}
                 {/* {Object.entries(features).length === 0 ? "loading..." : JSON.stringify(features[Object.keys(features)[value]])} */}
 
+                <Button variant="contained" color="secondary">New</Button>
+                <Button>Delete</Button>
+                <Button>Graph</Button>
+                <Button>Percent</Button>
+                <Button>Catalog</Button>
+                <Button>Weight</Button>
+                <Button>Bintype</Button>
+                <Button>Default</Button>
+                <Button>Pre</Button>
+
 
                 {
                     Object.entries(features).length === 0 ? "loading..." :
@@ -79,6 +92,7 @@ const FeatureLists = ({ features }) => {
                                 .map((item, index) => (
                                     // (-inf,100]    (0,20)
                                     <BinSetter
+                                        className={classes.binsetter}
                                         key={item + "-" + index}
                                         express={item}
                                         binscore={features[Object.keys(features)[value]]["bin"][item]}
