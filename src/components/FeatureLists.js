@@ -71,10 +71,15 @@ const FeatureLists = ({ features }) => {
 
                 {
                     Object.entries(features).length === 0 ? "loading..." :
-                        Object.keys(features[Object.keys(features)[value]]["bin"]).sort((a, b) => sortMathIntervalBin(a, b)).map((item, index) => (
-                            // (-inf,100]    (0,20)
-                            <BinSetter key={item + "-" + index} express={item} binscore={features[Object.keys(features)[value]]["bin"][item]} />
-                        ))
+                        features[Object.keys(features)[value]]["bintype"] === "math" ? (
+                            Object
+                                .keys(features[Object.keys(features)[value]]["bin"])
+                                .sort(sortMathIntervalBin)
+                                .map((item, index) => (
+                                    // (-inf,100]    (0,20)
+                                    <BinSetter key={item + "-" + index} express={item} binscore={features[Object.keys(features)[value]]["bin"][item]} />
+                                ))
+                        ) : "aaaaaaa"
                 }
                 {/* {value ? "loading" : JSON.stringify(Object.keys(features[Object.keys(features)[value]]["bin"]))} */}
             </FeatureDetail >
