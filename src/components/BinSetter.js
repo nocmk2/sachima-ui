@@ -360,7 +360,7 @@ const BinSetter = ({ express, binscore, minmax }) => {
                     <Grid item>
                         <TextField
                             // className={classes.input}
-                            label="得分"
+                            label="Score"
                             value={score}
                             // margin="dense"
                             // multiline={true}

@@ -90,7 +90,7 @@ const FeatureLists = ({ features }) => {
                                 .keys(features[Object.keys(features)[value]]["bin"])
                                 .sort(sortMathIntervalBin)
                                 .map((item, index) => (
-                                    // (-inf,100]    (0,20)
+                                    // item => "(-inf,100]" (0, 20)
                                     <BinSetter
                                         className={classes.binsetter}
                                         key={item + "-" + index}
@@ -101,6 +101,7 @@ const FeatureLists = ({ features }) => {
                         ) : "aaaaaaa"
                 }
                 {/* {value ? "loading" : JSON.stringify(Object.keys(features[Object.keys(features)[value]]["bin"]))} */}
+                <Button variant="contained" color="primary">Save</Button>
             </FeatureDetail >
         </div >
     );
