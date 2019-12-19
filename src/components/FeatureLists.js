@@ -22,6 +22,9 @@ import Equalizer from "@material-ui/icons/Equalizer";
 import OpacityIcon from '@material-ui/icons/Opacity';
 import AttachFileRoundedIcon from '@material-ui/icons/AttachFileRounded';
 import GavelRoundedIcon from '@material-ui/icons/GavelRounded';
+import CloudUpload from '@material-ui/icons/CloudUpload';
+
+
 
 function a11yProps(index) {
     return {
@@ -186,7 +189,7 @@ const FeatureLists = ({ features }) => {
                         ) : "aaaaaaa"
                 }
                 {/* {value ? "loading" : JSON.stringify(Object.keys(features[Object.keys(features)[value]]["bin"]))} */}
-                <Button variant="contained" color="primary">Save</Button>
+                <Button variant="contained" color="primary" startIcon={<CloudUpload />}>Save</Button>
             </FeatureDetail >
         </div >
     );
