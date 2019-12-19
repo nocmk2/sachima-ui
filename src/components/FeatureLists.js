@@ -37,8 +37,11 @@ const useStyles = makeStyles(theme => ({
 
 const FeatureLists = ({ features }) => {
     const classes = useStyles();
-    const [value, setValue] = React.useState(9);
-    const [{ sachima }] = useStateValue()
+    const [value, setValue] = React.useState(0); // default feature list being selected
+    const [{ sachima, user, message }, dispatch] = useStateValue();
+    const [f, setF] = React.useState(features)
+
+    const featureNames = Object.keys(f)
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
@@ -46,8 +49,16 @@ const FeatureLists = ({ features }) => {
 
     const handleSelectChange = (event) => {
         console.log(event.target.value)
-        setValue(Object.keys(features).indexOf(event.target.value));
+        setValue(featureNames.indexOf(event.target.value));
     };
+
+    const handleNew = () => {
+        var bin = f[featureNames[value]]["bin"]
+        var m = getMinMax(bin).origin[1]
+        console.log("m=======" + m)
+        bin[`[${(m + 0.1).toFixed(2)},inf)`] = 99
+        dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️修改后请保存, 刷新页面会丢失修改" } })
+    }
 
     return (
         <div className={classes.root}>
@@ -59,12 +70,12 @@ const FeatureLists = ({ features }) => {
                 aria-label="Vertical tabs example"
                 className={classes.tabs}
             >
-                {Object.keys(features).map((item, index) => (
+                {featureNames.map((item, index) => (
                     <Tab label={item} key={item} index={item} {...a11yProps(index)} />
                 ))}
             </Tabs>
-            <FeatureDetail index={value} >
-                <GroupSelect value={Object.keys(features)[value]} features={features} onSelect={handleSelectChange} />
+            <FeatureDetail value={value} index={value} >
+                <GroupSelect value={featureNames[value]} features={features} onSelect={handleSelectChange} />
 
                 {/* {value} -> {Object.keys(features)[value]} */}
                 {/* {features[Object.keys(features)[value]].bin.map((item, index) => (
@@ -72,7 +83,7 @@ const FeatureLists = ({ features }) => {
                 ))} */}
                 {/* {Object.entries(features).length === 0 ? "loading..." : JSON.stringify(features[Object.keys(features)[value]])} */}
 
-                <Button variant="contained" color="secondary">New</Button>
+                <Button variant="contained" color="secondary" onClick={handleNew}>New</Button>
                 <Button>Delete</Button>
                 <Button>Graph</Button>
                 <Button>Percent</Button>
@@ -84,10 +95,10 @@ const FeatureLists = ({ features }) => {
 
 
                 {
-                    Object.entries(features).length === 0 ? "loading..." :
-                        features[Object.keys(features)[value]]["bintype"] === "math" ? (
+                    Object.entries(f).length === 0 ? "loading..." :
+                        f[featureNames[value]]["bintype"] === "math" ? (
                             Object
-                                .keys(features[Object.keys(features)[value]]["bin"])
+                                .keys(f[featureNames[value]]["bin"])
                                 .sort(sortMathIntervalBin)
                                 .map((item, index) => (
                                     // item => "(-inf,100]" or (0, 20)
@@ -95,8 +106,8 @@ const FeatureLists = ({ features }) => {
                                         className={classes.binsetter}
                                         key={item + "-" + index}
                                         express={item}
-                                        binscore={features[Object.keys(features)[value]]["bin"][item]}
-                                        minmax={getMinMax(features[Object.keys(features)[value]]["bin"])} />
+                                        binscore={f[featureNames[value]]["bin"][item]}
+                                        minmax={getMinMax(f[featureNames[value]]["bin"]).bounds} />
                                 ))
                         ) : "aaaaaaa"
                 }

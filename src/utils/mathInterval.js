@@ -69,11 +69,16 @@ export const getMinMax = (bin) => {
     let param = 0.5
     let all = []
     Object.keys(bin).forEach((item, index) => {
-        all = all.concat(expressToNumber(item, false))
+        all = all.concat(expressToNumber(item, false)) // without inf
     })
     let max = Math.max.apply(Math, all)
     let min = Math.min.apply(Math, all)
-    console.log(min, max)
-    console.log(min - ((max - min) * 0.5 * 0.5))
-    return [Math.round((min - ((max - min) * param * 0.5)) * 1e2) / 1e2, Math.round((max + ((max - min) * param * 0.5)) * 1e2) / 1e2]
+    // console.log(min, max)
+    // console.log(min - ((max - min) * 0.5 * 0.5))
+    return {
+        bounds: [
+            Math.round((min - ((max - min) * param * 0.5)) * 1e2) / 1e2,
+            Math.round((max + ((max - min) * param * 0.5)) * 1e2) / 1e2],
+        origin: [min, max]
+    }
 }
