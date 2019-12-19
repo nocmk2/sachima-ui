@@ -63,7 +63,7 @@ const FeatureLists = ({ features }) => {
                     <Tab label={item} key={item} index={item} {...a11yProps(index)} />
                 ))}
             </Tabs>
-            <FeatureDetail value={value} index={value} >
+            <FeatureDetail index={value} >
                 <GroupSelect value={Object.keys(features)[value]} features={features} onSelect={handleSelectChange} />
 
                 {/* {value} -> {Object.keys(features)[value]} */}
@@ -90,7 +90,7 @@ const FeatureLists = ({ features }) => {
                                 .keys(features[Object.keys(features)[value]]["bin"])
                                 .sort(sortMathIntervalBin)
                                 .map((item, index) => (
-                                    // item => "(-inf,100]" (0, 20)
+                                    // item => "(-inf,100]" or (0, 20)
                                     <BinSetter
                                         className={classes.binsetter}
                                         key={item + "-" + index}
