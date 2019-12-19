@@ -12,7 +12,12 @@ import { maxWidth } from '@material-ui/system';
 import GroupSelect from "./GroupSelect"
 import { sortMathIntervalBin, getMinMax } from '../utils/mathInterval';
 import Grid from '@material-ui/core/Grid';
+import Switch from '@material-ui/core/Switch';
 import DeleteForever from "@material-ui/icons/DeleteForever"
+import TabUnselected from "@material-ui/icons/TabUnselected"
+import DeleteSweep from "@material-ui/icons/DeleteSweep"
+
+
 
 
 function a11yProps(index) {
@@ -61,7 +66,7 @@ const FeatureLists = ({ features }) => {
     const [value, setValue] = React.useState(0); // default feature list being selected
     const [{ sachima, user, message }, dispatch] = useStateValue();
     const [f, setF] = React.useState(features)
-    const [isdel, setIsDelete] = React.useState(true)
+    const [isdel, setIsDelete] = React.useState(false)
 
     const featureNames = Object.keys(f)
 
@@ -81,9 +86,16 @@ const FeatureLists = ({ features }) => {
         dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️注意修改后请保存, 刷新页面会丢失修改" } })
     }
 
-    const handleDelete = () => {
+    const toggleDelete = () => {
         setIsDelete(!isdel)
         // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️注意修改后请保存, 刷新页面会丢失修改" } })
+    }
+
+    const handleBinDel = (key) => {
+        var bin = f[featureNames[value]]["bin"]
+        delete bin[key]
+        // setIsDelete(!isdel)
+        dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️注意修改后请保存, 刷新页面会丢失修改" } })
     }
 
     return (
@@ -110,7 +122,6 @@ const FeatureLists = ({ features }) => {
                 {/* {Object.entries(features).length === 0 ? "loading..." : JSON.stringify(features[Object.keys(features)[value]])} */}
                 <div className={classes.buttons}>
                     <Button variant="contained" color="secondary" onClick={handleNew}>New</Button>
-                    <Button onClick={handleDelete}>Delete</Button>
                     <Button>Graph</Button>
                     <Button>Percent</Button>
                     <Button>Catalog</Button>
@@ -118,6 +129,17 @@ const FeatureLists = ({ features }) => {
                     <Button>Bintype</Button>
                     <Button>Default</Button>
                     <Button>Pre</Button>
+                    <Button
+                        onClick={toggleDelete}
+                        startIcon={isdel ? <TabUnselected /> : <DeleteSweep />}
+                        variant={isdel ? "outlined" : ""}
+                        color={isdel ? "secondary" : ""}
+                    >
+                        Delete
+                    </Button>
+                    {/* <DeleteForever></DeleteForever> */}
+                    {/* <Switch size="small" checked={isdel} checkedIcon={<DeleteForever></DeleteForever>} edge="start" onChange={toggleDelete} /> */}
+
                 </div>
 
 
@@ -140,7 +162,13 @@ const FeatureLists = ({ features }) => {
                                                     minmax={getMinMax(f[featureNames[value]]["bin"]).bounds} />
                                             </Grid>
                                             {isdel ? (
-                                                <Button key={"delbtn-" + index} hidden={true} className={classes.delbtn}><DeleteForever color="secondary" /></Button>
+                                                <Button
+                                                    key={"delbtn-" + index}
+                                                    className={classes.delbtn}
+                                                    onClick={() => handleBinDel(item)}
+                                                >
+                                                    <DeleteForever color="secondary" />
+                                                </Button>
                                             )
                                                 : ""
                                             }
@@ -150,7 +178,7 @@ const FeatureLists = ({ features }) => {
                         ) : "aaaaaaa"
                 }
                 {/* {value ? "loading" : JSON.stringify(Object.keys(features[Object.keys(features)[value]]["bin"]))} */}
-                {/* <Button variant="contained" color="primary">Save</Button> */}
+                <Button variant="contained" color="primary">Save</Button>
             </FeatureDetail >
         </div >
     );
