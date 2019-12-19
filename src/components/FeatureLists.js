@@ -131,13 +131,6 @@ const FeatureLists = ({ features }) => {
                                     // item => "(-inf,100]" or (0, 20)
                                     <Paper key={"freg-" + index} className={classes.binpaper}>
                                         <Grid container spacing={3}>
-                                            {isdel ? (
-                                                <Grid item xs={1}>
-                                                    <Button key={"delbtn-" + index} hidden={true} className={classes.delbtn}><DeleteForever color="secondary" /></Button>
-                                                </Grid>
-                                            )
-                                                : ""
-                                            }
                                             <Grid item>
                                                 <BinSetter
                                                     className={classes.binsetter}
@@ -146,6 +139,11 @@ const FeatureLists = ({ features }) => {
                                                     binscore={f[featureNames[value]]["bin"][item]}
                                                     minmax={getMinMax(f[featureNames[value]]["bin"]).bounds} />
                                             </Grid>
+                                            {isdel ? (
+                                                <Button key={"delbtn-" + index} hidden={true} className={classes.delbtn}><DeleteForever color="secondary" /></Button>
+                                            )
+                                                : ""
+                                            }
                                         </Grid>
                                     </Paper>
                                 ))
