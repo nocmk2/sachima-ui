@@ -13,12 +13,15 @@ import GroupSelect from "./GroupSelect"
 import { sortMathIntervalBin, getMinMax } from '../utils/mathInterval';
 import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
-import DeleteForever from "@material-ui/icons/DeleteForever"
-import TabUnselected from "@material-ui/icons/TabUnselected"
-import DeleteSweep from "@material-ui/icons/DeleteSweep"
-
-
-
+import DeleteForever from "@material-ui/icons/DeleteForever";
+import TabUnselected from "@material-ui/icons/TabUnselected";
+import DeleteSweep from "@material-ui/icons/DeleteSweep";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import Functions from '@material-ui/icons/Functions';
+import Equalizer from "@material-ui/icons/Equalizer";
+import OpacityIcon from '@material-ui/icons/Opacity';
+import AttachFileRoundedIcon from '@material-ui/icons/AttachFileRounded';
+import GavelRoundedIcon from '@material-ui/icons/GavelRounded';
 
 function a11yProps(index) {
     return {
@@ -121,14 +124,14 @@ const FeatureLists = ({ features }) => {
                 ))} */}
                 {/* {Object.entries(features).length === 0 ? "loading..." : JSON.stringify(features[Object.keys(features)[value]])} */}
                 <div className={classes.buttons}>
-                    <Button variant="contained" color="secondary" onClick={handleNew}>New</Button>
-                    <Button>Graph</Button>
-                    <Button>Percent</Button>
-                    <Button>Catalog</Button>
-                    <Button>Weight</Button>
-                    <Button>Bintype</Button>
-                    <Button>Default</Button>
-                    <Button>Pre</Button>
+                    <Button startIcon={<AddCircleOutlineIcon />} variant="contained" color="secondary" onClick={handleNew}>New</Button>
+                    <Button startIcon={<GavelRoundedIcon />}>Default</Button>
+                    <Button startIcon={<AttachFileRoundedIcon />}>Pre</Button>
+                    {/* <Button>Percent</Button> */}
+                    <Button startIcon={<OpacityIcon />}>Catalog</Button>
+                    {/* <Button>Weight</Button> */}
+                    <Button startIcon={<Functions />}>Bintype</Button>
+                    <Button startIcon={<Equalizer />}>Graph</Button>
                     <Button
                         onClick={toggleDelete}
                         startIcon={isdel ? <TabUnselected /> : <DeleteSweep />}

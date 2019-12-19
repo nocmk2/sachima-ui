@@ -5,7 +5,7 @@ import { useStateValue } from "../utils/state"
 // import SendMessage from "../utils/message"
 import FeatureLists from "./FeatureLists"
 import * as API from "../apis/api"
-
+import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 
 const Now = () => {
   return Math.floor(Date.now() / 1000)
@@ -19,7 +19,7 @@ const Rules = () => {
   return (
     <>
       <Button
-        variant="contained"
+        // variant="contained"
         onClick={() => {
           dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "hahah" } })
         }}>message</Button>
@@ -48,12 +48,13 @@ const Rules = () => {
         test private api {isLoading && "loading..."}
       </Button> */}
       <Button
-        variant="contained"
+        // variant="contained"
+        startIcon={<RefreshRoundedIcon />}
         onClick={() => {
           get(`${sachima.url}/sachima/features?time=${Now()}`);
         }}
       >
-        配置规则 {isLoading && "loading..."}
+        {isLoading && "loading..."}
       </Button>
       {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features["1PD7_pct"]["bintype"]) : "b"}</div> */}
       {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features) : "b"}</div> */}
