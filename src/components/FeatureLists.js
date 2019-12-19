@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
+import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Tab from '@material-ui/core/Tab';
 import FeatureDetail from "./FeatureDetail";
@@ -10,6 +11,8 @@ import BinSetter from "./BinSetter"
 import { maxWidth } from '@material-ui/system';
 import GroupSelect from "./GroupSelect"
 import { sortMathIntervalBin, getMinMax } from '../utils/mathInterval';
+import Grid from '@material-ui/core/Grid';
+import DeleteForever from "@material-ui/icons/DeleteForever"
 
 
 function a11yProps(index) {
@@ -32,7 +35,25 @@ const useStyles = makeStyles(theme => ({
     },
     binsetter: {
         width: maxWidth
+    },
+    buttons: {
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
+    binpaper: {
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
+    delbtn: {
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+        // position: "absolute",
+        // margin: "auto"
     }
+
 }));
 
 const FeatureLists = ({ features }) => {
@@ -40,6 +61,7 @@ const FeatureLists = ({ features }) => {
     const [value, setValue] = React.useState(0); // default feature list being selected
     const [{ sachima, user, message }, dispatch] = useStateValue();
     const [f, setF] = React.useState(features)
+    const [isdel, setIsDelete] = React.useState(true)
 
     const featureNames = Object.keys(f)
 
@@ -55,9 +77,13 @@ const FeatureLists = ({ features }) => {
     const handleNew = () => {
         var bin = f[featureNames[value]]["bin"]
         var m = getMinMax(bin).origin[1]
-        console.log("m=======" + m)
         bin[`[${(m + 0.1).toFixed(2)},inf)`] = 99
-        dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️修改后请保存, 刷新页面会丢失修改" } })
+        dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️注意修改后请保存, 刷新页面会丢失修改" } })
+    }
+
+    const handleDelete = () => {
+        setIsDelete(!isdel)
+        // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️注意修改后请保存, 刷新页面会丢失修改" } })
     }
 
     return (
@@ -82,16 +108,17 @@ const FeatureLists = ({ features }) => {
                     <BinSetter data={} />
                 ))} */}
                 {/* {Object.entries(features).length === 0 ? "loading..." : JSON.stringify(features[Object.keys(features)[value]])} */}
-
-                <Button variant="contained" color="secondary" onClick={handleNew}>New</Button>
-                <Button>Delete</Button>
-                <Button>Graph</Button>
-                <Button>Percent</Button>
-                <Button>Catalog</Button>
-                <Button>Weight</Button>
-                <Button>Bintype</Button>
-                <Button>Default</Button>
-                <Button>Pre</Button>
+                <div className={classes.buttons}>
+                    <Button variant="contained" color="secondary" onClick={handleNew}>New</Button>
+                    <Button onClick={handleDelete}>Delete</Button>
+                    <Button>Graph</Button>
+                    <Button>Percent</Button>
+                    <Button>Catalog</Button>
+                    <Button>Weight</Button>
+                    <Button>Bintype</Button>
+                    <Button>Default</Button>
+                    <Button>Pre</Button>
+                </div>
 
 
                 {
@@ -102,17 +129,30 @@ const FeatureLists = ({ features }) => {
                                 .sort(sortMathIntervalBin)
                                 .map((item, index) => (
                                     // item => "(-inf,100]" or (0, 20)
-                                    <BinSetter
-                                        className={classes.binsetter}
-                                        key={item + "-" + index}
-                                        express={item}
-                                        binscore={f[featureNames[value]]["bin"][item]}
-                                        minmax={getMinMax(f[featureNames[value]]["bin"]).bounds} />
+                                    <Paper key={"freg-" + index} className={classes.binpaper}>
+                                        <Grid container spacing={3}>
+                                            {isdel ? (
+                                                <Grid item xs={1}>
+                                                    <Button key={"delbtn-" + index} hidden={true} className={classes.delbtn}><DeleteForever color="secondary" /></Button>
+                                                </Grid>
+                                            )
+                                                : ""
+                                            }
+                                            <Grid item>
+                                                <BinSetter
+                                                    className={classes.binsetter}
+                                                    key={item + "-" + index}
+                                                    express={item}
+                                                    binscore={f[featureNames[value]]["bin"][item]}
+                                                    minmax={getMinMax(f[featureNames[value]]["bin"]).bounds} />
+                                            </Grid>
+                                        </Grid>
+                                    </Paper>
                                 ))
                         ) : "aaaaaaa"
                 }
                 {/* {value ? "loading" : JSON.stringify(Object.keys(features[Object.keys(features)[value]]["bin"]))} */}
-                <Button variant="contained" color="primary">Save</Button>
+                {/* <Button variant="contained" color="primary">Save</Button> */}
             </FeatureDetail >
         </div >
     );
