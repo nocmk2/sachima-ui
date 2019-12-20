@@ -320,6 +320,7 @@ const BinSetter = ({ express, binscore, minmax }) => {
                             // className={classes.input}
                             label={inf === 1 ? "+inf" : (rightbound === "]" ? "≤" : "<")}
                             value={typeof value === "object" ? value[1] : (inf === 1 ? "" : value)}
+                            error={inputerror}
                             // margin="dense"
                             // multiline={true}
                             disabled={inf === 1 ? true : false}

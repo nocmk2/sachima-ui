@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Tab from '@material-ui/core/Tab';
 import FeatureDetail from "./FeatureDetail";
@@ -21,8 +22,12 @@ import OpacityIcon from '@material-ui/icons/Opacity';
 import AttachFileRoundedIcon from '@material-ui/icons/AttachFileRounded';
 import GavelRoundedIcon from '@material-ui/icons/GavelRounded';
 import CloudUpload from '@material-ui/icons/CloudUpload';
-
-
+import FlashAutoIcon from '@material-ui/icons/FlashAuto';
+import IconButton from '@material-ui/core/IconButton';
+import Style from '@material-ui/icons/Style';
+import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 
 function a11yProps(index) {
     return {
@@ -38,6 +43,8 @@ const FeatureLists = ({ features }) => {
     const [f, setF] = React.useState(features)
     const [isdel, setIsDelete] = React.useState(false)
     const [height, setHeight] = React.useState(800)
+    const [featureAddButtonColor, setFeatureAddButtonColor] = React.useState("default")
+    const [isedit, setIsEdit] = React.useState(false)
 
     const useStyles = makeStyles(theme => ({
         root: {
@@ -76,6 +83,18 @@ const FeatureLists = ({ features }) => {
     const classes = useStyles();
     const featureNames = Object.keys(f)
 
+
+    const handleFeatureAdd = () => {
+        setIsEdit(!isedit)
+    }
+
+    const toggleFeatureAddButtonColor = () => {
+        if (isedit) {
+            setFeatureAddButtonColor("secondary")
+        } else {
+            setFeatureAddButtonColor(featureAddButtonColor === "default" ? "secondary" : "default")
+        }
+    }
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
@@ -129,7 +148,35 @@ const FeatureLists = ({ features }) => {
                 ))}
             </Tabs>
             <FeatureDetail value={value} index={value} >
-                <GroupSelect value={featureNames[value]} features={features} onSelect={handleSelectChange} />
+                <Grid container>
+                    <Grid item>
+                        {/* <Button variant="outlined" className={classes.delbtn}>+</Button> */}
+                        <IconButton
+                            onMouseEnter={toggleFeatureAddButtonColor}
+                            onMouseLeave={toggleFeatureAddButtonColor}
+                            onClick={handleFeatureAdd}
+                            className={classes.delbtn}
+                            size="small"
+                            color={featureAddButtonColor}
+                            aria-label="upload picture"
+                            component="span">
+                            {
+                                // (isedit ? <CreateOutlinedIcon /> : <Style />)
+                                (isedit ? <LockOpenOutlinedIcon /> : <LockOutlinedIcon />)
+                            }
+                        </IconButton>
+                    </Grid>
+                    <Grid item>
+                        {isedit ?
+                            <>
+                                <TextField label="desc" value={f[featureNames[value]]["name"]} features={features} />
+                                <TextField label="feature" value={featureNames[value]} features={features} />
+                            </>
+                            :
+                            <GroupSelect value={featureNames[value]} features={features} onSelect={handleSelectChange} />
+                        }
+                    </Grid>
+                </Grid>
 
                 {/* {value} -> {Object.keys(features)[value]} */}
                 {/* {features[Object.keys(features)[value]].bin.map((item, index) => (
@@ -145,6 +192,7 @@ const FeatureLists = ({ features }) => {
                     {/* <Button>Weight</Button> */}
                     <Button startIcon={<Functions />}>Bintype</Button>
                     <Button startIcon={<Equalizer />}>Graph</Button>
+                    <Button startIcon={<FlashAutoIcon />}>Auto</Button>
                     <Button
                         onClick={toggleDelete}
                         startIcon={isdel ? <TabUnselected /> : <DeleteSweep />}
