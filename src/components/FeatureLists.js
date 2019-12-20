@@ -33,47 +33,49 @@ function a11yProps(index) {
     };
 }
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-        display: 'flex',
-        height: 800,
-        width: maxWidth,
-    },
-    tabs: {
-        borderRight: `1px solid ${theme.palette.divider}`,
-    },
-    binsetter: {
-        width: maxWidth
-    },
-    buttons: {
-        '& > *': {
-            margin: theme.spacing(1),
-        },
-    },
-    binpaper: {
-        '& > *': {
-            margin: theme.spacing(1),
-        },
-    },
-    delbtn: {
-        '& > *': {
-            margin: theme.spacing(1),
-        },
-        // position: "absolute",
-        // margin: "auto"
-    }
-
-}));
 
 const FeatureLists = ({ features }) => {
-    const classes = useStyles();
     const [value, setValue] = React.useState(0); // default feature list being selected
     const [{ sachima, user, message }, dispatch] = useStateValue();
     const [f, setF] = React.useState(features)
     const [isdel, setIsDelete] = React.useState(false)
+    const [height, setHeight] = React.useState(800)
 
+    const useStyles = makeStyles(theme => ({
+        root: {
+            flexGrow: 1,
+            backgroundColor: theme.palette.background.paper,
+            display: 'flex',
+            height: height,
+            width: maxWidth,
+        },
+        tabs: {
+            borderRight: `1px solid ${theme.palette.divider}`,
+        },
+        binsetter: {
+            width: maxWidth
+        },
+        buttons: {
+            '& > *': {
+                margin: theme.spacing(1),
+            },
+        },
+        binpaper: {
+            '& > *': {
+                margin: theme.spacing(1),
+            },
+        },
+        delbtn: {
+            '& > *': {
+                margin: theme.spacing(1),
+            },
+            // position: "absolute",
+            // margin: "auto"
+        }
+
+    }));
+
+    const classes = useStyles();
     const featureNames = Object.keys(f)
 
     const handleTabChange = (event, newValue) => {
@@ -91,6 +93,9 @@ const FeatureLists = ({ features }) => {
         console.log(m)
         bin[`[${(m + 0.1).toFixed(2)},inf)`] = 99
         dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️注意修改后请保存, 刷新页面会丢失修改" } })
+        if (Object.keys(bin).length > 8) {
+            setHeight(height + 100)
+        }
     }
 
     const toggleDelete = () => {
