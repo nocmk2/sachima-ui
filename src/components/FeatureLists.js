@@ -76,6 +76,7 @@ const FeatureLists = ({ features }) => {
     const classes = useStyles();
     const featureNames = Object.keys(f)
 
+
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -86,11 +87,12 @@ const FeatureLists = ({ features }) => {
     };
 
     const handleNew = () => {
-        var bin = f[featureNames[value]]["bin"]
+        var temp = Object.assign({}, f)
+        var bin = temp[featureNames[value]]["bin"]
         var m = getMinMax(bin).origin[1] // eg: [1,9)  m = 9  origin[0] = 1
-        console.log(m)
         bin[`[${(m + 0.1).toFixed(2)},inf)`] = 99
-        dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️注意修改后请保存, 刷新页面会丢失修改" } })
+        setF(temp)
+        // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️注意修改后请保存, 刷新页面会丢失修改" } })
         if (Object.keys(bin).length > 8) {
             setHeight(height + 100)
         }
@@ -102,14 +104,16 @@ const FeatureLists = ({ features }) => {
     }
 
     const handleBinDel = (key) => {
-        var bin = f[featureNames[value]]["bin"]
-        console.log(Object.keys(bin).length)
+        var temp = Object.assign({}, f)
+        var bin = temp[featureNames[value]]["bin"]
+        // console.log(Object.keys(bin).length)
         if (Object.keys(bin).length > 1) {
             delete bin[key]
-            dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "✅删除成功" } })
+            // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "✅删除成功" } })
         } else {
             dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️最后一条规则不能删除" } })
         }
+        setF(temp)
     }
 
     return (
