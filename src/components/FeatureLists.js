@@ -92,7 +92,6 @@ const FeatureLists = ({ features }) => {
         var m = getMinMax(bin).origin[1] // eg: [1,9)  m = 9  origin[0] = 1
         bin[`[${(m + 0.1).toFixed(2)},inf)`] = 99
         setF(temp)
-        // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️注意修改后请保存, 刷新页面会丢失修改" } })
         if (Object.keys(bin).length > 8) {
             setHeight(height + 100)
         }
@@ -100,7 +99,6 @@ const FeatureLists = ({ features }) => {
 
     const toggleDelete = () => {
         setIsDelete(!isdel)
-        // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️注意修改后请保存, 刷新页面会丢失修改" } })
     }
 
     const handleBinDel = (key) => {
