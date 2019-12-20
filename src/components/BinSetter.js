@@ -97,7 +97,14 @@ const BinSetter = ({ express, binscore, minmax }) => {
     const [min, setMin] = React.useState(minmax[0])
     const [max, setMax] = React.useState(minmax[1])
     const [his, setHis] = React.useState(initValue.his)
+    const [inputerror, setInputError] = React.useState(false)
     // const [marks, setMarks] = React.useState([])
+
+    React.useEffect(() => {
+        if (value[0] > value[1]) {
+            setInputError(true)
+        }
+    }, [value])
 
 
 
@@ -133,7 +140,7 @@ const BinSetter = ({ express, binscore, minmax }) => {
         const scaleSlider = () => {
             // getMarks()
             if (leftValue() <= min) {
-                setMin(leftValue() - 20)
+                setMin(leftValue() - 20) // if value is huge 20 should be greater
             }
 
             if (rightValue() >= max) {
@@ -165,7 +172,7 @@ const BinSetter = ({ express, binscore, minmax }) => {
                 setValue(his) // 恢复原来的value状态
                 break
         }
-        console.log(value)
+        // console.log(value)
     }
 
     const handleMaxInfChange = () => {
@@ -200,43 +207,34 @@ const BinSetter = ({ express, binscore, minmax }) => {
     }
 
     const handleLeftInputChange = event => {
-        if (Number(event.target.value) < value[1]) {
-            setValue([Number(event.target.value), value[1]])
-        }
+        setInputError(false)
         if (inf !== 0) {
             setValue(Number(event.target.value))
+            return
         }
+        setValue([Number(event.target.value), value[1]])
     }
 
     const handleRightInputChange = event => {
-        if (value[0] < Number(event.target.value)) {
-            setValue([value[0], Number(event.target.value)])
-        }
+        setInputError(false)
         if (inf !== 0) {
             setValue(Number(event.target.value))
+            return
         }
+        setValue([value[0], Number(event.target.value)])
     }
 
-
-    // const disableLeftInput = () => {
-
+    // const handleLeftInputBlur = event => {
+    //     if (value[0] >= value[1]) {
+    //         setValue([value[1] - 1, value[1]])
+    //     }
     // }
 
-    // const disableInput = () => {
-
+    // const handleRightInputBlur = event => {
+    //     if (value[1] <= value[0]) {
+    //         setValue([value[0], value[0] + 1])
+    //     }
     // }
-
-    const handleLeftInputBlur = event => {
-        if (value[0] >= value[1]) {
-            setValue([value[1] - 1, value[1]])
-        }
-    }
-
-    const handleRightInputBlur = event => {
-        if (value[1] <= value[0]) {
-            setValue([value[0], value[0] + 1])
-        }
-    }
 
 
     return (
@@ -300,10 +298,11 @@ const BinSetter = ({ express, binscore, minmax }) => {
                             value={typeof value === "object" ? value[0] : (inf === -1 ? "" : value)}
                             label={inf === -1 ? "-inf" : (leftbound === "[" ? "≥" : ">")}
                             disabled={inf === -1 ? true : false}
+                            error={inputerror}
                             // margin="dense"
                             // multiline={true}
                             onChange={handleLeftInputChange}
-                            onBlur={handleLeftInputBlur}
+                            // onBlur={handleLeftInputBlur}
                             inputProps={{
                                 step: 1,
                                 min: min,
@@ -325,7 +324,7 @@ const BinSetter = ({ express, binscore, minmax }) => {
                             // multiline={true}
                             disabled={inf === 1 ? true : false}
                             onChange={handleRightInputChange}
-                            onBlur={handleRightInputBlur}
+                            // onBlur={handleRightInputBlur}
                             inputProps={{
                                 step: 1,
                                 min: min,

@@ -93,7 +93,7 @@ const FeatureLists = ({ features }) => {
         bin[`[${(m + 0.1).toFixed(2)},inf)`] = 99
         setF(temp)
         if (Object.keys(bin).length > 8) {
-            setHeight(height + 100)
+            setHeight(height + 86)
         }
     }
 
