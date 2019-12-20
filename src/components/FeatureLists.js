@@ -5,14 +5,12 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Tab from '@material-ui/core/Tab';
 import FeatureDetail from "./FeatureDetail";
-import axios from "axios";
 import { useStateValue } from "../utils/state"
 import BinSetter from "./BinSetter"
 import { maxWidth } from '@material-ui/system';
 import GroupSelect from "./GroupSelect"
 import { sortMathIntervalBin, getMinMax } from '../utils/mathInterval';
 import Grid from '@material-ui/core/Grid';
-import Switch from '@material-ui/core/Switch';
 import DeleteForever from "@material-ui/icons/DeleteForever";
 import TabUnselected from "@material-ui/icons/TabUnselected";
 import DeleteSweep from "@material-ui/icons/DeleteSweep";
@@ -36,7 +34,7 @@ function a11yProps(index) {
 
 const FeatureLists = ({ features }) => {
     const [value, setValue] = React.useState(0); // default feature list being selected
-    const [{ sachima, user, message }, dispatch] = useStateValue();
+    const [, dispatch] = useStateValue();
     const [f, setF] = React.useState(features)
     const [isdel, setIsDelete] = React.useState(false)
     const [height, setHeight] = React.useState(800)

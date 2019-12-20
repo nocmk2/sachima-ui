@@ -54,8 +54,8 @@ export const useDataApi = (initialURL, initialData) => {
         fetchData();
     }, [url]);
 
-    console.log("--------api called--------")
-    console.log(data)
+    // console.log("--------api called--------")
+    // console.log(data)
     return [{ data, isLoading }, setUrl]
 
 }

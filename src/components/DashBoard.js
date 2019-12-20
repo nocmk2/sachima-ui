@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { TextField } from "@material-ui/core";
-import GridList from "@material-ui/core/GridList";
-import Big from 'big.js';
-
 
 const fib = (num) => {
   let res = [1, 1]

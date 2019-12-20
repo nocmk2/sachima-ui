@@ -1,20 +1,14 @@
 import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-// import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
-import Button from "@material-ui/core/Button";
 import AllInclusive from "@material-ui/icons/AllInclusive";
 import Remove from "@material-ui/icons/Remove";
 import MenuItem from '@material-ui/core/MenuItem';
 import Add from "@material-ui/icons/Add";
-// import Checkbox from '@material-ui/core/Checkbox';
 import Select from '@material-ui/core/Select';
-// import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
-// import { maxWidth } from '@material-ui/system';
-// import FilledInput from '@material-ui/core/FilledInput';
 import { getMathInterval } from "../utils/mathInterval"
 
 const PrettoSlider = withStyles({
@@ -103,23 +97,23 @@ const BinSetter = ({ express, binscore, minmax }) => {
     const [min, setMin] = React.useState(minmax[0])
     const [max, setMax] = React.useState(minmax[1])
     const [his, setHis] = React.useState(initValue.his)
-    const [marks, setMarks] = React.useState([])
+    // const [marks, setMarks] = React.useState([])
 
 
 
     React.useEffect(() => {
-        const getMarks = () => {
-            if (typeof value === "object") {
-                setMarks([
-                    { key: 1, value: value[0], label: `${value[0]}` },
-                    { key: 2, value: value[1], label: `${value[1]}` },
-                ])
-            } else if (typeof value === "number") {
-                setMarks([
-                    { key: 1, value: value, label: `${value}` },
-                ])
-            }
-        }
+        // const getMarks = () => {
+        //     if (typeof value === "object") {
+        //         setMarks([
+        //             { key: 1, value: value[0], label: `${value[0]}` },
+        //             { key: 2, value: value[1], label: `${value[1]}` },
+        //         ])
+        //     } else if (typeof value === "number") {
+        //         setMarks([
+        //             { key: 1, value: value, label: `${value}` },
+        //         ])
+        //     }
+        // }
 
         const leftValue = () => {
             if (typeof value === "object") {
@@ -137,7 +131,7 @@ const BinSetter = ({ express, binscore, minmax }) => {
             }
         }
         const scaleSlider = () => {
-            getMarks()
+            // getMarks()
             if (leftValue() <= min) {
                 setMin(leftValue() - 20)
             }
@@ -147,7 +141,7 @@ const BinSetter = ({ express, binscore, minmax }) => {
             }
         }
         scaleSlider()
-    }, [value])
+    }, [value, min, max])
 
 
     const handleChange = (event, newValue) => {
