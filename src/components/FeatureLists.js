@@ -45,6 +45,7 @@ const FeatureLists = ({ features }) => {
     const [height, setHeight] = React.useState(800)
     const [featureAddButtonColor, setFeatureAddButtonColor] = React.useState("default")
     const [isedit, setIsEdit] = React.useState(false)
+    const [minmax, setMinmax] = React.useState([])
 
     const useStyles = makeStyles(theme => ({
         root: {
@@ -79,6 +80,10 @@ const FeatureLists = ({ features }) => {
         }
 
     }));
+
+    React.useEffect(() => {
+        console.log(f)
+    }, [f])
 
     const classes = useStyles();
     const featureNames = Object.keys(f)
