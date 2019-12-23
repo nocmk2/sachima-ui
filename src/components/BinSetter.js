@@ -83,7 +83,7 @@ function valuetext(value) {
 }
 
 
-const BinSetter = ({ express, binscore, minmax }) => {
+const BinSetter = ({ express, binscore, minmax, onChange }) => {
     const initValue = React.useMemo(
         () => getMathInterval(express),  // [-inf,1.0)
         [express] // ✅ Don’t recalculate until `express` changes
@@ -196,6 +196,7 @@ const BinSetter = ({ express, binscore, minmax }) => {
 
     const handleScoreChange = event => {
         setScore(event.target.value)
+        onChange({ "[-inf,1.6)": Number(event.target.value) })  // onChange mock TODO: onChange every change
     }
 
     const handleRightboundChange = event => {

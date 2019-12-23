@@ -138,6 +138,18 @@ const FeatureLists = ({ features }) => {
         setF(temp)
     }
 
+    const handleBinChange = newData => {
+        var temp = Object.assign({}, f)
+        var bin = temp[featureNames[value]]["bin"]
+        var newbin = { ...bin, ...newData }
+        console.log('bin', bin)
+        console.log('newData', newData)
+        console.log('newbin', newbin)
+        temp[featureNames[value]]["bin"] = newbin
+        setF(temp)
+        console.log(temp)
+    }
+
     return (
         <div className={classes.root}>
             <Tabs
@@ -228,7 +240,9 @@ const FeatureLists = ({ features }) => {
                                                     key={item + "-" + index}
                                                     express={item}
                                                     binscore={f[featureNames[value]]["bin"][item]}
-                                                    minmax={getMinMax(f[featureNames[value]]["bin"]).bounds} />
+                                                    minmax={getMinMax(f[featureNames[value]]["bin"]).bounds}
+                                                    onChange={handleBinChange} //{"[-inf,1.6)": 23}
+                                                />
                                             </Grid>
                                             {isdel ? (
                                                 <Button
