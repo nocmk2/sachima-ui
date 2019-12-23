@@ -10,6 +10,7 @@ import Add from "@material-ui/icons/Add";
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import { getMathInterval } from "../utils/mathInterval"
+import { useDidUpdateEffect } from "../utils/tools"
 
 const PrettoSlider = withStyles({
     root: props => ({
@@ -106,16 +107,6 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
         }
     }, [value])
 
-    function useDidUpdateEffect(fn, inputs) {
-        const didMountRef = React.useRef(false);
-
-        React.useEffect(() => {
-            if (didMountRef.current)
-                fn();
-            else
-                didMountRef.current = true;
-        }, inputs);
-    }
 
     useDidUpdateEffect(() => {
         var ex = constructExpress()
