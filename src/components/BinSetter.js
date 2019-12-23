@@ -106,8 +106,18 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
         }
     }, [value])
 
+    function useDidUpdateEffect(fn, inputs) {
+        const didMountRef = React.useRef(false);
 
-    React.useEffect(() => {
+        React.useEffect(() => {
+            if (didMountRef.current)
+                fn();
+            else
+                didMountRef.current = true;
+        }, inputs);
+    }
+
+    useDidUpdateEffect(() => {
         var ex = constructExpress()
         onChange({
             [ex]: score

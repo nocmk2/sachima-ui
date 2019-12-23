@@ -149,50 +149,22 @@ const FeatureLists = ({ features }) => {
     }
 
     const handleBinChange = (item, inchange) => {
-        //     [4.7, inf)
-        //         FeatureLists.js: 153 { [4.7, inf): - 66}
-        // FeatureLists.js: 154 { }
-        console.log(item)
-        console.log(inchange)
-        console.log(newData)
         setNewData({ ...newData, ...{ [item]: inchange } })
-        // console.log('item', item)
-        // console.log('newData', newData)
-        // var temp = Object.assign({}, f)
-        // var bin = temp[featureNames[value]]["bin"]
-        // delete bin[item]
-        // var newbin = { ...bin, ...newData }
-        // // console.log('bin', bin)
-        // // console.log('newData', newData)
-        // // console.log('newbin', newbin)
-        // temp[featureNames[value]]["bin"] = newbin
-        // setF(temp)
-        // console.log(temp)
-        // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️最后一条规则不能删除" } })
     }
 
     const handleSave = () => {
-        // delete f[featureNames[value]]["bin"][newData[0]]
-        // // console.log('bin', bin)
-        // // console.log('newData', newData)
-        // // console.log('newbin', newbin)
-        // f[featureNames[value]]["bin"] = { ...f[featureNames[value]]["bin"], ...newData[1] }
-
         for (const n in newData) { // n: needupdatekey
-            // newData[n]
             var item = n
             var newD = newData[n]
             var temp = Object.assign({}, f)
             var bin = temp[featureNames[value]]["bin"]
             delete bin[item]
             var newbin = { ...bin, ...newD }
-            // console.log('bin', bin)
-            // console.log('newData', newData)
-            // console.log('newbin', newbin)
             temp[featureNames[value]]["bin"] = newbin
             setF(temp)
         }
-        // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "保存成功" } })
+        setNewData({})
+        dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "保存成功" } })
     }
 
     return (
@@ -313,7 +285,7 @@ const FeatureLists = ({ features }) => {
                 >Save</Button>
             </FeatureDetail >
             <div>{JSON.stringify(newData)}</div>
-            <div>{JSON.stringify(f)}</div>
+            {/* <div>{JSON.stringify(f)}</div> */}
         </div >
     );
 }
