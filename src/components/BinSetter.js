@@ -107,6 +107,12 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
     }, [value])
 
 
+    React.useEffect(() => {
+        var ex = constructExpress()
+        onChange({
+            [ex]: score
+        })
+    }, [value, score, leftbound, rightbound])
 
     React.useEffect(() => {
         // const getMarks = () => {
@@ -147,8 +153,10 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
                 setMax(rightValue() + 20)
             }
         }
+
         scaleSlider()
-    }, [value, min, max])
+
+    }, [value, min, max, score])
 
 
     const handleChange = (event, newValue) => {
@@ -194,9 +202,26 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
         }
     }
 
+    const constructExpress = () => {
+        var res = ""
+        res += leftbound
+        if (inf === -1) {
+            res += "-inf"
+            res += ","
+            res += value
+        } else if (inf === 1) {
+            res += value
+            res += ","
+            res += "inf"
+        } else {
+            res += (value[0] + "," + value[1])
+        }
+        res += rightbound
+        return res
+    }
+
     const handleScoreChange = event => {
         setScore(event.target.value)
-        onChange({ "[-inf,1.6)": Number(event.target.value) })  // onChange mock TODO: onChange every change
     }
 
     const handleRightboundChange = event => {
@@ -223,6 +248,14 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
             return
         }
         setValue([value[0], Number(event.target.value)])
+    }
+
+
+    const onMouseLeave = () => {
+        var ex = constructExpress()
+        onChange({
+            [ex]: score
+        })
     }
 
     // const handleLeftInputBlur = event => {

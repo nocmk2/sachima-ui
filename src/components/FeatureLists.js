@@ -42,10 +42,11 @@ const FeatureLists = ({ features }) => {
     const [, dispatch] = useStateValue();
     const [f, setF] = React.useState(features)
     const [isdel, setIsDelete] = React.useState(false)
-    const [height, setHeight] = React.useState(800)
+    const [height, setHeight] = React.useState(9800)
     const [featureAddButtonColor, setFeatureAddButtonColor] = React.useState("default")
     const [isedit, setIsEdit] = React.useState(false)
-    const [minmax, setMinmax] = React.useState([])
+    const [newData, setNewData] = React.useState({})
+    // const [minmax, setMinmax] = React.useState([-1, 1])
 
     const useStyles = makeStyles(theme => ({
         root: {
@@ -81,9 +82,15 @@ const FeatureLists = ({ features }) => {
 
     }));
 
-    React.useEffect(() => {
-        console.log(f)
-    }, [f])
+    // React.useEffect(() => {
+    //     console.log(f)
+    //     // console.log(minmax)
+    //     if (Object.keys(f).length > 0) {
+    //         console.log("----------------------------=")
+    //         console.log(getMinMax(f[featureNames[value]]["bin"]).bounds)
+    //         // setMinmax(getMinMax(f[featureNames[value]]["bin"]).bounds)
+    //     }
+    // }, [f])
 
     const classes = useStyles();
     const featureNames = Object.keys(f)
@@ -135,19 +142,57 @@ const FeatureLists = ({ features }) => {
         } else {
             dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️最后一条规则不能删除" } })
         }
+        // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️最后一条规则不能删除" } })
         setF(temp)
+        // console.log("=======")
+        // console.log(f)
     }
 
-    const handleBinChange = newData => {
-        var temp = Object.assign({}, f)
-        var bin = temp[featureNames[value]]["bin"]
-        var newbin = { ...bin, ...newData }
-        console.log('bin', bin)
-        console.log('newData', newData)
-        console.log('newbin', newbin)
-        temp[featureNames[value]]["bin"] = newbin
-        setF(temp)
-        console.log(temp)
+    const handleBinChange = (item, inchange) => {
+        //     [4.7, inf)
+        //         FeatureLists.js: 153 { [4.7, inf): - 66}
+        // FeatureLists.js: 154 { }
+        console.log(item)
+        console.log(inchange)
+        console.log(newData)
+        setNewData({ ...newData, ...{ [item]: inchange } })
+        // console.log('item', item)
+        // console.log('newData', newData)
+        // var temp = Object.assign({}, f)
+        // var bin = temp[featureNames[value]]["bin"]
+        // delete bin[item]
+        // var newbin = { ...bin, ...newData }
+        // // console.log('bin', bin)
+        // // console.log('newData', newData)
+        // // console.log('newbin', newbin)
+        // temp[featureNames[value]]["bin"] = newbin
+        // setF(temp)
+        // console.log(temp)
+        // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️最后一条规则不能删除" } })
+    }
+
+    const handleSave = () => {
+        // delete f[featureNames[value]]["bin"][newData[0]]
+        // // console.log('bin', bin)
+        // // console.log('newData', newData)
+        // // console.log('newbin', newbin)
+        // f[featureNames[value]]["bin"] = { ...f[featureNames[value]]["bin"], ...newData[1] }
+
+        for (const n in newData) { // n: needupdatekey
+            // newData[n]
+            var item = n
+            var newD = newData[n]
+            var temp = Object.assign({}, f)
+            var bin = temp[featureNames[value]]["bin"]
+            delete bin[item]
+            var newbin = { ...bin, ...newD }
+            // console.log('bin', bin)
+            // console.log('newData', newData)
+            // console.log('newbin', newbin)
+            temp[featureNames[value]]["bin"] = newbin
+            setF(temp)
+        }
+        // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "保存成功" } })
     }
 
     return (
@@ -240,8 +285,8 @@ const FeatureLists = ({ features }) => {
                                                     key={item + "-" + index}
                                                     express={item}
                                                     binscore={f[featureNames[value]]["bin"][item]}
-                                                    minmax={getMinMax(f[featureNames[value]]["bin"]).bounds}
-                                                    onChange={handleBinChange} //{"[-inf,1.6)": 23}
+                                                    minmax={getMinMax(f[featureNames[value]]["bin"]).bounds} // 
+                                                    onChange={(newData) => handleBinChange(item, newData)} //{"[-inf,1.6)": 23}
                                                 />
                                             </Grid>
                                             {isdel ? (
@@ -261,8 +306,14 @@ const FeatureLists = ({ features }) => {
                         ) : "aaaaaaa"
                 }
                 {/* {value ? "loading" : JSON.stringify(Object.keys(features[Object.keys(features)[value]]["bin"]))} */}
-                <Button variant="contained" color="primary" startIcon={<CloudUpload />}>Save</Button>
+                <Button variant="contained" color="primary" startIcon={<CloudUpload />}
+                    onClick={
+                        handleSave
+                    }
+                >Save</Button>
             </FeatureDetail >
+            <div>{JSON.stringify(newData)}</div>
+            <div>{JSON.stringify(f)}</div>
         </div >
     );
 }
