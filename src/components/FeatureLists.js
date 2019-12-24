@@ -43,7 +43,7 @@ const FeatureLists = ({ features }) => {
     const [, dispatch] = useStateValue();
     const [f, setF] = React.useState(features)
     const [isdel, setIsDelete] = React.useState(false)
-    const [height, setHeight] = React.useState(9800)
+    const [height, setHeight] = React.useState(2800)
     const [featureAddButtonColor, setFeatureAddButtonColor] = React.useState("default")
     const [isedit, setIsEdit] = React.useState(false)
     const [newData, setNewData] = React.useState({})
@@ -180,7 +180,7 @@ const FeatureLists = ({ features }) => {
             >
                 {featureNames.map((item, index) => (
                     <Tab key={item} index={item} {...a11yProps(index)} label={
-                        <Badge color="secondary" badgeContent={99}>{item}</Badge>
+                        <Badge color="secondary" badgeContent={1}>{item}</Badge>
                     } />
                 ))}
             </Tabs>
@@ -287,7 +287,7 @@ const FeatureLists = ({ features }) => {
                     }
                 >Save</Button>
             </FeatureDetail >
-            <div>{JSON.stringify(newData)}</div>
+            {/* <div>{JSON.stringify(newData)}</div> */}
             {/* <div>{JSON.stringify(f)}</div> */}
         </div >
     );

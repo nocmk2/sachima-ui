@@ -99,6 +99,7 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
     const [max, setMax] = React.useState(minmax[1])
     const [his, setHis] = React.useState(initValue.his)
     const [inputerror, setInputError] = React.useState(false)
+    const [isedited, setIsEdited] = React.useState(false)
     // const [marks, setMarks] = React.useState([])
 
     React.useEffect(() => {
@@ -113,8 +114,42 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
         onChange({
             [ex]: score
         })
+        setIsEdited(true)
     }, [value, score, leftbound, rightbound])
 
+
+    // const Resilient = (v, direction) => {
+    //     if (direction === "left") {
+    //         if (leftValue() <= v) {
+    //             return v - 20
+    //         }
+    //     }
+
+    //     if (direction === "right") {
+    //         if (rightValue() >= v) {
+    //             return v + 20
+    //         }
+    //     }
+
+    // }
+
+    const leftValue = () => {
+        if (typeof value === "object") {
+            return value[0]
+        } else if (typeof value === "number") {
+            return value
+        }
+    }
+
+    const rightValue = () => {
+        if (typeof value === "object") {
+            return value[1]
+        } else if (typeof value === "number") {
+            return value
+        }
+    }
+
+    // KEEP!!
     React.useEffect(() => {
         // const getMarks = () => {
         //     if (typeof value === "object") {
@@ -147,15 +182,16 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
         const scaleSlider = () => {
             // getMarks()
             if (leftValue() <= min) {
-                setMin(leftValue() - 20) // if value is huge 20 should be greater
+                setMin(leftValue() - 2) // if value is huge 20 should be greater
             }
 
             if (rightValue() >= max) {
-                setMax(rightValue() + 20)
+                setMax(rightValue() + 2)
             }
         }
 
         scaleSlider()
+
 
     }, [value, min, max, score])
 
@@ -252,12 +288,12 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
     }
 
 
-    const onMouseLeave = () => {
-        var ex = constructExpress()
-        onChange({
-            [ex]: score
-        })
-    }
+    // const onMouseLeave = () => {
+    //     var ex = constructExpress()
+    //     onChange({
+    //         [ex]: score
+    //     })
+    // }
 
     // const handleLeftInputBlur = event => {
     //     if (value[0] >= value[1]) {
@@ -296,8 +332,8 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
                             onChange={handleChange}
                             step={0.01}
                             valueLabelDisplay="auto"
-                            min={min}
-                            max={max}
+                            min={isedited ? min : minmax[0]}
+                            max={isedited ? max : minmax[1]}
                             aria-labelledby="range-slider"
                             getAriaValueText={valuetext}
                         />
@@ -312,7 +348,7 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
                             disableUnderline={true}
                             className={classes.select}
                             // labelId="demo-simple-select-label"
-                            id="demo-simple-select"
+                            id="left-p-select"
                             IconComponent={() => (<></>)}
                             value={leftbound}
                             inputProps={{
@@ -340,8 +376,8 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
                             // onBlur={handleLeftInputBlur}
                             inputProps={{
                                 step: 1,
-                                min: min,
-                                max: max,
+                                min: -99999,
+                                max: 99999,
                                 type: 'number',
                                 // 'aria-labelledby': 'input-slider',
                             }}
@@ -363,8 +399,8 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
                             // onBlur={handleRightInputBlur}
                             inputProps={{
                                 step: 1,
-                                min: min,
-                                max: max,
+                                min: -99999,
+                                max: 99999,
                                 type: 'number',
                                 'aria-labelledby': 'input-slider',
                             }}
@@ -375,7 +411,7 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
                             disableUnderline={true}
                             className={classes.select}
                             // labelId="demo-simple-select-label"
-                            id="demo-simple-select"
+                            id="right-p-select"
                             // margin="dense"
                             value={rightbound}
                             IconComponent={() => (<></>)}
@@ -397,8 +433,8 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
                             // onBlur={handleBlur}
                             inputProps={{
                                 step: 1,
-                                min: 0,
-                                max: 100,
+                                min: -99999,
+                                max: 99999,
                                 type: 'number',
                                 'aria-labelledby': 'input-slider',
                             }}

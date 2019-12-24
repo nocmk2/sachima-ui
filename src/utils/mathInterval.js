@@ -17,7 +17,7 @@ export const getMathInterval = (express) => {
     if (a[1] === "inf") {
         inf = 1
         interval = interval[0]
-        his = [interval, 100]
+        his = [interval, interval]
     }
     return { interval: interval, inf: inf, left: left, right: right, his: his, min: -100, max: 100 }
 }
