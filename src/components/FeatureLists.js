@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import Tab from '@material-ui/core/Tab';
 import FeatureDetail from "./FeatureDetail";
 import { useStateValue } from "../utils/state"
-import BinSetter from "./BinSetter"
+import BinMathSetter from "./BinMathSetter"
 import { maxWidth } from '@material-ui/system';
 import GroupSelect from "./GroupSelect"
 import { sortMathIntervalBin, getMinMax } from '../utils/mathInterval';
@@ -283,7 +283,7 @@ const FeatureLists = ({ features }) => {
                                     <Paper key={"freg-" + index} className={classes.binpaper}>
                                         <Grid container spacing={3}>
                                             <Grid item>
-                                                <BinSetter
+                                                <BinMathSetter
                                                     className={classes.binsetter}
                                                     key={item + "-" + index}
                                                     express={item}
@@ -318,7 +318,7 @@ const FeatureLists = ({ features }) => {
                                                 {index}{" => "}
                                                 {item}{" => "}
                                                 {f[featureNames[value]]["bin"][item]}
-                                                {/* <BinSetter
+                                                {/* <BinTextSetter
                                                     className={classes.binsetter}
                                                     key={item + "-" + index}
                                                     express={item}

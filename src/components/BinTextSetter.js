@@ -84,38 +84,28 @@ function valuetext(value) {
 }
 
 
-const BinSetter = ({ express, binscore, minmax, onChange }) => {
+const BinTextSetter = ({ express, binscore, onChange }) => {
     const initValue = React.useMemo(
         () => getMathInterval(express),  // [-inf,1.0)
         [express] // ✅ Don’t recalculate until `express` changes
     );
     const classes = useStyles();
-    const [value, setValue] = React.useState(initValue.interval); // inf=-1 value=38 means (-inf,38)
-    const [inf, setinf] = React.useState(initValue.inf) // -1 -Inf    0     1   Inf
     const [score, setScore] = React.useState(binscore)
     const [leftbound, setLeftbound] = React.useState(initValue.left)
     const [rightbound, setRightbound] = React.useState(initValue.right)
-    const [min, setMin] = React.useState(minmax[0])
-    const [max, setMax] = React.useState(minmax[1])
     const [his, setHis] = React.useState(initValue.his)
     const [inputerror, setInputError] = React.useState(false)
     const [isedited, setIsEdited] = React.useState(false)
-    // const [marks, setMarks] = React.useState([])
-
-    React.useEffect(() => {
-        if (value[0] > value[1]) {
-            setInputError(true)
-        }
-    }, [value])
 
 
-    useDidUpdateEffect(() => {
-        var ex = constructExpress()
-        onChange({
-            [ex]: Number(score)
-        })
-        setIsEdited(true)
-    }, [value, score, leftbound, rightbound])
+
+    // useDidUpdateEffect(() => {
+    //     var ex = constructExpress()
+    //     onChange({
+    //         [ex]: Number(score)
+    //     })
+    //     setIsEdited(true)
+    // }, [value, score, leftbound, rightbound])
 
 
     // const Resilient = (v, direction) => {
@@ -454,4 +444,4 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
     );
 }
 
-export default BinSetter
+export default BinTextSetter
