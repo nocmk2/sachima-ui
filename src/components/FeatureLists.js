@@ -38,7 +38,7 @@ function a11yProps(index) {
 
 
 const FeatureLists = ({ features }) => {
-    const [value, setValue] = React.useState(0); // default feature list being selected
+    const [value, setValue] = React.useState(3); // default feature list being selected
     const [, dispatch] = useStateValue();
     const [f, setF] = React.useState(features)
     const [isdel, setIsDelete] = React.useState(false)
@@ -272,9 +272,10 @@ const FeatureLists = ({ features }) => {
 
 
                 {
-                    Object.entries(f).length === 0 ? "loading..." :
-                        f[featureNames[value]]["bintype"] === "math" ? (
-                            Object
+                    Object.keys(f).length === 0 ? "loading..." :
+                        f[featureNames[value]]["bintype"] === "math"
+                            ?
+                            (Object
                                 .keys(f[featureNames[value]]["bin"])
                                 .sort(sortMathIntervalBin)
                                 .map((item, index) => (
@@ -305,7 +306,42 @@ const FeatureLists = ({ features }) => {
                                         </Grid>
                                     </Paper>
                                 ))
-                        ) : "aaaaaaa"
+                            )
+                            :
+                            (Object
+                                .keys(f[featureNames[value]]["bin"])
+                                .map((item, index) => (
+                                    // item => "(-inf,100]" or (0, 20)
+                                    <Paper key={"freg-" + index} className={classes.binpaper}>
+                                        <Grid container spacing={3}>
+                                            <Grid item>
+                                                {index}{" => "}
+                                                {item}{" => "}
+                                                {f[featureNames[value]]["bin"][item]}
+                                                {/* <BinSetter
+                                                    className={classes.binsetter}
+                                                    key={item + "-" + index}
+                                                    express={item}
+                                                    binscore={f[featureNames[value]]["bin"][item]}
+                                                    minmax={getMinMax(f[featureNames[value]]["bin"]).bounds} // 
+                                                    onChange={(newData) => handleBinChange(item, newData)} //{"[-inf,1.6)": 23}
+                                                /> */}
+                                            </Grid>
+                                            {isdel ? (
+                                                <Button
+                                                    key={"delbtn-" + index}
+                                                    className={classes.delbtn}
+                                                    onClick={() => handleBinDel(item)}
+                                                >
+                                                    <DeleteForever color="secondary" />
+                                                </Button>
+                                            )
+                                                : ""
+                                            }
+                                        </Grid>
+                                    </Paper>
+                                ))
+                            )
                 }
                 {/* {value ? "loading" : JSON.stringify(Object.keys(features[Object.keys(features)[value]]["bin"]))} */}
                 <Button variant="contained" color="primary" startIcon={<CloudUpload />}
