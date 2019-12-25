@@ -92,7 +92,7 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
     const classes = useStyles();
     const [value, setValue] = React.useState(initValue.interval); // inf=-1 value=38 means (-inf,38)
     const [inf, setinf] = React.useState(initValue.inf) // -1 -Inf    0     1   Inf
-    const [score, setScore] = React.useState(binscore) // should i use props ?
+    const [score, setScore] = React.useState(binscore)
     const [leftbound, setLeftbound] = React.useState(initValue.left)
     const [rightbound, setRightbound] = React.useState(initValue.right)
     const [min, setMin] = React.useState(minmax[0])
@@ -133,21 +133,21 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
 
     // }
 
-    const leftValue = () => {
-        if (typeof value === "object") {
-            return value[0]
-        } else if (typeof value === "number") {
-            return value
-        }
-    }
+    // const leftValue = () => {
+    //     if (typeof value === "object") {
+    //         return value[0]
+    //     } else if (typeof value === "number") {
+    //         return value
+    //     }
+    // }
 
-    const rightValue = () => {
-        if (typeof value === "object") {
-            return value[1]
-        } else if (typeof value === "number") {
-            return value
-        }
-    }
+    // const rightValue = () => {
+    //     if (typeof value === "object") {
+    //         return value[1]
+    //     } else if (typeof value === "number") {
+    //         return value
+    //     }
+    // }
 
     // KEEP!!
     React.useEffect(() => {
@@ -166,23 +166,23 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
 
         const leftValue = () => {
             if (typeof value === "object") {
-                return value[0]
-            } else if (typeof value === "number") {
-                return value
+                return Number(value[0])
+            } else {
+                return Number(value)
             }
         }
 
         const rightValue = () => {
             if (typeof value === "object") {
-                return value[1]
-            } else if (typeof value === "number") {
-                return value
+                return Number(value[1])
+            } else {
+                return Number(value)
             }
         }
         const scaleSlider = () => {
             // getMarks()
             if (leftValue() <= min) {
-                setMin(leftValue() - 2) // if value is huge 20 should be greater
+                setMin(leftValue() - 2)
             }
 
             if (rightValue() >= max) {
@@ -336,7 +336,7 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
                             right={rightbound}
                             track={(inf === 1) ? "inverted" : "normal"} // 控制slider的方向 , 当正无穷的时候右边的数到最右边是有颜色的
                             // marks={marks}                               // slider 下方的标注 这里实现成动态的
-                            value={typeof value === "object" ? [Number(value[0], Number(value[1]))] : Number(value)}                               // value有两种 number 和 [number,number], 分别表示无穷和区间
+                            value={typeof value === "object" ? [Number(value[0]), Number(value[1])] : Number(value)}                               // value有两种 number 和 [number,number], 分别表示无穷和区间
                             onChange={handleSliderChange}
                             step={0.01}
                             valueLabelDisplay="auto"
