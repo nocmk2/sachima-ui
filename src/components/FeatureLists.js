@@ -25,8 +25,6 @@ import CloudUpload from '@material-ui/icons/CloudUpload';
 import FlashAutoIcon from '@material-ui/icons/FlashAuto';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
-import Style from '@material-ui/icons/Style';
-import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import Drawer from '@material-ui/core/Drawer';
@@ -334,7 +332,7 @@ const FeatureLists = ({ features }) => {
             } >
                 <div className={classes.log}>{JSON.stringify(newData)}</div>
             </Drawer>
-            <div>{JSON.stringify(f)}</div>
+            {/* <div>{JSON.stringify(f)}</div> */}
         </div >
     );
 }
