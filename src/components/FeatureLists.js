@@ -334,7 +334,7 @@ const FeatureLists = ({ features }) => {
             } >
                 <div className={classes.log}>{JSON.stringify(newData)}</div>
             </Drawer>
-            {/* <div>{JSON.stringify(f)}</div> */}
+            <div>{JSON.stringify(f)}</div>
         </div >
     );
 }

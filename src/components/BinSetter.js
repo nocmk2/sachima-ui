@@ -112,7 +112,7 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
     useDidUpdateEffect(() => {
         var ex = constructExpress()
         onChange({
-            [ex]: score
+            [ex]: Number(score)
         })
         setIsEdited(true)
     }, [value, score, leftbound, rightbound])
@@ -196,7 +196,7 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
     }, [value, min, max, score])
 
 
-    const handleChange = (event, newValue) => {
+    const handleSliderChange = (event, newValue) => {
         setValue(newValue);
     };
 
@@ -258,6 +258,13 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
     }
 
     const handleScoreChange = event => {
+        // if (event.target.value === "99") {
+        //     console.log("1111")
+        //     event.target.type = "text"
+        //     event.target.setSelectionRange(0, 0)
+        //     // event.target.type = "number"
+        //     return
+        // }
         setScore(event.target.value)
     }
 
@@ -271,6 +278,7 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
 
     const handleLeftInputChange = event => {
         setInputError(false)
+
         if (inf !== 0) {
             setValue(event.target.value)
             return
@@ -281,10 +289,10 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
     const handleRightInputChange = event => {
         setInputError(false)
         if (inf !== 0) {
-            setValue(Number(event.target.value))
+            setValue(event.target.value)
             return
         }
-        setValue([value[0], Number(event.target.value)])
+        setValue([value[0], event.target.value])
     }
 
 
@@ -328,8 +336,8 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
                             right={rightbound}
                             track={(inf === 1) ? "inverted" : "normal"} // 控制slider的方向 , 当正无穷的时候右边的数到最右边是有颜色的
                             // marks={marks}                               // slider 下方的标注 这里实现成动态的
-                            value={value}                               // value有两种 number 和 [number,number], 分别表示无穷和区间
-                            onChange={handleChange}
+                            value={typeof value === "object" ? [Number(value[0], Number(value[1]))] : Number(value)}                               // value有两种 number 和 [number,number], 分别表示无穷和区间
+                            onChange={handleSliderChange}
                             step={0.01}
                             valueLabelDisplay="auto"
                             min={isedited ? min : minmax[0]}
@@ -376,8 +384,8 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
                             // onBlur={handleLeftInputBlur}
                             inputProps={{
                                 step: 1,
-                                min: -99999,
-                                max: 99999,
+                                min: -9999999,
+                                max: 9999999,
                                 type: 'number',
                                 // 'aria-labelledby': 'input-slider',
                             }}
@@ -399,8 +407,8 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
                             // onBlur={handleRightInputBlur}
                             inputProps={{
                                 step: 1,
-                                min: -99999,
-                                max: 99999,
+                                min: -9999999,
+                                max: 9999999,
                                 type: 'number',
                                 'aria-labelledby': 'input-slider',
                             }}
@@ -433,8 +441,8 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
                             // onBlur={handleBlur}
                             inputProps={{
                                 step: 1,
-                                min: -99999,
-                                max: 99999,
+                                min: -9999999,
+                                max: 9999999,
                                 type: 'number',
                                 'aria-labelledby': 'input-slider',
                             }}
