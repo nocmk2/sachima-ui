@@ -29,6 +29,7 @@ import Style from '@material-ui/icons/Style';
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
+import Drawer from '@material-ui/core/Drawer';
 
 function a11yProps(index) {
     return {
@@ -47,6 +48,7 @@ const FeatureLists = ({ features }) => {
     const [featureAddButtonColor, setFeatureAddButtonColor] = React.useState("default")
     const [isedit, setIsEdit] = React.useState(false)
     const [newData, setNewData] = React.useState({})
+    const [draweropen, setDrawerOpen] = React.useState(false)
     // const [minmax, setMinmax] = React.useState([-1, 1])
 
     const useStyles = makeStyles(theme => ({
@@ -79,7 +81,10 @@ const FeatureLists = ({ features }) => {
             },
             // position: "absolute",
             // margin: "auto"
-        }
+        },
+        log: {
+            width: 250,
+        },
 
     }));
 
@@ -149,20 +154,44 @@ const FeatureLists = ({ features }) => {
         // console.log(f)
     }
 
+    /* 
+       {
+           "1PD7_pct": {
+               "[-inf,1.6)": { "[-inf,3.25)": 23 },
+               "[1.6,4.7)": { "[1.6,3.23)": -10 },
+               "[4.7,inf)": { "[3.47,inf)": -66 }
+           },
+           "company_found_years": {
+               "[0,0.5)": { "[0,1.03)": 20 },
+               "[0.5,1)": { "[0.5,2.91)": 25 }
+           }
+       }
+   */
+
     const handleBinChange = (item, inchange) => {
-        setNewData({ ...newData, ...{ [item]: inchange } })
+        setNewData({
+            ...newData,
+            ...{
+                [featureNames[value]]: { ...newData[featureNames[value]], ...{ [item]: inchange } }
+            }
+        })
     }
 
     const handleSave = () => {
-        for (const n in newData) { // n: needupdatekey
-            var item = n
-            var newD = newData[n]
-            var temp = Object.assign({}, f)
-            var bin = temp[featureNames[value]]["bin"]
-            delete bin[item]
-            var newbin = { ...bin, ...newD }
-            temp[featureNames[value]]["bin"] = newbin
-            setF(temp)
+        for (const fname in newData) {
+            console.log(fname)
+            for (const n in newData[fname]) {
+                var item = n
+                console.log(n)
+                var newD = newData[fname][n]
+                console.log(newD)
+                var temp = Object.assign({}, f)
+                var bin = temp[fname]["bin"]
+                delete bin[item]
+                var newbin = { ...bin, ...newD }
+                temp[fname]["bin"] = newbin
+                setF(temp)
+            }
         }
         setNewData({})
         dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "保存成功" } })
@@ -180,7 +209,7 @@ const FeatureLists = ({ features }) => {
             >
                 {featureNames.map((item, index) => (
                     <Tab key={item} index={item} {...a11yProps(index)} label={
-                        <Badge color="secondary" badgeContent={1}>{item}</Badge>
+                        <Badge color="secondary" badgeContent={newData[item] === undefined ? undefined : Object.keys(newData[item]).length}>{item}</Badge>
                     } />
                 ))}
             </Tabs>
@@ -286,8 +315,25 @@ const FeatureLists = ({ features }) => {
                         handleSave
                     }
                 >Save</Button>
+                <Button color="primary"
+                    disabled={Object.keys(newData).length === 0 ? true : false}
+                    onClick={
+                        () => {
+                            setDrawerOpen(true)
+                        }
+                    }
+                >ChangeLog</Button>
             </FeatureDetail >
-            <div>{JSON.stringify(newData)}</div>
+            <Drawer anchor="right" open={draweropen} onClose={
+                event => {
+                    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+                        return;
+                    }
+                    setDrawerOpen(false);
+                }
+            } >
+                <div className={classes.log}>{JSON.stringify(newData)}</div>
+            </Drawer>
             {/* <div>{JSON.stringify(f)}</div> */}
         </div >
     );
