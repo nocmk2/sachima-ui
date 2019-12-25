@@ -272,10 +272,10 @@ const BinSetter = ({ express, binscore, minmax, onChange }) => {
     const handleLeftInputChange = event => {
         setInputError(false)
         if (inf !== 0) {
-            setValue(Number(event.target.value))
+            setValue(event.target.value)
             return
         }
-        setValue([Number(event.target.value), value[1]])
+        setValue([event.target.value, value[1]])
     }
 
     const handleRightInputChange = event => {

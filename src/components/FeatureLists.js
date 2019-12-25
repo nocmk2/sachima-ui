@@ -122,7 +122,7 @@ const FeatureLists = ({ features }) => {
         var temp = Object.assign({}, f)
         var bin = temp[featureNames[value]]["bin"]
         var m = getMinMax(bin).origin[1] // eg: [1,9)  m = 9  origin[0] = 1
-        bin[`[${(m + 0.1).toFixed(2)},inf)`] = 99
+        bin[`[${(m + 0.1).toFixed(2)},${(m + 0.2).toFixed(2)})`] = 99
         setF(temp)
         if (Object.keys(bin).length > 8) {
             setHeight(height + 86)
@@ -287,7 +287,7 @@ const FeatureLists = ({ features }) => {
                     }
                 >Save</Button>
             </FeatureDetail >
-            {/* <div>{JSON.stringify(newData)}</div> */}
+            <div>{JSON.stringify(newData)}</div>
             {/* <div>{JSON.stringify(f)}</div> */}
         </div >
     );
