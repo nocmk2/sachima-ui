@@ -29,6 +29,7 @@ import BinMathSetter from "./BinMathSetter"
 import BinTextSetter from "./BinTextSetter"
 import GroupSelect from "./GroupSelect"
 import { sortMathIntervalBin, getMinMax } from '../utils/mathInterval';
+import { useDidUpdateEffect } from "../utils/tools"
 
 function a11yProps(index) {
     return {
@@ -42,13 +43,33 @@ const FeatureLists = ({ features }) => {
     const [value, setValue] = React.useState(3); // default feature list being selected
     const [, dispatch] = useStateValue();
     const [f, setF] = React.useState(features)
+    const [oldf, setOldF] = React.useState(features)
     const [isdel, setIsDelete] = React.useState(false)
-    const [height, setHeight] = React.useState(2800)
+    const [height, setHeight] = React.useState(800)
     const [featureAddButtonColor, setFeatureAddButtonColor] = React.useState("default")
     const [isedit, setIsEdit] = React.useState(false)
     const [newData, setNewData] = React.useState({})
     const [draweropen, setDrawerOpen] = React.useState(false)
+    const [defaultEdit, setDefaultEdit] = React.useState(false)
+    const [defaultValue, setDefaultValue] = React.useState("")
     // const [minmax, setMinmax] = React.useState([-1, 1])
+
+    const featureNames = Object.keys(f)
+
+    React.useEffect(() => {
+        const initDefaultValue = () => {
+            return (
+                Object.keys(f).length === 0 ? 0 :
+                    f[featureNames[value]]["default"]
+            )
+        }
+
+        setDefaultValue(initDefaultValue())
+    }
+        , [value])
+
+
+    // setDefaultValue(f[featureNames[value]]["default"])
 
     const useStyles = makeStyles(theme => ({
         root: {
@@ -98,7 +119,6 @@ const FeatureLists = ({ features }) => {
     // }, [f])
 
     const classes = useStyles();
-    const featureNames = Object.keys(f)
 
 
     const handleFeatureAdd = () => {
@@ -184,15 +204,23 @@ const FeatureLists = ({ features }) => {
                "[0.5,1)": { "[0.5,2.91)": 25 }
            }
        }
-   */
+    */
 
     const handleBinChange = (item, inchange) => {
-        setNewData({
-            ...newData,
-            ...{
-                [featureNames[value]]: { ...newData[featureNames[value]], ...{ [item]: inchange } }
-            }
-        })
+        //  item change to inchange
+
+        // if (newData.hasOwnProperty("bin")) {
+        //     alert("aaa")
+        // }
+
+        // setNewData({
+        //     ...newData,
+        //     ...{
+        //         [featureNames[value]]: {
+        //             bin: { ...inchange }
+        //         }
+        //     }
+        // })
     }
 
     const handleSave = () => {
@@ -213,6 +241,20 @@ const FeatureLists = ({ features }) => {
         }
         setNewData({})
         dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "保存成功" } })
+    }
+
+    const handleClickDefault = () => {
+        setDefaultEdit(true)
+    }
+
+    const handleDefaultOnBlur = () => {
+        setNewData({
+            ...newData,
+            ...{
+                [featureNames[value]]: { ...newData[featureNames[value]], ...{ default: 9999999 } }
+            }
+        })
+        setDefaultEdit(false)
     }
 
     return (
@@ -269,7 +311,15 @@ const FeatureLists = ({ features }) => {
                 {/* {Object.entries(features).length === 0 ? "loading..." : JSON.stringify(features[Object.keys(features)[value]])} */}
                 <div className={classes.buttons}>
                     <Button startIcon={<AddCircleOutlineIcon />} variant="contained" color="secondary" onClick={handleNew}>New</Button>
-                    <Button startIcon={<GavelRoundedIcon />}>Default</Button>
+
+                    {
+                        defaultEdit ?
+                            <TextField autoFocus label="default" onChange={event => { setDefaultValue(event.target.value) }} value={defaultValue} onBlur={handleDefaultOnBlur}></TextField>
+                            :
+                            <Button startIcon={<GavelRoundedIcon />} onClick={handleClickDefault} >{"Default:" + defaultValue}</Button>
+                    }
+
+
                     <Button startIcon={<AttachFileRoundedIcon />}>Pre</Button>
                     {/* <Button>Percent</Button> */}
                     <Button startIcon={<OpacityIcon />}>Catalog</Button>
@@ -278,6 +328,7 @@ const FeatureLists = ({ features }) => {
                     <Button startIcon={<Equalizer />}>Graph</Button>
                     <Button startIcon={<FlashAutoIcon />}>Auto</Button>
                     <Button
+                        disabled={Object.keys(newData).length === 0 ? false : true}
                         onClick={toggleDelete}
                         startIcon={isdel ? <TabUnselected /> : <DeleteSweep />}
                         variant={isdel ? "outlined" : "text"}
