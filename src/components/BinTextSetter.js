@@ -92,10 +92,14 @@ const BinTextSetter = ({ kv, binscore, onChange }) => {
     const classes = useStyles();
     const [score, setScore] = React.useState(binscore)
     const [his, setHis] = React.useState(kv)
-    const [inputerror, setInputError] = React.useState(false)
-    const [isedited, setIsEdited] = React.useState(false)
     const [k, setK] = React.useState(kv[0])
     const [v, setV] = React.useState(kv[1])
+
+    useDidUpdateEffect(() => {
+        onChange({
+            [k]: v
+        })
+    }, [k, v, score])
 
     const handleScoreChange = event => {
         setScore(event.target.value)

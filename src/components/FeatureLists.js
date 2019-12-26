@@ -361,19 +361,22 @@ const FeatureLists = ({ features }) => {
                             )
                 }
                 {/* {value ? "loading" : JSON.stringify(Object.keys(features[Object.keys(features)[value]]["bin"]))} */}
-                <Button variant="contained" color="primary" startIcon={<CloudUpload />}
+                <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<CloudUpload />}
+                    disabled={Object.keys(newData).length === 0 ? true : false}
                     onClick={
                         handleSave
-                    }
-                >Save</Button>
+                    } >Save</Button>
+
                 <Button color="primary"
                     disabled={Object.keys(newData).length === 0 ? true : false}
                     onClick={
                         () => {
                             setDrawerOpen(true)
                         }
-                    }
-                >ChangeLog</Button>
+                    } >ChangeLog</Button>
             </FeatureDetail >
             <Drawer anchor="right" open={draweropen} onClose={
                 event => {
