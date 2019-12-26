@@ -123,14 +123,33 @@ const FeatureLists = ({ features }) => {
     };
 
     const handleNew = () => {
+        // binMath New 
         var temp = Object.assign({}, f)
         var bin = temp[featureNames[value]]["bin"]
-        var m = getMinMax(bin).origin[1] // eg: [1,9)  m = 9  origin[0] = 1
-        bin[`[${(m + 0.1).toFixed(2)},${(m + 0.2).toFixed(2)})`] = 99
+        var k = "new rule" + Object.keys(bin).length
+        if (temp[featureNames[value]]["bintype"] === "math") {
+            let m = getMinMax(bin).origin[1] // eg: [1,9)  m = 9  origin[0] = 1
+            console.log(m)
+            k = `[${(m + 0.1).toFixed(2)},${(m + 0.2).toFixed(2)})`
+        }
+        bin[k] = 99
+        setNewData({
+            ...newData,
+            ...{
+                [featureNames[value]]: { ...newData[featureNames[value]], ...{ [k]: { [k]: 99 } } }
+            }
+        })
         setF(temp)
         if (Object.keys(bin).length > 8) {
             setHeight(height + 86)
         }
+
+        // binText New
+
+
+
+
+
     }
 
     const toggleDelete = () => {
