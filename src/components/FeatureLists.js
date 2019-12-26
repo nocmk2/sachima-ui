@@ -5,12 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Tab from '@material-ui/core/Tab';
-import FeatureDetail from "./FeatureDetail";
-import { useStateValue } from "../utils/state"
-import BinMathSetter from "./BinMathSetter"
 import { maxWidth } from '@material-ui/system';
-import GroupSelect from "./GroupSelect"
-import { sortMathIntervalBin, getMinMax } from '../utils/mathInterval';
 import Grid from '@material-ui/core/Grid';
 import DeleteForever from "@material-ui/icons/DeleteForever";
 import TabUnselected from "@material-ui/icons/TabUnselected";
@@ -28,6 +23,12 @@ import Badge from '@material-ui/core/Badge';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import Drawer from '@material-ui/core/Drawer';
+import FeatureDetail from "./FeatureDetail";
+import { useStateValue } from "../utils/state"
+import BinMathSetter from "./BinMathSetter"
+import BinTextSetter from "./BinTextSetter"
+import GroupSelect from "./GroupSelect"
+import { sortMathIntervalBin, getMinMax } from '../utils/mathInterval';
 
 function a11yProps(index) {
     return {
@@ -309,29 +310,26 @@ const FeatureLists = ({ features }) => {
                             )
                             :
                             (Object
-                                .keys(f[featureNames[value]]["bin"])
-                                .map((item, index) => (
+                                .entries(f[featureNames[value]]["bin"])
+                                .map((kv, index) => (
                                     // item => "(-inf,100]" or (0, 20)
                                     <Paper key={"freg-" + index} className={classes.binpaper}>
                                         <Grid container spacing={3}>
                                             <Grid item>
-                                                {index}{" => "}
-                                                {item}{" => "}
-                                                {f[featureNames[value]]["bin"][item]}
-                                                {/* <BinTextSetter
+                                                {/* {JSON.stringify(kv)} */}
+                                                <BinTextSetter
                                                     className={classes.binsetter}
-                                                    key={item + "-" + index}
-                                                    express={item}
-                                                    binscore={f[featureNames[value]]["bin"][item]}
-                                                    minmax={getMinMax(f[featureNames[value]]["bin"]).bounds} // 
-                                                    onChange={(newData) => handleBinChange(item, newData)} //{"[-inf,1.6)": 23}
-                                                /> */}
+                                                    key={kv[0] + "-" + index}
+                                                    kv={kv}
+                                                    binscore={kv[1]}
+                                                    onChange={(newData) => handleBinChange(kv[0], newData)} //{"[-inf,1.6)": 23}
+                                                />
                                             </Grid>
                                             {isdel ? (
                                                 <Button
                                                     key={"delbtn-" + index}
                                                     className={classes.delbtn}
-                                                    onClick={() => handleBinDel(item)}
+                                                    onClick={() => handleBinDel(kv[0])}
                                                 >
                                                     <DeleteForever color="secondary" />
                                                 </Button>
