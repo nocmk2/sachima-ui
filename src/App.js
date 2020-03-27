@@ -3,6 +3,7 @@ import Main from "./components/Main";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import TTT from "./components/TTT";
+import ThreeDemo from "./components/ThreeDemo";
 import Rules from "./components/Rules";
 import Login from "./components/Login";
 import Configs from "./components/Configs";
@@ -60,6 +61,7 @@ const App = () => {
       <Router>
         <Main>
           <Switch>
+            <Route exact path="/ThreeDemo" component={ThreeDemo} />
             <Route exact path="/DashBoard" component={DashBoard} />
             <Route exact path="/Rules" component={Rules} />
             <Route exact path="/Login" component={Login} />

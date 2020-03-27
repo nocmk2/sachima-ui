@@ -8,6 +8,7 @@ import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import FileCopyIcon from "@material-ui/icons/FileCopyOutlined";
 import SaveIcon from "@material-ui/icons/Save";
+import ArrowRightOutlined from "@material-ui/icons/ArrowRightOutlined";
 import ShareIcon from "@material-ui/icons/Share";
 import SupervisedUserCircle from "@material-ui/icons/SupervisedUserCircle";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -19,6 +20,7 @@ import Login from "./Login";
 import Fade from "@material-ui/core/Fade";
 import { useStateValue } from "../utils/state"
 import Message from "./Message"
+import ThreeDemo from './ThreeDemo';
 // import * as API from "../apis/api"
 
 const useStyles = makeStyles(theme => ({
@@ -50,7 +52,8 @@ const actions = [
   { icon: <ShareIcon />, name: "Configs" },
   { icon: <FavoriteIcon />, name: "Maps" },
   { icon: <Adb />, name: "DashBoard" },
-  { icon: <MusicNote />, name: "Test" }
+  { icon: <MusicNote />, name: "Test" },
+  { icon: <ArrowRightOutlined />, name: "ThreeDemo" }
 ];
 
 const Main = props => {
@@ -60,7 +63,7 @@ const Main = props => {
   const [openBack, setOpenBack] = useState(false);
   const [hidden, setHidden] = useState(false);
 
-  // const [{ count }] = useStateValue();
+  // const [{count}] = useStateValue();
   const [{ user, message }, dispatch] = useStateValue();
 
   // useEffect(() => {
@@ -121,7 +124,8 @@ const Main = props => {
   };
 
   return (
-    <div className={classes.root}>
+    // <div className={classes.root}>
+    <>
       <Message open={message.open} move={message.move} message={message.info} handleClose={handleMessageClose}></Message>
       <Button onClick={handleVisibility}>Sachima</Button>
       {
@@ -170,7 +174,7 @@ const Main = props => {
           />
         ))}
       </SpeedDial>
-    </div>
+    </>
   );
 };
 

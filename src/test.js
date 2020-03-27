@@ -1,17 +1,23 @@
-function a(one) {
-    return function b() {
-        console.log(`${one + this.two} `)
+function tokenizer(input) {
+    let current = 0
+    // let tokens = []
+
+    while (current < input.length) {
+        let char = input[current]
+        console.log(char)
+        current++
     }
 }
 
+const code = `
+function tokenizer(input) {
+let current = 0
+let tokens = []
 
-var caler = {
-    two: 2,
-    addone: a(1)
+while (current < input.length) {
+    let char = input[current]
+    console.log(char)
 }
-
-
-caler.addone()
-
-
-
+}
+`
+tokenizer(code)

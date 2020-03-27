@@ -82,3 +82,5 @@ export const getMinMax = (bin) => {
         origin: [min, max]
     }
 }
+
+

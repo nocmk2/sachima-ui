@@ -3,16 +3,23 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { TextField } from "@material-ui/core";
 
-const fib = (num) => {
-  let res = [1, 1]
-  for (var i = 1; i < num; i++) {
-    // let a = new Big(res[i])
-    // a.plus(res[i - 1])
-    res.push(res[i] + res[i - 1])
+// const fib = (num) => {
+//   let res = [1, 1]
+//   for (var i = 1; i < num; i++) {
+//     // let a = new Big(res[i])
+//     // a.plus(res[i - 1])
+//     res.push(res[i] + res[i - 1])
+//   }
+//   return res
+// }
+const fib = () => {
+  let res = []
+  for (var i = 0; i < 100; i++) {
+    res.push(i)
   }
-  return res
+  return [, 5, 6, 7, 8, 9, 0, 1, 3, 3,]
 }
-const fiblist = fib(18)
+const fiblist = fib(1000)
 console.log(fiblist)
 
 const DashBoard = () => {
