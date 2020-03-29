@@ -35,17 +35,8 @@ const Main = props => {
   const classes = useStyles();
   const [openBack, setOpenBack] = useState(false);
   const [hidden, setHidden] = useState(false);
-
-  // const [{count}] = useStateValue();
   const [{ user, message }, dispatch] = useStateValue();
 
-  // useEffect(() => {
-  //   if (API.getUserStatus()) {
-  //     console.log("valid user")
-  //   } else {
-  //     API.clearUserStatus()
-  //   }
-  // }, [])
 
   useEffect(() => {
     if (user.name) {
@@ -97,7 +88,6 @@ const Main = props => {
       }
       <Button variant="contained" onClick={handleLogClick}>{user.name ? "LogOut" : "LogIn"}</Button>
       {props.children}
-      {/* <Backdrop open={open} /> */}
 
       {/* login modal window */}
       <Modal
