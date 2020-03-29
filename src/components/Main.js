@@ -1,27 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Backdrop from "@material-ui/core/Backdrop";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
-import SpeedDial from "@material-ui/lab/SpeedDial";
-import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
-import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
-import FileCopyIcon from "@material-ui/icons/FileCopyOutlined";
-import SaveIcon from "@material-ui/icons/Save";
-import ArrowRightOutlined from "@material-ui/icons/ArrowRightOutlined";
-import ShareIcon from "@material-ui/icons/Share";
-import SupervisedUserCircle from "@material-ui/icons/SupervisedUserCircle";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import MusicNote from "@material-ui/icons/MusicNote";
-import Adb from "@material-ui/icons/Adb"
-import { useHistory } from "react-router-dom";
-import { withRouter } from "react-router";
-import Login from "./Login";
 import Fade from "@material-ui/core/Fade";
+
 import { useStateValue } from "../utils/state"
+
+import Login from "./Login";
 import Message from "./Message"
-import ThreeDemo from './ThreeDemo';
-// import * as API from "../apis/api"
+import Menus from "./Menus"
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -32,11 +22,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
-  speedDial: {
-    position: "absolute",
-    bottom: theme.spacing(1),
-    right: theme.spacing(1)
-  },
   paper: {
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
@@ -45,21 +30,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const actions = [
-  { icon: <SupervisedUserCircle />, name: "Login" },
-  { icon: <FileCopyIcon />, name: "Reports" },
-  { icon: <SaveIcon />, name: "Rules" },
-  { icon: <ShareIcon />, name: "Configs" },
-  { icon: <FavoriteIcon />, name: "Maps" },
-  { icon: <Adb />, name: "DashBoard" },
-  { icon: <MusicNote />, name: "Test" },
-  { icon: <ArrowRightOutlined />, name: "ThreeDemo" }
-];
 
 const Main = props => {
-  const history = useHistory();
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
   const [openBack, setOpenBack] = useState(false);
   const [hidden, setHidden] = useState(false);
 
@@ -88,21 +61,11 @@ const Main = props => {
     setHidden(prevHidden => !prevHidden);
   };
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const handleBackClose = () => {
     setOpenBack(false);
   };
 
-  const handleClick = name => {
-    history.push("/" + name);
-  };
 
   const handleLogClick = () => {
     if (user.name) {
@@ -136,6 +99,7 @@ const Main = props => {
       {props.children}
       {/* <Backdrop open={open} /> */}
 
+      {/* login modal window */}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -154,26 +118,8 @@ const Main = props => {
           </div>
         </Fade>
       </Modal>
+      <Menus hidden={hidden} />
 
-      <SpeedDial
-        ariaLabel="SpeedDial tooltip"
-        className={classes.speedDial}
-        hidden={hidden}
-        icon={<SpeedDialIcon />}
-        onClose={handleClose}
-        onOpen={handleOpen}
-        open={open}
-      >
-        {actions.map(action => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            tooltipOpen
-            onClick={() => handleClick(action.name)}
-          />
-        ))}
-      </SpeedDial>
     </>
   );
 };
