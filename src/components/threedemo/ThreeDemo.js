@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import React, { Suspense, useCallback, useRef, useMemo, useState } from 'react'
 import { Canvas, useFrame, extend, useThree } from 'react-three-fiber'
 import Effects from './Effects'
-import '../styles/styles.css'
+import './styles/styles.css'
 import { useSpring, a } from 'react-spring/three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 

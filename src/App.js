@@ -3,7 +3,7 @@ import Main from "./components/Main";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import TTT from "./components/TTT";
-import ThreeDemo from "./components/ThreeDemo";
+import ThreeDemo from "./components/threedemo/ThreeDemo";
 import Rules from "./components/Rules";
 import Login from "./components/Login";
 import Configs from "./components/Configs";
