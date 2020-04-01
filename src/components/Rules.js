@@ -23,30 +23,6 @@ const Rules = () => {
         onClick={() => {
           dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "hahah" } })
         }}>message</Button>
-      {/* <Button
-        variant="contained"
-        onClick={() => {
-          get(`${sachima.url}/test`);
-        }}
-      >
-        test public api
-      </Button>
-      <Button
-        variant="contained"
-        onClick={() => {
-          get(`${sachima.url}/test2`);
-        }}
-      >
-        test2 public api
-      </Button>
-      <Button
-        variant="contained"
-        onClick={() => {
-          get(`${sachima.url}/sachima/hello`);
-        }}
-      >
-        test private api {isLoading && "loading..."}
-      </Button> */}
       <Button
         // variant="contained"
         startIcon={<RefreshRoundedIcon />}

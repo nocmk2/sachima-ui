@@ -4,13 +4,13 @@ import axios from "axios";
 import { TextField } from "@material-ui/core";
 
 const fib = (num) => {
-  let res = [1, 1]
-  for (var i = 1; i < num; i++) {
-    res.push(res[i] + res[i - 1])
+  let res = [1n, 1n]
+  for (var i = 1n; i < num; i++) {
+    res.push(res[i] + res[i - 1n])
   }
   return res
 }
-const fiblist = fib(22)
+const fiblist = fib(92n)
 
 const DashBoard = () => {
   const [data, setData] = useState({ hits: [] });
@@ -45,7 +45,7 @@ const DashBoard = () => {
       </ul>
       {
         fiblist.map((item, index) => (
-          <Button key={index} variant="contained" color={item % 2 === 0 ? "secondary" : "primary"}>{item}</Button>
+          <Button key={index} variant="contained" color={item % 2n === 0n ? "secondary" : "primary"}>{item.toString()}</Button>
         )
         )
       }
