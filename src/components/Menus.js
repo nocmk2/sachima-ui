@@ -8,6 +8,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import Adb from "@material-ui/icons/Adb"
 import MusicNote from "@material-ui/icons/MusicNote";
 import ArrowRightOutlined from "@material-ui/icons/ArrowRightOutlined";
+import ApartmentRounded from "@material-ui/icons/ApartmentRounded";
 
 import SpeedDial from "@material-ui/lab/SpeedDial";
 import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
@@ -32,7 +33,8 @@ const menus = [
     { icon: <FavoriteIcon />, name: "Maps" },
     { icon: <Adb />, name: "DashBoard" },
     { icon: <MusicNote />, name: "Test" },
-    { icon: <ArrowRightOutlined />, name: "ThreeDemo" }
+    { icon: <ArrowRightOutlined />, name: "ThreeDemo" },
+    { icon: <ApartmentRounded />, name: "Cirp" }
 ];
 
 const Menus = props => {

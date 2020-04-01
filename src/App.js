@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { StateProvider } from "./utils/state"
 
 const Cirp = lazy(() => import("./components/Cirp"))
-
 const TTT = lazy(() => import("./components/TTT"));
 const ThreeDemo = lazy(() => import("./components/threedemo/ThreeDemo"));
 const Rules = lazy(() => import("./components/Rules"));
@@ -46,15 +45,6 @@ const App = () => {
     }
   };
 
-  // const mainReducer = ({ count }, action) => {
-  //   return {
-  //     count: countReducer(count, action),
-  //     // user: userReducer(user, action),
-  //     // basket: basketReducer(basket, action)
-  //   }
-  // };
-
-
   return (
     <StateProvider initialState={initialState} reducer={mainReducer}>
       <Router>
@@ -66,7 +56,7 @@ const App = () => {
               <Route exact path="/Rules" component={Rules} />
               <Route exact path="/Login" component={Login} />
               <Route exact path="/Configs" component={Configs} />
-              {/* <Route exact path="/Test" component={BinSetter} /> */}
+              <Route exact path="/Cirp" component={Cirp} />
               <Route exact path="/Reports">
                 <TTT visible={false} />
               </Route>
