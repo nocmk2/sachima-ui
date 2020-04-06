@@ -20,11 +20,15 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
+  chip: {
+    margin: '28px'
+  }
 }));
 
 const linecolors = {
   purple: { color: 'purple', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true },
-  hotpink: { color: 'hotpink', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true }
+  hotpink: { color: 'hotpink', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true },
+  gray: { color: 'gray', size: 3, dash: { animation: false }, startPlugColor: 'black', gradient: true }
 }
 
 const lines = []
@@ -69,37 +73,43 @@ function Configs() {
     return createRef()
   }))
 
-  // const roleRefsMap = useRef(roles.map(() => {
-  //   return { [roles.name]: createRef() }
-  // }))
+  const objectRefsMap = useRef(objects.map(obj => {
+    return createRef()
+  }))
 
-  const ref = useRef(null);
-  const ref1 = useRef(null);
-  const ref2 = useRef(null);
-  const ref3 = useRef(null);
-  const ref4 = useRef(null);
-  const ref5 = useRef(null);
-  const ref6 = useRef(null);
 
-  const Line = (startID, endID, option) => {
-    var line2 = new LeaderLine(
-      userRefsMap.current[2].current,
-      ref3.current,
+  const LineUserRole = (startID, endID, option) => {
+    let userindex = users.findIndex((user) => user.id === startID)
+    let roleindex = roles.findIndex((role) => role.id === endID)
+    let line2 = new LeaderLine(
+      userRefsMap.current[userindex].current,
+      roleRefsMap.current[roleindex].current,
       linecolors.purple
     )
+    return line2
+  }
+
+  const LineRoleObject = (startID, endID, option) => {
+    let roleindex = roles.findIndex((role) => role.id === startID)
+    let objectindex = objects.findIndex((obj) => obj.id === endID)
+    let line3 = new LeaderLine(
+      roleRefsMap.current[roleindex].current,
+      objectRefsMap.current[objectindex].current,
+      linecolors.gray
+    )
+    return line3
   }
 
   const DrawLine = () => {
-    console.log(userRefsMap.current[2].current)
-    console.log(ref3.current)
-    Line('wanghaoran', 10, null)
-    // var line = new LeaderLine(ref1.current, ref2.current, { color: 'hotpink', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true });
-    // var line3 = new LeaderLine(ref4.current, ref5.current, { color: 'hotpink', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true });
-    // var line4 = new LeaderLine(ref5.current, ref6.current, { color: 'purple', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true });
-    // if (line !== null && line !== undefined) {
-    //   line.setOptions({ dash: { animation: true } })
-    // }
-    // console.log("mouse enter")
+    g_userrole.map((o) => {
+      return LineUserRole(o.user, o.role, null)
+    })
+
+    p_roleobjectaction.map((o) => {
+      return LineRoleObject(o.role, o.obj)
+    })
+
+    // LineRoleObject(40, 'Maps', null)
   }
 
   const DisposeLine = () => {
@@ -107,17 +117,16 @@ function Configs() {
   }
 
   const handleDelete = () => {
-    alert('王浩然！')
+    alert('handleDelete')
   }
 
-  const onMouseEnter = (event) => {
-    console.log(event.target)
-    var line = new LeaderLine(event.target, ref2.current, { color: 'hotpink', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true });
-  }
+  // const onMouseEnter = (event) => {
+  //   console.log(event.target)
+  // }
 
-  const onMouseLeave = (event) => {
-    console.log(event.target)
-  }
+  // const onMouseLeave = (event) => {
+  //   console.log(event.target)
+  // }
 
 
   return (
@@ -130,6 +139,7 @@ function Configs() {
             {users.map((user, index) =>
               (
                 <Chip
+                  className={classes.chip}
                   ref={userRefsMap.current[index]}
                   size="small"
                   icon={<FaceIcon />}
@@ -150,6 +160,7 @@ function Configs() {
             {
               roles.map((role, index) =>
                 <Chip
+                  className={classes.chip}
                   ref={roleRefsMap.current[index]}
                   size="small"
                   icon={<BallotRounded />}
@@ -168,24 +179,20 @@ function Configs() {
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <Chip
-              ref={ref3}
-              size="small"
-              icon={<CenterFocusWeak />}
-              label="改评分卡规则"
-              clickable
-              onDelete={handleDelete}
-              deleteIcon={<DoneIcon />}
-            />
-            <Chip
-              ref={ref6}
-              size="small"
-              icon={<CenterFocusWeak />}
-              label="查看报表"
-              clickable
-              onDelete={handleDelete}
-              deleteIcon={<DoneIcon />}
-            />
+            {objects.map((obj, index) => (
+              <Chip
+                className={classes.chip}
+                ref={objectRefsMap.current[index]}
+                size="small"
+                icon={<CenterFocusWeak />}
+                label={obj.name}
+                clickable
+                onDelete={handleDelete}
+                deleteIcon={<DoneIcon />}
+                key={'obj' + obj.id}
+              />)
+            )
+            }
           </Paper >
         </Grid>
       </Grid>
