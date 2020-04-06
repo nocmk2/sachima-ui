@@ -36,6 +36,7 @@ const linecolors = {
 // let lines = []
 let user_lines = []
 let role_lines = []
+let relatives = {}
 
 
 let users = [
@@ -56,6 +57,9 @@ const objects = [
   { id: 'r0098', name: "报表r0098" },
   { id: 'ThreeDemo', name: "ThreeDemo模块" }
 ]
+users.forEach((user) => user.type = 'user')
+roles.forEach((role) => role.type = 'role')
+objects.forEach((o) => o.type = 'object')
 const g_userrole = [
   { user: 'wanghaoran', role: 10 },
   { user: 'wanghaoran', role: 20 },
@@ -67,30 +71,40 @@ const p_roleobjectaction = [
 ]
 
 function Configs() {
-  const [animation, setAnimation] = useState(false)
   const classes = useStyles();
+  const [animation, setAnimation] = useState(false);
+  const nodes = users.concat(roles).concat(objects)
+  console.log(nodes)
 
-  const userRefsMap = useRef(users.map(user => {
+  const userRefs = useRef(users.map(user => {
     return createRef()
   }))
 
-  const roleRefsMap = useRef(roles.map(role => {
+  const roleRefs = useRef(roles.map(role => {
     return createRef()
   }))
 
-  const objectRefsMap = useRef(objects.map(obj => {
+  const objectRefs = useRef(objects.map(obj => {
     return createRef()
   }))
-
 
   const LineUserRole = (startID, endID) => {
     let userindex = users.findIndex((user) => user.id === startID)
     let roleindex = roles.findIndex((role) => role.id === endID)
     let line = new LeaderLine(
-      userRefsMap.current[userindex].current,
-      roleRefsMap.current[roleindex].current,
+      userRefs.current[userindex].current,
+      roleRefs.current[roleindex].current,
       linecolors.red
     )
+    if (relatives['u' + userindex] === undefined) {
+      relatives['u' + userindex] = new Set()
+    }
+    relatives['u' + userindex].add(line)
+
+    if (relatives['r' + roleindex] === undefined) {
+      relatives['r' + roleindex] = new Set()
+    }
+    relatives['r' + roleindex].add(line)
     return line
   }
 
@@ -98,10 +112,19 @@ function Configs() {
     let roleindex = roles.findIndex((role) => role.id === startID)
     let objectindex = objects.findIndex((obj) => obj.id === endID)
     let line = new LeaderLine(
-      roleRefsMap.current[roleindex].current,
-      objectRefsMap.current[objectindex].current,
+      roleRefs.current[roleindex].current,
+      objectRefs.current[objectindex].current,
       linecolors.gray
     )
+    if (relatives['r' + roleindex] === undefined) {
+      relatives['r' + roleindex] = new Set()
+    }
+    relatives['r' + roleindex].add(line)
+
+    if (relatives['o' + objectindex] === undefined) {
+      relatives['o' + objectindex] = new Set()
+    }
+    relatives['o' + objectindex].add(line)
     return line
   }
 
@@ -116,35 +139,27 @@ function Configs() {
 
   }
 
-  const ToggleAnimateRelativeLine = (cur) => {
-    // user_lines[1].hide()
-    user_lines[1].setOptions({ dash: { animation: !animation } })
+  const ToggleAnimateRelativeLine = (curidx) => {
+    if (relatives[curidx] === undefined) return
+    relatives[curidx].forEach((line) => {
+      line.setOptions({ dash: { animation: !animation } })
+    })
     setAnimation(!animation)
-    // let idx = userRefsMap.current.findIndex((line) => line.current === cur)
-    // if (idx !== -1) {
-    //   user_lines[idx].setOptions({ dash: { Animation: true } })
-    // }
-    // console.log(idx)
-
   }
 
   const DisposeLine = () => {
-    console.log(userRefsMap.current[0])
   }
 
   const handleDelete = () => {
     alert('handleDelete')
   }
 
-  const onMouseEnter = (event) => {
-    // console.log(event.target)
-    ToggleAnimateRelativeLine(event.target)
-    // LineUserRole(event.target, o.role, null)
+  const onMouseEnter = (idx) => {
+    ToggleAnimateRelativeLine(idx)
   }
 
-  const onMouseLeave = (event) => {
-    ToggleAnimateRelativeLine(event.target)
-    // console.log(event.target.current)
+  const onMouseLeave = (idx) => {
+    ToggleAnimateRelativeLine(idx)
   }
 
 
@@ -159,16 +174,17 @@ function Configs() {
               (
                 <Chip
                   className={classes.chip}
-                  ref={userRefsMap.current[index]}
+                  ref={userRefs.current[index]}
                   size="small"
                   icon={<FaceIcon />}
                   label={user.name}
                   color="secondary"
                   onDelete={handleDelete}
                   deleteIcon={<DoneIcon />}
-                  onMouseEnter={(event) => { onMouseEnter(event) }}
-                  onMouseLeave={(event) => { onMouseLeave(event) }}
+                  onMouseEnter={(event) => { onMouseEnter('u' + index) }}
+                  onMouseLeave={(event) => { onMouseLeave('u' + index) }}
                   key={'user' + user.id}
+                  id={user.id}
                 />
               )
             )}
@@ -180,14 +196,14 @@ function Configs() {
               roles.map((role, index) =>
                 <Chip
                   className={classes.chip}
-                  ref={roleRefsMap.current[index]}
+                  ref={roleRefs.current[index]}
                   size="small"
                   icon={<BallotRounded />}
                   label={role.name}
                   onDelete={handleDelete}
                   deleteIcon={<DoneIcon />}
-                  // onMouseEnter={(event) => { onMouseEnter(event) }}
-                  // onMouseLeave={(event) => { onMouseLeave(event) }}
+                  onMouseEnter={(event) => { onMouseEnter('r' + index) }}
+                  onMouseLeave={(event) => { onMouseLeave('r' + index) }}
                   key={'role' + role.id}
                 />
 
@@ -200,7 +216,7 @@ function Configs() {
             {objects.map((obj, index) => (
               <Chip
                 className={classes.chip}
-                ref={objectRefsMap.current[index]}
+                ref={objectRefs.current[index]}
                 size="small"
                 color="primary"
                 icon={<CenterFocusWeak />}
@@ -208,6 +224,8 @@ function Configs() {
                 clickable
                 onDelete={handleDelete}
                 deleteIcon={<DoneIcon />}
+                onMouseEnter={(event) => { onMouseEnter('o' + index) }}
+                onMouseLeave={(event) => { onMouseLeave('o' + index) }}
                 key={'obj' + obj.id}
               />)
             )
