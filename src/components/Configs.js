@@ -22,6 +22,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const linecolors = {
+  purple: { color: 'purple', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true },
+  hotpink: { color: 'hotpink', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true }
+}
+
 const lines = []
 
 let users = [
@@ -33,7 +38,9 @@ let users = [
 ]
 const roles = [
   { id: 10, name: "财务部员工" },
-  { id: 20, name: "商务部员工" }
+  { id: 20, name: "商务部员工" },
+  { id: 30, name: "风险部员工" },
+  { id: 40, name: "风险部经理" },
 ]
 const objects = [
   { id: 'Maps', name: "地图模块" },
@@ -58,6 +65,10 @@ function Configs() {
     return createRef()
   }))
 
+  const roleRefsMap = useRef(roles.map(role => {
+    return createRef()
+  }))
+
   // const roleRefsMap = useRef(roles.map(() => {
   //   return { [roles.name]: createRef() }
   // }))
@@ -70,11 +81,19 @@ function Configs() {
   const ref5 = useRef(null);
   const ref6 = useRef(null);
 
+  const Line = (startID, endID, option) => {
+    var line2 = new LeaderLine(
+      userRefsMap.current[2].current,
+      ref3.current,
+      linecolors.purple
+    )
+  }
+
   const DrawLine = () => {
     console.log(userRefsMap.current[2].current)
     console.log(ref3.current)
+    Line('wanghaoran', 10, null)
     // var line = new LeaderLine(ref1.current, ref2.current, { color: 'hotpink', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true });
-    var line2 = new LeaderLine(userRefsMap.current[2].current, ref3.current, { color: 'purple', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true });
     // var line3 = new LeaderLine(ref4.current, ref5.current, { color: 'hotpink', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true });
     // var line4 = new LeaderLine(ref5.current, ref6.current, { color: 'purple', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true });
     // if (line !== null && line !== undefined) {
@@ -118,92 +137,34 @@ function Configs() {
                   color="primary"
                   onDelete={handleDelete}
                   deleteIcon={<DoneIcon />}
+                  // onMouseEnter={(event) => { onMouseEnter(event) }}
+                  // onMouseLeave={(event) => { onMouseLeave(event) }}
                   key={'user' + user.id}
                 />
               )
             )}
-            {/* <Chip
-              ref={ref1}
-              size="small"
-              icon={<FaceIcon />}
-              label="王浩然"
-              clickable
-              color="primary"
-              onDelete={handleDelete}
-              deleteIcon={<DoneIcon />}
-            />
-            <Chip
-              ref={ref4}
-              size="small"
-              icon={<FaceIcon />}
-              label={"段誉" + String(animation)}
-              onMouseEnter={(event) => { onMouseEnter(event) }}
-              onMouseLeave={(event) => { onMouseLeave(event) }}
-              clickable
-              color="primary"
-              onDelete={handleDelete}
-              deleteIcon={<DoneIcon />}
-            />
-            <Chip
-              size="small"
-              icon={<FaceIcon />}
-              label="蒋怡"
-              clickable
-              color="primary"
-              onDelete={handleDelete}
-              deleteIcon={<DoneIcon />}
-            />
-            <Chip
-              size="small"
-              icon={<FaceIcon />}
-              label="蒋怡"
-              clickable
-              color="primary"
-              onDelete={handleDelete}
-              deleteIcon={<DoneIcon />}
-            />
-            <Chip
-              size="small"
-              icon={<FaceIcon />}
-              label="蒋怡"
-              clickable
-              color="primary"
-              onDelete={handleDelete}
-              deleteIcon={<DoneIcon />}
-            />
-            <Chip
-              size="small"
-              icon={<FaceIcon />}
-              label="蒋怡"
-              clickable
-              color="primary"
-              onDelete={handleDelete}
-              deleteIcon={<DoneIcon />}
-            /> */}
           </Paper >
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <Chip
-              ref={ref2}
-              size="small"
-              icon={<BallotRounded />}
-              label="财务部普通员工"
-              clickable
-              color="secondary"
-              onDelete={handleDelete}
-              deleteIcon={<DoneIcon />}
-            />
-            <Chip
-              ref={ref5}
-              size="small"
-              icon={<BallotRounded />}
-              label="商务部普通员工"
-              clickable
-              color="secondary"
-              onDelete={handleDelete}
-              deleteIcon={<DoneIcon />}
-            /></Paper>
+            {
+              roles.map((role, index) =>
+                <Chip
+                  ref={roleRefsMap.current[index]}
+                  size="small"
+                  icon={<BallotRounded />}
+                  label={role.name}
+                  color="secondary"
+                  onDelete={handleDelete}
+                  deleteIcon={<DoneIcon />}
+                  // onMouseEnter={(event) => { onMouseEnter(event) }}
+                  // onMouseLeave={(event) => { onMouseLeave(event) }}
+                  key={'role' + role.id}
+                />
+
+              )
+            }
+          </Paper>
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
