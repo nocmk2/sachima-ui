@@ -41,12 +41,15 @@ let users = [
   { id: 'wangyuyan', name: "王语嫣" },
   { id: 'xuzhu', name: "虚竹" },
   { id: 'wanglihong', name: "王力宏" },
+  { id: 'admin', name: '管理员' }
 ]
 const roles = [
+  { id: 1, name: '管理员' },
   { id: 10, name: "财务部员工" },
   { id: 20, name: "商务部员工" },
   { id: 30, name: "风险部员工" },
   { id: 40, name: "风险部经理" },
+
 ]
 const objects = [
   { id: 'Maps', name: "地图模块" },
@@ -60,7 +63,9 @@ const g_userrole = [
   { user: 'wanghaoran', role: 10 },
   { user: 'wanghaoran', role: 20 },
   { user: 'duanyu', role: 20 },
-  { user: 'xuzhu', role: 30 }
+  { user: 'xuzhu', role: 30 },
+  { user: 'admin', role: 1 }
+
 ]
 const p_roleobjectaction = [
   { role: 10, obj: 'r0098', action: 'write' },
@@ -74,9 +79,9 @@ function Configs() {
   const [animation, setAnimation] = useState(false);
 
   useEffect(() => {
-    const dis = DrawLine()
+    const dispose = DrawLine()
     return () => {
-      dis()
+      dispose()
     }
   }, [])
 
@@ -149,6 +154,8 @@ function Configs() {
       roleObjectLines.forEach(line => {
         line.remove()
       })
+
+      relatives = []
     }
     return Dispose
   }
