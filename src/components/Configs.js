@@ -1,4 +1,4 @@
-import React, { useRef, useState, createRef } from "react";
+import React, { useRef, useState, useEffect, createRef } from "react";
 import LeaderLine from 'leader-line'
 import Button from '@material-ui/core/Button'
 
@@ -33,11 +33,7 @@ const linecolors = {
   blue: { color: 'blue', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true }
 }
 
-// let lines = []
-let user_lines = []
-let role_lines = []
 let relatives = {}
-
 
 let users = [
   { id: 'wanghaoran', name: "王浩然" },
@@ -57,24 +53,32 @@ const objects = [
   { id: 'r0098', name: "报表r0098" },
   { id: 'ThreeDemo', name: "ThreeDemo模块" }
 ]
-users.forEach((user) => user.type = 'user')
-roles.forEach((role) => role.type = 'role')
-objects.forEach((o) => o.type = 'object')
+// users.forEach((user) => user.type = 'user')
+// roles.forEach((role) => role.type = 'role')
+// objects.forEach((o) => o.type = 'object')
 const g_userrole = [
   { user: 'wanghaoran', role: 10 },
   { user: 'wanghaoran', role: 20 },
-  { user: 'duanyu', role: 20 }
+  { user: 'duanyu', role: 20 },
+  { user: 'xuzhu', role: 30 }
 ]
 const p_roleobjectaction = [
   { role: 10, obj: 'r0098', action: 'write' },
-  { role: 20, obj: 'Maps', action: 'read' }
+  { role: 20, obj: 'Maps', action: 'read' },
+  { role: 30, obj: 'r0098', action: 'write' },
+  { role: 30, obj: 'ThreeDemo', action: 'write' }
 ]
 
 function Configs() {
   const classes = useStyles();
   const [animation, setAnimation] = useState(false);
-  const nodes = users.concat(roles).concat(objects)
-  console.log(nodes)
+
+  useEffect(() => {
+    const dis = DrawLine()
+    return () => {
+      dis()
+    }
+  }, [])
 
   const userRefs = useRef(users.map(user => {
     return createRef()
@@ -129,14 +133,24 @@ function Configs() {
   }
 
   const DrawLine = () => {
-    user_lines = g_userrole.map((o) => {
+    let userRoleLines = g_userrole.map((o) => {
       return LineUserRole(o.user, o.role)
     })
 
-    role_lines = p_roleobjectaction.map((o) => {
+    let roleObjectLines = p_roleobjectaction.map((o) => {
       return LineRoleObject(o.role, o.obj)
     })
 
+    const Dispose = () => {
+      userRoleLines.forEach(line => {
+        line.remove()
+      })
+
+      roleObjectLines.forEach(line => {
+        line.remove()
+      })
+    }
+    return Dispose
   }
 
   const ToggleAnimateRelativeLine = (curidx) => {
@@ -147,8 +161,6 @@ function Configs() {
     setAnimation(!animation)
   }
 
-  const DisposeLine = () => {
-  }
 
   const handleDelete = () => {
     alert('handleDelete')
@@ -165,8 +177,6 @@ function Configs() {
 
   return (
     <div className={classes.root}>
-      <Button onClick={DrawLine}>draw</Button>
-      <Button variant="contained" color="primary" onClick={DisposeLine}>dispose</Button>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
