@@ -28,10 +28,15 @@ const useStyles = makeStyles((theme) => ({
 const linecolors = {
   purple: { color: 'purple', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true },
   hotpink: { color: 'hotpink', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true },
-  gray: { color: 'gray', size: 3, dash: { animation: false }, startPlugColor: 'black', gradient: true }
+  gray: { color: 'gray', size: 3, dash: { animation: false }, startPlugColor: 'black', gradient: true },
+  red: { color: 'red', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true },
+  blue: { color: 'blue', size: 3, dash: { animation: false }, startPlugColor: 'hotpink', gradient: true }
 }
 
-const lines = []
+// let lines = []
+let user_lines = []
+let role_lines = []
+
 
 let users = [
   { id: 'wanghaoran', name: "王浩然" },
@@ -78,38 +83,49 @@ function Configs() {
   }))
 
 
-  const LineUserRole = (startID, endID, option) => {
+  const LineUserRole = (startID, endID) => {
     let userindex = users.findIndex((user) => user.id === startID)
     let roleindex = roles.findIndex((role) => role.id === endID)
-    let line2 = new LeaderLine(
+    let line = new LeaderLine(
       userRefsMap.current[userindex].current,
       roleRefsMap.current[roleindex].current,
-      linecolors.purple
+      linecolors.red
     )
-    return line2
+    return line
   }
 
-  const LineRoleObject = (startID, endID, option) => {
+  const LineRoleObject = (startID, endID) => {
     let roleindex = roles.findIndex((role) => role.id === startID)
     let objectindex = objects.findIndex((obj) => obj.id === endID)
-    let line3 = new LeaderLine(
+    let line = new LeaderLine(
       roleRefsMap.current[roleindex].current,
       objectRefsMap.current[objectindex].current,
       linecolors.gray
     )
-    return line3
+    return line
   }
 
   const DrawLine = () => {
-    g_userrole.map((o) => {
-      return LineUserRole(o.user, o.role, null)
+    user_lines = g_userrole.map((o) => {
+      return LineUserRole(o.user, o.role)
     })
 
-    p_roleobjectaction.map((o) => {
+    role_lines = p_roleobjectaction.map((o) => {
       return LineRoleObject(o.role, o.obj)
     })
 
-    // LineRoleObject(40, 'Maps', null)
+  }
+
+  const ToggleAnimateRelativeLine = (cur) => {
+    // user_lines[1].hide()
+    user_lines[1].setOptions({ dash: { animation: !animation } })
+    setAnimation(!animation)
+    // let idx = userRefsMap.current.findIndex((line) => line.current === cur)
+    // if (idx !== -1) {
+    //   user_lines[idx].setOptions({ dash: { Animation: true } })
+    // }
+    // console.log(idx)
+
   }
 
   const DisposeLine = () => {
@@ -120,13 +136,16 @@ function Configs() {
     alert('handleDelete')
   }
 
-  // const onMouseEnter = (event) => {
-  //   console.log(event.target)
-  // }
+  const onMouseEnter = (event) => {
+    // console.log(event.target)
+    ToggleAnimateRelativeLine(event.target)
+    // LineUserRole(event.target, o.role, null)
+  }
 
-  // const onMouseLeave = (event) => {
-  //   console.log(event.target)
-  // }
+  const onMouseLeave = (event) => {
+    ToggleAnimateRelativeLine(event.target)
+    // console.log(event.target.current)
+  }
 
 
   return (
@@ -144,11 +163,11 @@ function Configs() {
                   size="small"
                   icon={<FaceIcon />}
                   label={user.name}
-                  color="primary"
+                  color="secondary"
                   onDelete={handleDelete}
                   deleteIcon={<DoneIcon />}
-                  // onMouseEnter={(event) => { onMouseEnter(event) }}
-                  // onMouseLeave={(event) => { onMouseLeave(event) }}
+                  onMouseEnter={(event) => { onMouseEnter(event) }}
+                  onMouseLeave={(event) => { onMouseLeave(event) }}
                   key={'user' + user.id}
                 />
               )
@@ -165,7 +184,6 @@ function Configs() {
                   size="small"
                   icon={<BallotRounded />}
                   label={role.name}
-                  color="secondary"
                   onDelete={handleDelete}
                   deleteIcon={<DoneIcon />}
                   // onMouseEnter={(event) => { onMouseEnter(event) }}
@@ -184,6 +202,7 @@ function Configs() {
                 className={classes.chip}
                 ref={objectRefsMap.current[index]}
                 size="small"
+                color="primary"
                 icon={<CenterFocusWeak />}
                 label={obj.name}
                 clickable
