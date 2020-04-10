@@ -44,11 +44,11 @@ let users = [
   { id: 'admin', name: '管理员' }
 ]
 const roles = [
-  { id: 1, name: '管理员' },
-  { id: 10, name: "财务部员工" },
-  { id: 20, name: "商务部员工" },
-  { id: 30, name: "风险部员工" },
-  { id: 40, name: "风险部经理" },
+  { id: 'admin', name: '管理员' },
+  { id: 'caiwu', name: "财务部员工" },
+  { id: 'shangwu', name: "商务部员工" },
+  { id: 'fengxian', name: "风险部员工" },
+  { id: 'fengxianadmin', name: "风险部经理" },
 
 ]
 const objects = [
@@ -60,18 +60,22 @@ const objects = [
 // roles.forEach((role) => role.type = 'role')
 // objects.forEach((o) => o.type = 'object')
 const g_userrole = [
-  { user: 'wanghaoran', role: 10 },
-  { user: 'wanghaoran', role: 20 },
-  { user: 'duanyu', role: 20 },
-  { user: 'xuzhu', role: 30 },
-  { user: 'admin', role: 1 }
+  { user: 'wanghaoran', role: 'caiwu' },
+  { user: 'wanghaoran', role: 'fengxian' },
+  { user: 'duanyu', role: 'fengxian' },
+  { user: 'xuzhu', role: 'shangwu' },
+  { user: 'admin', role: 'admin' }
 
 ]
 const p_roleobjectaction = [
-  { role: 10, obj: 'r0098', action: 'write' },
-  { role: 20, obj: 'Maps', action: 'read' },
-  { role: 30, obj: 'r0098', action: 'write' },
-  { role: 30, obj: 'ThreeDemo', action: 'write' }
+  { role: 'caiwu', obj: 'r0098', action: 'write' },
+  { role: 'shangwu', obj: 'Maps', action: 'read' },
+  { role: 'fengxian', obj: 'r0098', action: 'write' },
+  { role: 'fengxian', obj: 'ThreeDemo', action: 'write' },
+  { role: 'admin', obj: 'r0098', action: 'write' },
+  { role: 'admin', obj: 'Maps', action: 'write' },
+  { role: 'admin', obj: 'r0098', action: 'write' },
+  { role: 'admin', obj: 'ThreeDemo', action: 'write' }
 ]
 
 function Configs() {
