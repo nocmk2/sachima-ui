@@ -1,16 +1,20 @@
-import React, { useRef, useState, useEffect, createRef } from "react";
+import React, { useState, useEffect, createRef } from "react";
 import LeaderLine from 'leader-line'
 import Button from '@material-ui/core/Button'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
+import Gesture from '@material-ui/icons/Gesture';
 import CenterFocusWeak from '@material-ui/icons/CenterFocusWeak';
 import BallotRounded from '@material-ui/icons/BallotRounded';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Switch from '@material-ui/core/Switch';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -35,7 +39,7 @@ const linecolors = {
 
 let relatives = {}
 
-let users = [
+let mock_users = [
   { id: 'wanghaoran', name: "王浩然" },
   { id: 'duanyu', name: "段誉" },
   { id: 'wangyuyan', name: "王语嫣" },
@@ -43,7 +47,7 @@ let users = [
   { id: 'wanglihong', name: "王力宏" },
   { id: 'admin', name: '管理员' }
 ]
-const roles = [
+const mock_roles = [
   { id: 'admin', name: '管理员' },
   { id: 'caiwu', name: "财务部员工" },
   { id: 'shangwu', name: "商务部员工" },
@@ -51,7 +55,7 @@ const roles = [
   { id: 'fengxianadmin', name: "风险部经理" },
 
 ]
-const objects = [
+const mock_objects = [
   { id: 'Maps', name: "地图模块" },
   { id: 'r0098', name: "报表r0098" },
   { id: 'ThreeDemo', name: "ThreeDemo模块" }
@@ -59,7 +63,7 @@ const objects = [
 // users.forEach((user) => user.type = 'user')
 // roles.forEach((role) => role.type = 'role')
 // objects.forEach((o) => o.type = 'object')
-const g_userrole = [
+const mock_g_userrole = [
   { user: 'wanghaoran', role: 'caiwu' },
   { user: 'wanghaoran', role: 'fengxian' },
   { user: 'duanyu', role: 'fengxian' },
@@ -67,7 +71,7 @@ const g_userrole = [
   { user: 'admin', role: 'admin' }
 
 ]
-const p_roleobjectaction = [
+const mock_p_roleobjectaction = [
   { role: 'caiwu', obj: 'r0098', action: 'write' },
   { role: 'shangwu', obj: 'Maps', action: 'read' },
   { role: 'fengxian', obj: 'r0098', action: 'write' },
@@ -78,35 +82,78 @@ const p_roleobjectaction = [
   { role: 'admin', obj: 'ThreeDemo', action: 'write' }
 ]
 
-function Configs() {
+const fetchUsers = () => {
+  return mock_users
+}
+const fetchRoles = () => {
+  return mock_roles
+}
+const fetchObjects = () => {
+  return mock_objects
+}
+const fetchUserRole = () => {
+  return mock_g_userrole
+}
+const fetchRoleObjectAction = () => {
+  return mock_p_roleobjectaction
+}
+
+function fetchData() {
+  return Promise.all([fetchUsers(), fetchRoles(), fetchObjects(), fetchUserRole(), fetchRoleObjectAction()])
+    .then(([users, roles, objects, userrole, roleobjectaction]) => ({ users, roles, objects, userrole, roleobjectaction }))
+}
+
+const promise = fetchData()
+
+
+const Configs = () => {
   const classes = useStyles();
   const [animation, setAnimation] = useState(false);
 
+  const [users, setUsers] = useState(null)
+  const [roles, setRoles] = useState(null)
+  const [objects, setObjects] = useState(null)
+  const [userrole, setUserRole] = useState(null)
+  const [roleobjectaction, setRoleObjectAction] = useState(null)
+
+  const [userRefs, setUserRefs] = useState([])
+  const [roleRefs, setRoleRefs] = useState([])
+  const [objectRefs, setObjectRefs] = useState([])
+
+  const [showline, setShowLine] = useState(false)
+
+  const [userRoleLines, setUserRoleLines] = useState([])
+  const [roleObjectLines, setRoleObjectLines] = useState([])
+
+
   useEffect(() => {
-    const dispose = DrawLine()
-    return () => {
-      dispose()
-    }
-  }, [])
+    promise.then(data => {
+      setUsers(data.users)
+      setRoles(data.roles)
+      setObjects(data.objects)
+      setUserRole(data.userrole)
+      setRoleObjectAction(data.roleobjectaction)
 
-  const userRefs = useRef(users.map(user => {
-    return createRef()
-  }))
+      setUserRefs(data.users.map(user => { return createRef() }))
+      setRoleRefs(data.roles.map(role => { return createRef() }))
+      setObjectRefs(data.objects.map(object => { return createRef() }))
+    })
+  }, [users, roles, objects, userrole, roleobjectaction])
 
-  const roleRefs = useRef(roles.map(role => {
-    return createRef()
-  }))
+  // useEffect(() => {
+  //   DrawLine()
+  //   return () => {
+  //     DisposeLine()
+  //   }
+  // }, [showline])
 
-  const objectRefs = useRef(objects.map(obj => {
-    return createRef()
-  }))
 
   const LineUserRole = (startID, endID) => {
     let userindex = users.findIndex((user) => user.id === startID)
     let roleindex = roles.findIndex((role) => role.id === endID)
     let line = new LeaderLine(
-      userRefs.current[userindex].current,
-      roleRefs.current[roleindex].current,
+      userRefs[userindex].current,
+      roleRefs[roleindex].current,
       linecolors.red
     )
     if (relatives['u' + userindex] === undefined) {
@@ -125,8 +172,8 @@ function Configs() {
     let roleindex = roles.findIndex((role) => role.id === startID)
     let objectindex = objects.findIndex((obj) => obj.id === endID)
     let line = new LeaderLine(
-      roleRefs.current[roleindex].current,
-      objectRefs.current[objectindex].current,
+      roleRefs[roleindex].current,
+      objectRefs[objectindex].current,
       linecolors.gray
     )
     if (relatives['r' + roleindex] === undefined) {
@@ -142,26 +189,27 @@ function Configs() {
   }
 
   const DrawLine = () => {
-    let userRoleLines = g_userrole.map((o) => {
+    setUserRoleLines(userrole.map((o) => {
       return LineUserRole(o.user, o.role)
     })
+    )
 
-    let roleObjectLines = p_roleobjectaction.map((o) => {
+    setRoleObjectLines(roleobjectaction.map((o) => {
       return LineRoleObject(o.role, o.obj)
     })
+    )
+  }
 
-    const Dispose = () => {
-      userRoleLines.forEach(line => {
-        line.remove()
-      })
+  const DisposeLine = () => {
+    userRoleLines.forEach(line => {
+      line.remove()
+    })
 
-      roleObjectLines.forEach(line => {
-        line.remove()
-      })
+    roleObjectLines.forEach(line => {
+      line.remove()
+    })
 
-      relatives = []
-    }
-    return Dispose
+    relatives = []
   }
 
   const ToggleAnimateRelativeLine = (curidx) => {
@@ -185,9 +233,34 @@ function Configs() {
     ToggleAnimateRelativeLine(idx)
   }
 
+  const toggleLine = (event) => {
+    if (event.target.checked) {
+      DrawLine()
+    } else {
+      DisposeLine()
+    }
+    setShowLine(!showline)
+  }
+
+  if (users == null || roles == null || objects == null || userrole == null || roleobjectaction == null) return <div>Loading...</div>
 
   return (
     <div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item>
+          <FormControlLabel
+            control={
+              <Switch color='secondary' checked={showline} onChange={toggleLine} />
+            }
+            labelPlacement="start"
+            label={
+              <>
+                <Gesture />
+              </>
+            }
+          />
+        </Grid>
+      </Grid>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
@@ -195,7 +268,7 @@ function Configs() {
               (
                 <Chip
                   className={classes.chip}
-                  ref={userRefs.current[index]}
+                  ref={userRefs[index]}
                   size="small"
                   icon={<FaceIcon />}
                   label={user.name}
@@ -208,6 +281,7 @@ function Configs() {
                   id={user.id}
                 />
               )
+
             )}
           </Paper >
         </Grid>
@@ -217,7 +291,7 @@ function Configs() {
               roles.map((role, index) =>
                 <Chip
                   className={classes.chip}
-                  ref={roleRefs.current[index]}
+                  ref={roleRefs[index]}
                   size="small"
                   icon={<BallotRounded />}
                   label={role.name}
@@ -237,7 +311,7 @@ function Configs() {
             {objects.map((obj, index) => (
               <Chip
                 className={classes.chip}
-                ref={objectRefs.current[index]}
+                ref={objectRefs[index]}
                 size="small"
                 color="primary"
                 icon={<CenterFocusWeak />}
@@ -257,4 +331,9 @@ function Configs() {
     </div>
   );
 };
+
+const Configs1 = () => {
+  return <div>Config111111</div>
+}
+
 export default Configs;
