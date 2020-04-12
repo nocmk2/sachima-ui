@@ -6,7 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
-import Gesture from '@material-ui/icons/Gesture';
+import LowPriorityOutlined from '@material-ui/icons/LowPriorityOutlined';
 import CenterFocusWeak from '@material-ui/icons/CenterFocusWeak';
 import BallotRounded from '@material-ui/icons/BallotRounded';
 
@@ -126,28 +126,6 @@ const Configs = () => {
   const [roleObjectLines, setRoleObjectLines] = useState([])
 
 
-  useEffect(() => {
-    promise.then(data => {
-      setUsers(data.users)
-      setRoles(data.roles)
-      setObjects(data.objects)
-      setUserRole(data.userrole)
-      setRoleObjectAction(data.roleobjectaction)
-
-      setUserRefs(data.users.map(user => { return createRef() }))
-      setRoleRefs(data.roles.map(role => { return createRef() }))
-      setObjectRefs(data.objects.map(object => { return createRef() }))
-    })
-  }, [users, roles, objects, userrole, roleobjectaction])
-
-  // useEffect(() => {
-  //   DrawLine()
-  //   return () => {
-  //     DisposeLine()
-  //   }
-  // }, [showline])
-
-
   const LineUserRole = (startID, endID) => {
     let userindex = users.findIndex((user) => user.id === startID)
     let roleindex = roles.findIndex((role) => role.id === endID)
@@ -212,6 +190,27 @@ const Configs = () => {
     relatives = []
   }
 
+  useEffect(() => {
+    promise.then(data => {
+      setUsers(data.users)
+      setRoles(data.roles)
+      setObjects(data.objects)
+      setUserRole(data.userrole)
+      setRoleObjectAction(data.roleobjectaction)
+
+      setUserRefs(data.users.map(user => { return createRef() }))
+      setRoleRefs(data.roles.map(role => { return createRef() }))
+      setObjectRefs(data.objects.map(object => { return createRef() }))
+    })
+    return () => {
+      console.log('clean')
+    };
+  }, []
+  )
+
+
+
+
   const ToggleAnimateRelativeLine = (curidx) => {
     if (relatives[curidx] === undefined) return
     relatives[curidx].forEach((line) => {
@@ -254,9 +253,7 @@ const Configs = () => {
             }
             labelPlacement="start"
             label={
-              <>
-                <Gesture />
-              </>
+              <LowPriorityOutlined />
             }
           />
         </Grid>
@@ -331,9 +328,5 @@ const Configs = () => {
     </div>
   );
 };
-
-const Configs1 = () => {
-  return <div>Config111111</div>
-}
 
 export default Configs;
