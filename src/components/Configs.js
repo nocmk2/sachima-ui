@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState, useEffect, createRef, useReducer } from "react";
 import Button from '@material-ui/core/Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
@@ -30,21 +30,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
 const Configs = () => {
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const { refs } = state // ,realtion     if need
   const classes = useStyles();
 
   const [users, setUsers] = useState(null)
   const [roles, setRoles] = useState(null)
   const [objects, setObjects] = useState(null)
 
-  /*
-  refs -> {[userid]: ref}
-  relation -> [{start:userid,end:roleid}]
-  */
-  const [refs, setRefs] = useState({})
-  const [relation, setRelation] = useState([])
-
   const [showline, setShowLine] = useState(false)
+
 
   useEffect(() => {
     promise.then(data => {
@@ -62,7 +59,8 @@ const Configs = () => {
 
         return [...u, ...r]
       }
-      setRelation(toRelation(data.userrole, data.roleobjectaction))
+      // setRelation(toRelation(data.userrole, data.roleobjectaction))
+      dispatch({ type: "SETRELATION", payload: toRelation(data.userrole, data.roleobjectaction) })
 
       let temp = {}
       data.users.forEach(user => {
@@ -74,7 +72,8 @@ const Configs = () => {
       data.objects.forEach(object => {
         temp[object.id] = createRef()
       })
-      setRefs(temp)
+      // setRefs(temp)
+      dispatch({ type: "SETREFS", payload: temp })
 
     })
   }, [])
@@ -82,19 +81,21 @@ const Configs = () => {
 
   useEffect(() => {
     return () => {
-      DisposeLine()
+      // DisposeLine()
+      dispatch({ type: "DISPOSELINE" })
     }
   }, []);
 
   useEffect(() => {
     console.log('showlineeffect')
     if (showline) {
-      DrawLineX(refs, relation)
+      // DrawLineX(refs, relation)
+      dispatch({ type: "DRAWLINE" })
     }
     return () => {
-      DisposeLine()
+      dispatch({ type: "DISPOSELINE" })
+      // DisposeLine()
     }
-    // TODO:  useReducer improve
   }, [showline])
 
 
@@ -205,5 +206,30 @@ const Configs = () => {
     </div>
   );
 };
+
+const initialState = {
+  // refs -> {[userid]: ref}
+  refs: {},
+  // relation -> [{ start: userid, end: roleid }]
+  relation: []
+}
+
+function reducer(state, action) {
+  console.log(state)
+  const { refs, relation } = state
+  if (action.type === "SETREFS") {
+    return { refs: action.payload, relation }
+  } else if (action.type === "SETRELATION") {
+    return { refs, relation: action.payload }
+  } else if (action.type === "DRAWLINE") {
+    DrawLineX(refs, relation)
+    return { refs, relation }
+  } else if (action.type === "DISPOSELINE") {
+    DisposeLine()
+    return { refs, relation }
+  } else {
+    throw new Error();
+  }
+}
 
 export default Configs;
