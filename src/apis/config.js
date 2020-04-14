@@ -1,10 +1,23 @@
 import { mock_g_userrole, mock_objects, mock_p_roleobjectaction, mock_roles, mock_users } from '../mock/data';
+// import { useDataApi } from './api'
+import axios from "axios"
 
-const fetchUsers = () => {
+const fetchUsers = async () => {
     return mock_users
+    // const result = await axios({
+    //     method: "GET",
+    //     url: 'http://localhost:8000/sachima/getroles',
+    //     headers: { Authorization: "Bearer " + localStorage.token }
+    // });
+    // return result.data
 }
-const fetchRoles = () => {
-    return mock_roles
+const fetchRoles = async () => {
+    const result = await axios({
+        method: "GET",
+        url: 'http://localhost:8000/sachima/getroles',
+        headers: { Authorization: "Bearer " + localStorage.token }
+    });
+    return result.data
 }
 const fetchObjects = () => {
     return mock_objects

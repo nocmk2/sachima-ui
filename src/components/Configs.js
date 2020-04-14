@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
-import { promise } from '../apis/config_mock'
+import { promise } from '../apis/config'
 import { DrawLineX, DisposeLine, ToggleAnimateRelativeLine } from '../utils/line'
 
 const useStyles = makeStyles((theme) => ({
