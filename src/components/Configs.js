@@ -200,7 +200,6 @@ const Configs = () => {
     </div>
   );
 };
-
 const initialState = {
   // refs -> {[userid]: ref}
   refs: {},
@@ -208,7 +207,7 @@ const initialState = {
   relation: []
 }
 
-function reducer(state, action) {
+const reducer = (state, action) => {
   const { refs, relation } = state
   if (action.type === "SETREFS") {
     return { refs: action.payload, relation }
