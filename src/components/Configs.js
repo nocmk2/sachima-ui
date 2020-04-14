@@ -87,7 +87,6 @@ const Configs = () => {
   }, []);
 
   useEffect(() => {
-    console.log('showlineeffect')
     if (showline) {
       // DrawLineX(refs, relation)
       dispatch({ type: "DRAWLINE" })
@@ -215,7 +214,6 @@ const initialState = {
 }
 
 function reducer(state, action) {
-  console.log(state)
   const { refs, relation } = state
   if (action.type === "SETREFS") {
     return { refs: action.payload, relation }
