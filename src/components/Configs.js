@@ -59,7 +59,6 @@ const Configs = () => {
 
         return [...u, ...r]
       }
-      // setRelation(toRelation(data.userrole, data.roleobjectaction))
       dispatch({ type: "SETRELATION", payload: toRelation(data.userrole, data.roleobjectaction) })
 
       let temp = {}
@@ -72,7 +71,6 @@ const Configs = () => {
       data.objects.forEach(object => {
         temp[object.id] = createRef()
       })
-      // setRefs(temp)
       dispatch({ type: "SETREFS", payload: temp })
 
     })
@@ -81,19 +79,16 @@ const Configs = () => {
 
   useEffect(() => {
     return () => {
-      // DisposeLine()
       dispatch({ type: "DISPOSELINE" })
     }
   }, []);
 
   useEffect(() => {
     if (showline) {
-      // DrawLineX(refs, relation)
       dispatch({ type: "DRAWLINE" })
     }
     return () => {
       dispatch({ type: "DISPOSELINE" })
-      // DisposeLine()
     }
   }, [showline])
 
