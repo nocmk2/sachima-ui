@@ -1,24 +1,28 @@
-import React, { createRef } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
-import { reaction } from 'mobx';
 
 const Maps = () => {
-  const [user, setUser] = React.useState({ name: 'Alex', weight: 40 })
+  const [count, setCount] = useState(0)
 
-  React.useEffect(() => {
-    console.log('You need to do exercise!')
-  }, [user])
-
-  const gainWeight = () => {
-    const newWeight = Math.random() >= 0.5 ? user.weight : user.weight + 1
-    setUser(user => ({ ...user, weight: newWeight }))
+  const alertcount = () => {
+    setTimeout(() => {
+      alert(count)
+    }, 2000)
   }
 
+  useEffect(() => {
+    document.title = `clicked ${count} times`
+    setTimeout(() => {
+      console.log(`clicked ${count} times`)
+    }, 3000)
+  });
+
   return (
-    <>
-      <p>Current weight: {user.weight}</p>
-      <button onClick={gainWeight}>Eat burger</button>
-    </>
+    <div>
+      <p>You clicked {count} Times</p>
+      <Button variant="contained" color="secondary" onClick={() => { setCount(count + 1) }}>+1</Button>
+      <Button variant="contained" color="primary" onClick={alertcount}>alert</Button>
+    </div >
   )
 };
 
