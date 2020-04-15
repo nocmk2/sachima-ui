@@ -1,5 +1,3 @@
-import { mock_g_userrole, mock_objects, mock_p_roleobjectaction, mock_roles, mock_users } from '../mock/data';
-// import { useDataApi } from './api'
 import axios from "axios"
 
 const fetchUsers = async () => {
