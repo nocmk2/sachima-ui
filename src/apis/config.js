@@ -27,11 +27,21 @@ const fetchObjects = async () => {
     });
     return result.data
 }
-const fetchUserRole = () => {
-    return mock_g_userrole
+const fetchUserRole = async () => {
+    const result = await axios({
+        method: "GET",
+        url: 'http://localhost:8000/sachima/getuserrole',
+        headers: { Authorization: "Bearer " + localStorage.token }
+    });
+    return result.data
 }
-const fetchRoleObjectAction = () => {
-    return mock_p_roleobjectaction
+const fetchRoleObjectAction = async () => {
+    const result = await axios({
+        method: "GET",
+        url: 'http://localhost:8000/sachima/getroleobject',
+        headers: { Authorization: "Bearer " + localStorage.token }
+    });
+    return result.data
 }
 
 function fetchData() {
