@@ -16,7 +16,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SmallChips() {
+const getColor = (type) => {
+    if (type === 'user') return 'secondary'
+    if (type === 'role') return ''
+    if (type === 'object') return 'primary'
+}
+
+const SmallChips = ({ data }) => {
     const classes = useStyles();
 
     const handleDelete = () => {
@@ -29,55 +35,11 @@ export default function SmallChips() {
 
     return (
         <div className={classes.root}>
-            <Chip size="small" label="Basic" />
-            <Chip size="small" avatar={<Avatar>M</Avatar>} label="Clickable" onClick={handleClick} />
-            <Chip
-                size="small"
-                avatar={<Avatar alt="Natacha" src="/static/images/avatar/1.jpg" />}
-                label="Deletable"
-                onDelete={handleDelete}
-            />
-            <Chip
-                size="small"
-                icon={<FaceIcon />}
-                label="Clickable Deletable"
-                onClick={handleClick}
-                onDelete={handleDelete}
-            />
-            <Chip
-                size="small"
-                label="Custom delete icon"
-                onClick={handleClick}
-                onDelete={handleDelete}
-                deleteIcon={<DoneIcon />}
-            />
-            <Chip size="small" label="Clickable Link" component="a" href="#chip" clickable />
-            <Chip
-                size="small"
-                avatar={<Avatar>M</Avatar>}
-                label="Primary Clickable"
-                clickable
-                color="primary"
-                onDelete={handleDelete}
-                deleteIcon={<DoneIcon />}
-            />
-            <Chip
-                size="small"
-                icon={<FaceIcon />}
-                label="Primary Clickable"
-                clickable
-                color="primary"
-                onDelete={handleDelete}
-                deleteIcon={<DoneIcon />}
-            />
-            <Chip size="small" label="Deletable Primary" onDelete={handleDelete} color="primary" />
-            <Chip
-                size="small"
-                icon={<FaceIcon />}
-                label="Deletable Secondary"
-                onDelete={handleDelete}
-                color="secondary"
-            />
+            {data.map((o, idx) =>
+                <Chip size="small" label={o.name} key={o.id} color={getColor(o.type)} avatar={<Avatar>{o.name[0]}</Avatar>} onClick={handleClick} onDelete={handleDelete} />
+            )}
         </div>
     );
 }
+
+export default SmallChips
