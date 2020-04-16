@@ -153,7 +153,7 @@ const Login = () => {
                         className={classes.submit}
                         disabled={loading ? true : false}
                     >
-                        {loading ? "正在验证" : "提交"}
+                        {loading ? "正在验证" : "登 陆"}
                     </Button>
                 </form>
             </div>

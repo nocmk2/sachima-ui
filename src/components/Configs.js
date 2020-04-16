@@ -15,6 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
 import { promise } from '../apis/config'
 import { DrawLineX, DisposeLine, ToggleAnimateRelativeLine } from '../utils/line'
+import ConfigsDialog from './ConfigsDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +28,12 @@ const useStyles = makeStyles((theme) => ({
   },
   chip: {
     margin: '28px'
-  }
+  },
+  buttons: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
 }));
 
 
@@ -41,6 +47,9 @@ const Configs = () => {
   const [objects, setObjects] = useState(null)
 
   const [showline, setShowLine] = useState(false)
+
+  const [dialogopen, setDialogOpen] = useState(false)
+  const [type, setType] = useState('user')
 
 
   useEffect(() => {
@@ -109,6 +118,25 @@ const Configs = () => {
     setShowLine(!showline)
   }
 
+  const addUser = (event) => {
+    // setUsers([...users, { id: 'newuser', name: '新用户' }])
+    setDialogOpen(true)
+    setType('user')
+  }
+
+  const addRole = (event) => {
+    setDialogOpen(true)
+    setType('role')
+  }
+
+  const addObject = (event) => {
+    setDialogOpen(true)
+    setType('object')
+  }
+
+  const handleDialogClose = () => {
+    setDialogOpen(false)
+  }
 
   if (users == null || roles == null || objects == null) return <div>Loading...</div>
 
@@ -116,16 +144,22 @@ const Configs = () => {
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item>
-          <Button variant="contained" color="primary" onClick={() => { setShowLine(true) }}>show</Button>
-          <FormControlLabel
-            control={
-              <Switch color='secondary' checked={showline} onChange={toggleLine} />
-            }
-            labelPlacement="start"
-            label={
-              <LowPriorityOutlined />
-            }
-          />
+          {/* <Button variant="contained" color="primary" onClick={() => { setShowLine(true) }}>show</Button> */}
+          <div className={classes.buttons}>
+            <FormControlLabel
+              control={
+                <Switch color='secondary' checked={showline} onChange={toggleLine} />
+              }
+              labelPlacement="start"
+              label={
+                <span>展示关系</span>
+                // <LowPriorityOutlined />
+              }
+            />
+            <Button variant="contained" color="secondary" onClick={addUser} startIcon={<FaceIcon />}>新增用户</Button>
+            <Button variant="contained" onClick={addRole} startIcon={<BallotRounded />}>新增角色</Button>
+            <Button variant="contained" color="primary" onClick={addObject} startIcon={<CenterFocusWeak />}>新增权限</Button>
+          </div>
         </Grid>
       </Grid>
       <Grid container spacing={3}>
@@ -136,7 +170,6 @@ const Configs = () => {
                 <Chip
                   className={classes.chip}
                   ref={refs[user.id]}
-                  size="small"
                   icon={<FaceIcon />}
                   label={user.name}
                   color="secondary"
@@ -159,7 +192,6 @@ const Configs = () => {
                 <Chip
                   className={classes.chip}
                   ref={refs[role.id]}
-                  size="small"
                   icon={<BallotRounded />}
                   label={role.name}
                   onDelete={handleDelete}
@@ -180,8 +212,8 @@ const Configs = () => {
               <Chip
                 className={classes.chip}
                 ref={refs[obj.id]}
-                size="small"
                 color="primary"
+                edge='end'
                 icon={<CenterFocusWeak />}
                 label={obj.name}
                 clickable
@@ -197,6 +229,12 @@ const Configs = () => {
           </Paper >
         </Grid>
       </Grid>
+      <ConfigsDialog
+        open={dialogopen}
+        type={type}
+        data={{ users, roles, objects }}
+        close={handleDialogClose}
+      ></ConfigsDialog>
     </div>
   );
 };
