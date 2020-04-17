@@ -13,8 +13,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
-import { promise } from '../apis/config'
-import { DrawLineX, DisposeLine, ToggleAnimateRelativeLine } from '../utils/line'
+import { promise } from '../../apis/config'
+import { DrawLineX, DisposeLine, ToggleAnimateRelativeLine } from '../../utils/line'
 import ConfigsDialog from './ConfigsDialog';
 import { green, purple } from '@material-ui/core/colors';
 import { createMuiTheme, withStyles, ThemeProvider } from '@material-ui/core/styles';
@@ -38,15 +38,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ColorChip = withStyles((theme) => ({
-  root: {
-    color: theme.palette.getContrastText(purple[500]),
-    backgroundColor: purple[500],
-    '&:hover': {
-      backgroundColor: purple[700],
-    },
-  },
-}))(Chip);
+// const ColorChip = withStyles((theme) => ({
+//   root: {
+//     color: theme.palette.getContrastText(purple[500]),
+//     backgroundColor: purple[500],
+//     '&:hover': {
+//       backgroundColor: purple[700],
+//     },
+//   },
+// }))(Chip);
 
 
 const Configs = () => {

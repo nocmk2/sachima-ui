@@ -12,9 +12,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import SmallChips from './SmallChips'
 import RecommendChips from './RecommendChips'
-import User from './form/User'
-import Role from './form/Role'
-import Object from './form/Object'
+import User from '../forms/User'
+import Role from '../forms/Role'
+import Object from '../forms/Object'
 import { green, purple } from '@material-ui/core/colors';
 
 const ColorChip = withStyles((theme) => ({

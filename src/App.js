@@ -9,7 +9,7 @@ const TTT = lazy(() => import("./components/TTT"));
 const ThreeDemo = lazy(() => import("./components/threedemo/ThreeDemo"));
 const Rules = lazy(() => import("./components/Rules"));
 const Login = lazy(() => import("./components/Login"));
-const Configs = lazy(() => import("./components/Configs"));
+const Configs = lazy(() => import("./components/Configs/Configs"));
 const Maps = lazy(() => import("./components/Maps"));
 const DashBoard = lazy(() => import("./components/DashBoard"))
 
