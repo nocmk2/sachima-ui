@@ -36,6 +36,14 @@ const User = () => {
                 fullWidth
             // variant="outlined"
             />
+            <TextField
+                margin="normal"
+                id="name"
+                label={'邮箱'}
+                type="text"
+                fullWidth
+            // variant="outlined"
+            />
         </>
     )
 }

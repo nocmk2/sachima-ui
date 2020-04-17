@@ -1,5 +1,6 @@
 
 import React, { useMemo, useState, useEffect, createRef, useReducer } from "react";
+import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import Chip from '@material-ui/core/Chip'
@@ -14,6 +15,17 @@ import RecommendChips from './RecommendChips'
 import User from './form/User'
 import Role from './form/Role'
 import Object from './form/Object'
+import { green, purple } from '@material-ui/core/colors';
+
+const ColorChip = withStyles((theme) => ({
+    root: {
+        color: theme.palette.getContrastText(purple[500]),
+        backgroundColor: purple[500],
+        '&:hover': {
+            backgroundColor: purple[700],
+        },
+    },
+}))(Chip);
 
 const handleClose = () => {
 }
@@ -31,22 +43,22 @@ const Cal = (type, data) => {
     if (type === 'user') {
         // should render data.role
         return {
-            title: '用户', datashouldrender: roles, form: <User />
+            title: '用户', recommend: users, datashouldrender: roles, form: <User />
         }
     } else if (type === 'role') {
         // should render data.user and data.object
         return {
-            title: '角色', datashouldrender: [...users, ...objects], form: <Role />
+            title: '角色', recommend: roles, datashouldrender: [...users, ...objects], form: <Role />
         }
     } else if (type === 'object') {
         // should render data.role
-        return { title: '权限', datashouldrender: roles, form: <Object /> }
+        return { title: '权限', recommend: objects, datashouldrender: roles, form: <Object /> }
     }
 }
 
 const ConfigsDialog = ({ open, close, type, data, id }) => {
     // const 
-    const { title, datashouldrender, form } = useMemo(
+    const { title, recommend, datashouldrender, form } = useMemo(
         () => Cal(type, data),
         [type, data]
     );
@@ -55,18 +67,17 @@ const ConfigsDialog = ({ open, close, type, data, id }) => {
         <Dialog maxWidth={'lg'} fullWidth open={open} onClose={close}  >
             <DialogTitle id="form-dialog-title">{title}</DialogTitle>
             <DialogContent dividers={true}>
+                <SmallChips data={recommend} />
                 {/* <DialogContentText>
                     input {type} info
                 </DialogContentText> */}
                 {form}
                 <SmallChips data={datashouldrender} />
-                <Divider />
-                <span>从其他{title}复制: </span>
-                <RecommendChips />
+                {/* <RecommendChips data={recommend} /> */}
             </DialogContent>
             {/* <DialogTitle id="form-dialog-title">{title}</DialogTitle> */}
             <DialogActions>
-                <Button onClick={handleCancel} color="primary"> 取 消 </Button>
+                <Button onClick={handleCancel} > 取 消 </Button>
                 <Button onClick={handleSubscribe} variant="contained" color="primary"> 提 交 </Button>
             </DialogActions>
         </Dialog >

@@ -16,6 +16,8 @@ import Switch from '@material-ui/core/Switch';
 import { promise } from '../apis/config'
 import { DrawLineX, DisposeLine, ToggleAnimateRelativeLine } from '../utils/line'
 import ConfigsDialog from './ConfigsDialog';
+import { green, purple } from '@material-ui/core/colors';
+import { createMuiTheme, withStyles, ThemeProvider } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +37,16 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+const ColorChip = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(purple[500]),
+    backgroundColor: purple[500],
+    '&:hover': {
+      backgroundColor: purple[700],
+    },
+  },
+}))(Chip);
 
 
 const Configs = () => {
@@ -156,9 +168,9 @@ const Configs = () => {
                 // <LowPriorityOutlined />
               }
             />
-            <Button variant="contained" color="secondary" onClick={addUser} startIcon={<FaceIcon />}>新增用户</Button>
-            <Button variant="contained" onClick={addRole} startIcon={<BallotRounded />}>新增角色</Button>
-            <Button variant="contained" color="primary" onClick={addObject} startIcon={<CenterFocusWeak />}>新增权限</Button>
+            <Button size="small" variant="contained" color="secondary" onClick={addUser} startIcon={<FaceIcon />}>新增用户</Button>
+            <Button size="small" variant="contained" onClick={addRole} startIcon={<BallotRounded />}>新增角色</Button>
+            <Button size="small" variant="contained" color="primary" onClick={addObject} startIcon={<CenterFocusWeak />}>新增权限</Button>
           </div>
         </Grid>
       </Grid>
@@ -170,6 +182,7 @@ const Configs = () => {
                 <Chip
                   className={classes.chip}
                   ref={refs[user.id]}
+                  size="small"
                   icon={<FaceIcon />}
                   label={user.name}
                   color="secondary"
@@ -190,8 +203,11 @@ const Configs = () => {
             {
               roles.map((role, index) =>
                 <Chip
+                  size="small"
+                  // color="primary"
                   className={classes.chip}
                   ref={refs[role.id]}
+                  clickable
                   icon={<BallotRounded />}
                   label={role.name}
                   onDelete={handleDelete}
@@ -213,6 +229,7 @@ const Configs = () => {
                 className={classes.chip}
                 ref={refs[obj.id]}
                 color="primary"
+                size="small"
                 edge='end'
                 icon={<CenterFocusWeak />}
                 label={obj.name}

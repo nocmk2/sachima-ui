@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const getColor = (type) => {
     if (type === 'user') return 'secondary'
-    if (type === 'role') return ''
+    if (type === 'role') return 'default'
     if (type === 'object') return 'primary'
 }
 
