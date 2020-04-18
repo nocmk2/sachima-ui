@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef, useReducer } from "react";
+import React, { useState, useEffect, createRef, useReducer, createContext } from "react";
 import Button from '@material-ui/core/Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
@@ -18,6 +18,9 @@ import { DrawLineX, DisposeLine, ToggleAnimateRelativeLine } from '../../utils/l
 import ConfigsDialog from './ConfigsDialog';
 import { green, purple } from '@material-ui/core/colors';
 import { createMuiTheme, withStyles, ThemeProvider } from '@material-ui/core/styles';
+import { stateProvider } from '../../utils/state'
+// import { actionFieldDecorator } from 'mobx/lib/internal';
+import { reducer, initialState } from './Reducer'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,12 +54,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Configs = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { refs } = state // ,realtion     if need
+  const { refs, relation, users } = state // ,realtion     if need
   const classes = useStyles();
 
-  const [users, setUsers] = useState(null)
-  const [roles, setRoles] = useState(null)
-  const [objects, setObjects] = useState(null)
+  // const [users, setUsers] = useState(null)
+  const [roles, setRoles] = useState([])
+  const [objects, setObjects] = useState([])
 
   const [showline, setShowLine] = useState(false)
 
@@ -66,7 +69,9 @@ const Configs = () => {
 
   useEffect(() => {
     promise.then(data => {
-      setUsers(data.users)
+      // setUsers(data.users)
+      console.log(data.users)
+      dispatch({ type: 'SET_USERS', payload: data.users })
       setRoles(data.roles)
       setObjects(data.objects)
       const toRelation = (userrole, roleobjectaction) => {
@@ -150,7 +155,8 @@ const Configs = () => {
     setDialogOpen(false)
   }
 
-  if (users == null || roles == null || objects == null) return <div>Loading...</div>
+  // return <div>Loading... {JSON.stringify(refs)}----------------------------------{JSON.stringify(relation)}--------------------{JSON.stringify(users)}</div>
+  // if (users === null || roles === null || objects === null) return <div>Loading... {JSON.stringify(refs)}</div>
 
   return (
     <div className={classes.root}>
@@ -246,37 +252,21 @@ const Configs = () => {
           </Paper >
         </Grid>
       </Grid>
-      <ConfigsDialog
-        open={dialogopen}
-        type={type}
-        data={{ users, roles, objects }}
-        close={handleDialogClose}
-      ></ConfigsDialog>
+      <ctx.Provider value={{ hei: 'Tom', dispatch: dispatch }}>
+        <ConfigsDialog
+          open={dialogopen}
+          type={type}
+          data={{ users, roles, objects }}
+          close={handleDialogClose}
+        ></ConfigsDialog>
+      </ctx.Provider>
     </div>
   );
 };
-const initialState = {
-  // refs -> {[userid]: ref}
-  refs: {},
-  // relation -> [{ start: userid, end: roleid }]
-  relation: []
-}
 
-const reducer = (state, action) => {
-  const { refs, relation } = state
-  if (action.type === "SETREFS") {
-    return { refs: action.payload, relation }
-  } else if (action.type === "SETRELATION") {
-    return { refs, relation: action.payload }
-  } else if (action.type === "DRAWLINE") {
-    DrawLineX(refs, relation)
-    return { refs, relation }
-  } else if (action.type === "DISPOSELINE") {
-    DisposeLine()
-    return { refs, relation }
-  } else {
-    throw new Error();
-  }
-}
+export const ctx = createContext({})
+
 
 export default Configs;
+
+

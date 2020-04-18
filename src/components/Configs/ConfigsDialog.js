@@ -1,5 +1,5 @@
 
-import React, { useMemo, useState, useEffect, createRef, useReducer } from "react";
+import React, { useMemo, useContext, useState, useEffect, createRef, useReducer } from "react";
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
@@ -16,6 +16,8 @@ import User from '../forms/User'
 import Role from '../forms/Role'
 import Object from '../forms/Object'
 import { green, purple } from '@material-ui/core/colors';
+
+import { ctx } from './Configs';
 
 const ColorChip = withStyles((theme) => ({
     root: {
@@ -56,17 +58,27 @@ const Cal = (type, data) => {
     }
 }
 
+
 const ConfigsDialog = ({ open, close, type, data, id }) => {
+    const { hei, dispatch } = useContext(ctx)
     // const 
     const { title, recommend, datashouldrender, form } = useMemo(
         () => Cal(type, data),
         [type, data]
     );
 
+    // const doit = () => {
+    //     dispatch({ type: "DRAWLINE" })
+    // }
+    const submit = () => {
+        dispatch({ type: 'ADD_USER', payload: { id: '12345', name: 'Jerry' } })
+    }
+
     return (
         <Dialog maxWidth={'lg'} fullWidth open={open} onClose={close}  >
             <DialogTitle id="form-dialog-title">{title}</DialogTitle>
             <DialogContent dividers={true}>
+                {/* <Button color='secondary' variant='contained' onClick={doit} >{hei}</Button> */}
                 <SmallChips data={recommend} />
                 {/* <DialogContentText>
                     input {type} info
@@ -78,7 +90,7 @@ const ConfigsDialog = ({ open, close, type, data, id }) => {
             {/* <DialogTitle id="form-dialog-title">{title}</DialogTitle> */}
             <DialogActions>
                 <Button onClick={handleCancel} > 取 消 </Button>
-                <Button onClick={handleSubscribe} variant="contained" color="primary"> 提 交 </Button>
+                <Button onClick={handleSubscribe} variant="contained" color="primary" onClick={submit}> 提 交 </Button>
             </DialogActions>
         </Dialog >
     )
