@@ -20,7 +20,7 @@ export const reducer = (state, action) => {
         case "DRAWLINE":
             DrawLineX(refs, relation)
             return state
-        case "DISPOSELIN":
+        case "DISPOSELINE":
             DisposeLine()
             return state
         case 'ADD_USER':

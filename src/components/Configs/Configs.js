@@ -114,6 +114,7 @@ const Configs = () => {
       dispatch({ type: "DRAWLINE" })
     }
     return () => {
+      console.log("DISSSSSSSSSSSSs")
       dispatch({ type: "DISPOSELINE" })
     }
   }, [showline])
