@@ -24,7 +24,7 @@ export const reducer = (state, action) => {
             DisposeLine()
             return state
         case 'ADD_USER':
-            return { ...state, users: [{ id: '1', name: '1' }] }
+            return { ...state, users: [...state.users, { id: '1', name: '1' }] }
         case 'SET_USERS':
             return { ...state, users: action.payload }
         default:
