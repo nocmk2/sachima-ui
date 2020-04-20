@@ -1,6 +1,7 @@
 import { useStateValue } from "../utils/state"
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 import axios from "axios"
+import { useHistory } from "react-router-dom"
 
 
 // const url = `http://localhost:8000/sachima/role`
@@ -25,12 +26,14 @@ export const useDataApi = (initialURL, initialData) => {
     const [url, setUrl] = useState(initialURL);
     const [isLoading, setIsLoading] = useState(false);
     const [{ sachima }, dispatch] = useStateValue();
+    const history = useHistory();
 
     axios.interceptors.response.use(response => {
         return response;
     }, error => {
         if (error.response.status === 401) {
             dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: `您没有权限,请登陆,或联系管理员${sachima.message}` } })
+            history.push("/login")
         }
         // return error;
     });

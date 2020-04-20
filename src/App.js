@@ -58,7 +58,7 @@ const App = () => {
               <Route exact path="/Configs" component={Configs} />
               <Route exact path="/Cirp" component={Cirp} />
               <Route exact path="/Reports">
-                <TTT visible={false} />
+                <TTT visible={true} />
               </Route>
               <Route exact path="/Maps" component={Maps} />
               <Route exact path="/" component={DashBoard} />

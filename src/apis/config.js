@@ -1,4 +1,8 @@
+import React, { useEffect } from 'react'
 import axios from "axios"
+import { useStateValue } from "../utils/state"
+import { useHistory } from "react-router-dom"
+
 
 const fetchUsers = async () => {
     // return mock_users
@@ -42,9 +46,22 @@ const fetchRoleObjectAction = async () => {
     return result.data
 }
 
-function fetchData() {
+const useData = () => {
+    const [{ sachima }, dispatch] = useStateValue();
+    const history = useHistory();
+
+    axios.interceptors.response.use(response => {
+        return response;
+    }, error => {
+        if (error.response.status === 401) {
+            dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: `您没有权限,请登陆,或联系管理员${sachima.message}` } })
+            history.push("/login")
+        }
+        return Promise.reject(error);
+    });
+
     return Promise.all([fetchUsers(), fetchRoles(), fetchObjects(), fetchUserRole(), fetchRoleObjectAction()])
         .then(([users, roles, objects, userrole, roleobjectaction]) => ({ users, roles, objects, userrole, roleobjectaction }))
 }
 
-export const promise = fetchData()
+export default useData

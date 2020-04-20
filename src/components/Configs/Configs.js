@@ -5,7 +5,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
-import LowPriorityOutlined from '@material-ui/icons/LowPriorityOutlined';
+// import LowPriorityOutlined from '@material-ui/icons/LowPriorityOutlined';
 import CenterFocusWeak from '@material-ui/icons/CenterFocusWeak';
 import BallotRounded from '@material-ui/icons/BallotRounded';
 
@@ -13,14 +13,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
-import { promise } from '../../apis/config'
-import { DrawLineX, DisposeLine, ToggleAnimateRelativeLine } from '../../utils/line'
+import useData from '../../apis/config'
+import useConfigPageSource from '../../apis/useConfigPageSource'
+import { ToggleAnimateRelativeLine } from '../../utils/line'
 import ConfigsDialog from './ConfigsDialog';
-import { green, purple } from '@material-ui/core/colors';
-import { createMuiTheme, withStyles, ThemeProvider } from '@material-ui/core/styles';
-import { stateProvider } from '../../utils/state'
+// import { green, purple } from '@material-ui/core/colors';
+// import { createMuiTheme, withStyles, ThemeProvider } from '@material-ui/core/styles';
+// import { stateProvider } from '../../utils/state'
 // import { actionFieldDecorator } from 'mobx/lib/internal';
 import { reducer, initialState } from './Reducer'
+
+import * as API from "../../apis/api"
+import { useStateValue } from "../../utils/state"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,6 +57,12 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Configs = () => {
+  // const [{ data, isLoading }, get] = API.useDataApi(`${sachima.url}/sachima/features`, { features: {} });
+  // const [{ sachima }, d] = useStateValue();
+  // const source = useConfigPageSource()
+  const promise = useData()
+
+  // const [{ roles, rolesIsLoading }, fetchRoles] = API.useDataApi(`${sachima.url}/sachima/getroles`, [])
   const [state, dispatch] = useReducer(reducer, initialState)
   const { refs, relation, users } = state // ,realtion     if need
   const classes = useStyles();
@@ -67,10 +77,10 @@ const Configs = () => {
   const [type, setType] = useState('user')
 
 
+
   useEffect(() => {
     promise.then(data => {
       // setUsers(data.users)
-      console.log(data.users)
       dispatch({ type: 'SET_USERS', payload: data.users })
       setRoles(data.roles)
       setObjects(data.objects)
@@ -99,8 +109,10 @@ const Configs = () => {
       })
       dispatch({ type: "SETREFS", payload: temp })
 
+    }).catch(error => {
+      console.log('出现错误')
     })
-  }, [])
+  }, [promise])
 
 
   useEffect(() => {
@@ -114,7 +126,6 @@ const Configs = () => {
       dispatch({ type: "DRAWLINE" })
     }
     return () => {
-      console.log("DISSSSSSSSSSSSs")
       dispatch({ type: "DISPOSELINE" })
     }
   }, [showline])
@@ -158,6 +169,8 @@ const Configs = () => {
 
   // return <div>Loading... {JSON.stringify(refs)}----------------------------------{JSON.stringify(relation)}--------------------{JSON.stringify(users)}</div>
   // if (users === null || roles === null || objects === null) return <div>Loading... {JSON.stringify(refs)}</div>
+  // console.log(roles)
+  // if (rolesIsLoading === true) return <div>Loading... </div>
 
   return (
     <div className={classes.root}>
