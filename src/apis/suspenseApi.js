@@ -1,9 +1,28 @@
+import axios from "axios"
+
+axios.interceptors.response.use(response => {
+    return response;
+}, error => {
+    if (error.response.status === 401) {
+        // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: `您没有权限,请登陆,或联系管理员${sachima.message}` } })
+        // history.push("/login")
+        console.log(401401401)
+    }
+    return Promise.resolve(error);
+});
+
 export function fetchProfileData() {
-    let userPromise = fetchUser();
-    let postsPromise = fetchPosts();
+    let usersPromise = fetchUsers();
+    let rolesPromise = fetchRoles();
+    let objectsPromise = fetchObjects();
+    let userRolePromise = fetchUserRole();
+    let roleObjectPromise = fetchRoleObjectAction();
     return {
-        user: wrapPromise(userPromise),
-        posts: wrapPromise(postsPromise)
+        users: wrapPromise(usersPromise),
+        roles: wrapPromise(rolesPromise),
+        objects: wrapPromise(objectsPromise),
+        userrole: wrapPromise(userRolePromise),
+        roleobject: wrapPromise(roleObjectPromise)
     };
 }
 
@@ -11,7 +30,7 @@ export function fetchProfileData() {
 // a contract like this to integrate with React.
 // Real implementations can be significantly more complex.
 // Don't copy-paste this into your project!
-function wrapPromise(promise) {
+const wrapPromise = (promise) => {
     let status = "pending";
     let result;
     let suspender = promise.then(
@@ -37,40 +56,45 @@ function wrapPromise(promise) {
     };
 }
 
-function fetchUser() {
-    console.log("fetch user...");
-    return new Promise(resolve => {
-        setTimeout(() => {
-            console.log("fetched user");
-            resolve({
-                name: "Ringo Starr"
-            });
-        }, 1000);
-    });
-}
 
-function fetchPosts() {
-    console.log("fetch posts...");
-    return new Promise(resolve => {
-        setTimeout(() => {
-            console.log("fetched posts");
-            resolve([
-                {
-                    id: 0,
-                    text:
-                        "I get by with a little help from my friends"
-                },
-                {
-                    id: 1,
-                    text:
-                        "I'd like to be under the sea in an octupus's garden"
-                },
-                {
-                    id: 2,
-                    text:
-                        "You got that sand all over your feet"
-                }
-            ]);
-        }, 2000);
+const fetchUsers = async () => {
+    // return mock_users
+    const result = await axios({
+        method: "GET",
+        url: 'http://localhost:8000/sachima/getusers',
+        headers: { Authorization: "Bearer " + localStorage.token }
     });
+    return result.data
+}
+const fetchRoles = async () => {
+    const result = await axios({
+        method: "GET",
+        url: 'http://localhost:8000/sachima/getroles',
+        headers: { Authorization: "Bearer " + localStorage.token }
+    });
+    return result.data
+}
+const fetchObjects = async () => {
+    const result = await axios({
+        method: "GET",
+        url: 'http://localhost:8000/sachima/getobjects',
+        headers: { Authorization: "Bearer " + localStorage.token }
+    });
+    return result.data
+}
+const fetchUserRole = async () => {
+    const result = await axios({
+        method: "GET",
+        url: 'http://localhost:8000/sachima/getuserrole',
+        headers: { Authorization: "Bearer " + localStorage.token }
+    });
+    return result.data
+}
+const fetchRoleObjectAction = async () => {
+    const result = await axios({
+        method: "GET",
+        url: 'http://localhost:8000/sachima/getroleobject',
+        headers: { Authorization: "Bearer " + localStorage.token }
+    });
+    return result.data
 }

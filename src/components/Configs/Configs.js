@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef, useReducer, createContext } from "react";
+import React, { useState, useEffect, createRef, useReducer, createContext, Suspense } from "react";
 import Button from '@material-ui/core/Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
@@ -13,18 +13,22 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
-import useData from '../../apis/config'
-import useConfigPageSource from '../../apis/useConfigPageSource'
+// import useData from '../../apis/config'
+// import useConfigPageSource from '../../apis/useConfigPageSource'
 import { ToggleAnimateRelativeLine } from '../../utils/line'
 import ConfigsDialog from './ConfigsDialog';
 // import { green, purple } from '@material-ui/core/colors';
 // import { createMuiTheme, withStyles, ThemeProvider } from '@material-ui/core/styles';
 // import { stateProvider } from '../../utils/state'
 // import { actionFieldDecorator } from 'mobx/lib/internal';
-import { reducer, initialState } from './Reducer'
+import { reducer } from './Reducer'
 
-import * as API from "../../apis/api"
-import { useStateValue } from "../../utils/state"
+// import * as API from "../../apis/api"
+// import { useStateValue } from "../../utils/state"
+
+// import ErrorBoundary from '../ErrorBoundary'
+import Error from '../Error'
+import { fetchProfileData } from "../../apis/suspenseApi";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,65 +58,46 @@ const useStyles = makeStyles((theme) => ({
 //     },
 //   },
 // }))(Chip);
-
+const resource = fetchProfileData();
 
 const Configs = () => {
-  // const [{ data, isLoading }, get] = API.useDataApi(`${sachima.url}/sachima/features`, { features: {} });
-  // const [{ sachima }, d] = useStateValue();
-  // const source = useConfigPageSource()
-  const promise = useData()
 
-  // const [{ roles, rolesIsLoading }, fetchRoles] = API.useDataApi(`${sachima.url}/sachima/getroles`, [])
-  const [state, dispatch] = useReducer(reducer, initialState)
-  const { refs, relation, users } = state // ,realtion     if need
+  const [state, dispatch] = useReducer(reducer, {
+    // refs -> {[userid]: ref}
+    refs: {},
+    // relation -> [{ start: userid, end: roleid }]
+    // relation: toRelation(userrole, roleobject),
+    relation: [],
+    users: resource.users.read() || [],
+    roles: resource.roles.read() || [],
+    objects: resource.objects.read() || [],
+    userrole: resource.userrole.read() || [],
+    roleobject: resource.roleobject.read() || []
+  })
+  const { refs, users, roles, objects, userrole, roleobject } = state // ,realtion     if need
   const classes = useStyles();
-
-  // const [users, setUsers] = useState(null)
-  const [roles, setRoles] = useState([])
-  const [objects, setObjects] = useState([])
 
   const [showline, setShowLine] = useState(false)
 
   const [dialogopen, setDialogOpen] = useState(false)
   const [type, setType] = useState('user')
 
-
-
   useEffect(() => {
-    promise.then(data => {
-      // setUsers(data.users)
-      dispatch({ type: 'SET_USERS', payload: data.users })
-      setRoles(data.roles)
-      setObjects(data.objects)
-      const toRelation = (userrole, roleobjectaction) => {
-        const u = userrole.map(o => {
-          return { start: o.user, end: o.role, type: 'userrole' }
-        })
+    dispatch({ type: "SETRELATION", userrole: userrole, roleobject: roleobject })
 
-        const r = roleobjectaction.map(o => {
-          return { start: o.role, end: o.obj, type: 'roleobject' }
-        })
-
-        return [...u, ...r]
-      }
-      dispatch({ type: "SETRELATION", payload: toRelation(data.userrole, data.roleobjectaction) })
-
-      let temp = {}
-      data.users.forEach(user => {
-        temp[user.id] = createRef()
-      })
-      data.roles.forEach(role => {
-        temp[role.id] = createRef()
-      })
-      data.objects.forEach(object => {
-        temp[object.id] = createRef()
-      })
-      dispatch({ type: "SETREFS", payload: temp })
-
-    }).catch(error => {
-      console.log('出现错误')
+    let temp = {}
+    users.forEach(user => {
+      temp[user.id] = createRef()
     })
-  }, [promise])
+    roles.forEach(role => {
+      temp[role.id] = createRef()
+    })
+    objects.forEach(object => {
+      temp[object.id] = createRef()
+    })
+    dispatch({ type: "SETREFS", payload: temp })
+
+  }, [roles, objects, users, userrole, roleobject])
 
 
   useEffect(() => {
@@ -167,13 +152,15 @@ const Configs = () => {
     setDialogOpen(false)
   }
 
-  // return <div>Loading... {JSON.stringify(refs)}----------------------------------{JSON.stringify(relation)}--------------------{JSON.stringify(users)}</div>
-  // if (users === null || roles === null || objects === null) return <div>Loading... {JSON.stringify(refs)}</div>
-  // console.log(roles)
-  // if (rolesIsLoading === true) return <div>Loading... </div>
+  if (users.length === 0) {
+    return <Error type="401" />
+  }
 
   return (
     <div className={classes.root}>
+      {/* <div>{JSON.stringify(relation)}</div>
+      <span>--------------------------</span>
+      <div>{JSON.stringify(refs)}</div> */}
       <Grid container spacing={3}>
         <Grid item>
           {/* <Button variant="contained" color="primary" onClick={() => { setShowLine(true) }}>show</Button> */}

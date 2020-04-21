@@ -1,8 +1,22 @@
 import React, { Suspense, lazy } from "react";
 import Main from "./components/Main";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { StateProvider } from "./utils/state"
+import ErrorBoundary from './components/ErrorBoundary'
+import Error from './components/Error'
+
+
+
+// import Configs from './components/Configs/Configs'
+// import DashBoard from './components/DashBoard'
+// import Cirp from './components/Cirp'
+// import TTT from './components/TTT'
+// import ThreeDemo from './components/threedemo/ThreeDemo'
+// import Rules from './components/Rules'
+// import Login from './components/Login'
+// import Maps from './components/Maps'
 
 const Cirp = lazy(() => import("./components/Cirp"))
 const TTT = lazy(() => import("./components/TTT"));
@@ -49,8 +63,8 @@ const App = () => {
     <StateProvider initialState={initialState} reducer={mainReducer}>
       <Router>
         <Main>
-          <Suspense fallback={<div >Loading...</div>}>
-            <Switch>
+          <Switch>
+            <Suspense fallback={<LinearProgress color="primary" />}>
               <Route exact path="/ThreeDemo" component={ThreeDemo} />
               <Route exact path="/DashBoard" component={DashBoard} />
               <Route exact path="/Rules" component={Rules} />
@@ -62,8 +76,8 @@ const App = () => {
               </Route>
               <Route exact path="/Maps" component={Maps} />
               <Route exact path="/" component={DashBoard} />
-            </Switch>
-          </Suspense>
+            </Suspense>
+          </Switch>
         </Main>
       </Router>
     </StateProvider>
