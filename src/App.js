@@ -4,9 +4,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { StateProvider } from "./utils/state"
-import ErrorBoundary from './components/ErrorBoundary'
-import Error from './components/Error'
-
 
 
 // import Configs from './components/Configs/Configs'
