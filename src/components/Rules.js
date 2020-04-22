@@ -14,7 +14,7 @@ const Now = () => {
 
 const Rules = () => {
   const [{ sachima }, dispatch] = useStateValue();
-  const [{ data, isLoading }, get] = API.useDataApi(`${sachima.url}/sachima/features`, { features: {} });
+  const [{ data, isLoading }, get] = API.useReadApi(`${sachima.url}/sachima/features`, { features: {} });
 
   return (
     <>

@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import { useStateValue } from "../../utils/state"
 // import SendMessage from "../utils/message"
-import { useDataApi } from "../../apis/api"
+import { useReadApi, useWriteApi } from "../../apis/api"
 import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 import RBAC from './RBAC'
 
@@ -14,11 +14,13 @@ const Now = () => {
 
 const Configs = () => {
     const [{ sachima }, dispatch] = useStateValue();
-    const [{ data: users, isLoading: usersIsLoading }, getUsers] = useDataApi(`${sachima.url}/sachima/getusers`, []);
-    const [{ data: roles, isLoading: rolesIsLoading }, getRoles] = useDataApi(`${sachima.url}/sachima/getroles`, []);
-    const [{ data: objects, isLoading: objectsIsLoading }, getObjects] = useDataApi(`${sachima.url}/sachima/getobjects`, []);
-    const [{ data: userrole, isLoading: userroleIsLoading }, getUserRole] = useDataApi(`${sachima.url}/sachima/getuserrole`, []);
-    const [{ data: roleobject, isLoading: roleobjectIsLoading }, getRoleObject] = useDataApi(`${sachima.url}/sachima/getroleobject`, []);
+    const [{ data: users, isLoading: usersIsLoading }, getUsers] = useReadApi(`${sachima.url}/sachima/getusers`, []);
+    const [{ data: roles, isLoading: rolesIsLoading }, getRoles] = useReadApi(`${sachima.url}/sachima/getroles`, []);
+    const [{ data: objects, isLoading: objectsIsLoading }, getObjects] = useReadApi(`${sachima.url}/sachima/getobjects`, []);
+    const [{ data: userrole, isLoading: userroleIsLoading }, getUserRole] = useReadApi(`${sachima.url}/sachima/getuserrole`, []);
+    const [{ data: roleobject, isLoading: roleobjectIsLoading }, getRoleObject] = useReadApi(`${sachima.url}/sachima/getroleobject`, []);
+    // const [{ setter: setUser, isLoading: isSetUserWaiting }] = useWriteApi(`${sachima.url}/sachima/adduser`, {}, {})
+
 
     const isLoading = usersIsLoading && rolesIsLoading && objectsIsLoading && userroleIsLoading && roleobjectIsLoading
     return (
@@ -50,7 +52,7 @@ const Configs = () => {
             </Button>
             {isLoading ? (<div>loading...</div>) : (
                 <Card>
-                    <ctx.Provider value={{ hei: 'Tom', globalDispatch: dispatch, notifier: { getUsers, getRoles, getObjects, getUserRole, getRoleObject } }}>
+                    <ctx.Provider value={{ sachima: sachima, globalDispatch: dispatch, notifier: { getUsers, getRoles, getObjects, getUserRole, getRoleObject } }}>
                         <RBAC {...{ users, roles, objects, userrole, roleobject }} />
                     </ctx.Provider>
                 </Card>

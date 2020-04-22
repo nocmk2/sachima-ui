@@ -16,8 +16,9 @@ import User from '../forms/User'
 import Role from '../forms/Role'
 import Object from '../forms/Object'
 import { green, purple } from '@material-ui/core/colors';
+import axios from "axios"
 
-import { ctx } from './RBAC';
+import { ctx } from './Configs';
 
 const ColorChip = withStyles((theme) => ({
     root: {
@@ -58,9 +59,12 @@ const Cal = (type, data) => {
     }
 }
 
+const Now = () => {
+    return Math.floor(Date.now() / 1000)
+}
 
 const RBACDialog = ({ open, close, type, data, id }) => {
-    const { hei, dispatch, notifier } = useContext(ctx)
+    const { hei, sachima, dispatch, notifier } = useContext(ctx)
     // const 
     const { title, recommend, datashouldrender, form } = useMemo(
         () => Cal(type, data),
@@ -70,8 +74,24 @@ const RBACDialog = ({ open, close, type, data, id }) => {
     // const doit = () => {
     //     dispatch({ type: "DRAWLINE" })
     // }
-    const submit = () => {
-        dispatch({ type: 'ADD_USER', payload: { id: '12345', name: 'Jerry' } })
+    const submit = async () => {
+        // dispatch({ type: 'ADD_USER', payload: { id: '12345', name: 'Jerry' } })
+        await axios({
+            method: "POST",
+            url: `${sachima.url}/sachima/adduser`,
+            headers: { Authorization: "Bearer " + localStorage.token },
+            data: {
+                "username": "admin980000yy",
+                "password": "1234561",
+                "email": "admin@sachima.com",
+                "firstname": "管理员yyy",
+                "lastname": "管理员yyy"
+            }
+        }).then(response => {
+            console.log(response)
+            if (response.status === 200)
+                notifier.getUsers(`${sachima.url}/sachima/getusers?time=${Now()}`)
+        })
     }
 
     return (
@@ -90,7 +110,7 @@ const RBACDialog = ({ open, close, type, data, id }) => {
             {/* <DialogTitle id="form-dialog-title">{title}</DialogTitle> */}
             <DialogActions>
                 <Button onClick={handleCancel} > 取 消 </Button>
-                <Button onClick={handleSubscribe} variant="contained" color="primary" onClick={submit}> 提 交 </Button>
+                <Button variant="contained" color="primary" onClick={submit}> 提 交 </Button>
             </DialogActions>
         </Dialog >
     )

@@ -6,11 +6,11 @@ import { useStateValue } from "../utils/state"
 const useConfigPageSource = () => {
 
     const [{ sachima }, dispatch] = useStateValue();
-    const [{ users, usersIsLoading }, fetchUsers] = API.useDataApi(`${sachima.url}/sachima/getusers`, [])
-    const [{ roles, rolesIsLoading }, fetchRoles] = API.useDataApi(`${sachima.url}/sachima/getroles`, [])
-    const [{ objects, objectsIsLoading }, fetchObjects] = API.useDataApi(`${sachima.url}/sachima/getobjects`, [])
-    const [{ userrole, userRoleIsLoading }, fetchUserRole] = API.useDataApi(`${sachima.url}/sachima/getuserrole`, [])
-    const [{ roleobject, roleObjectIsLoading }, fetchRoleObject] = API.useDataApi(`${sachima.url}/sachima/getroleobject`, [])
+    const [{ users, usersIsLoading }, fetchUsers] = API.useReadApi(`${sachima.url}/sachima/getusers`, [])
+    const [{ roles, rolesIsLoading }, fetchRoles] = API.useReadApi(`${sachima.url}/sachima/getroles`, [])
+    const [{ objects, objectsIsLoading }, fetchObjects] = API.useReadApi(`${sachima.url}/sachima/getobjects`, [])
+    const [{ userrole, userRoleIsLoading }, fetchUserRole] = API.useReadApi(`${sachima.url}/sachima/getuserrole`, [])
+    const [{ roleobject, roleObjectIsLoading }, fetchRoleObject] = API.useReadApi(`${sachima.url}/sachima/getroleobject`, [])
 
     useEffect(() => { }, [])
 
