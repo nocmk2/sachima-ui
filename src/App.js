@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { StateProvider } from "./utils/state"
+import { mainReducer } from './reducers/mainReducers'
 
 
 // import Configs from './components/Configs/Configs'
@@ -36,27 +37,27 @@ const App = () => {
     sachima: { url: "http://localhost:8000", login: "", message: "admin@sachima.ai" }
   };
 
-  const mainReducer = (state, action) => {
-    switch (action.type) {
-      case "changeCount":
-        return {
-          ...state,
-          count: action.newCount
-        };
-      case "changeUser":
-        return {
-          ...state,
-          user: action.newUser
-        };
-      case "sendMessage":
-        return {
-          ...state,
-          message: action.newMessage
-        }
-      default:
-        return state;
-    }
-  };
+  // const mainReducer = (state, action) => {
+  //   switch (action.type) {
+  //     case "changeCount":
+  //       return {
+  //         ...state,
+  //         count: action.newCount
+  //       };
+  //     case "changeUser":
+  //       return {
+  //         ...state,
+  //         user: action.newUser
+  //       };
+  //     case "sendMessage":
+  //       return {
+  //         ...state,
+  //         message: action.newMessage
+  //       }
+  //     default:
+  //       return state;
+  //   }
+  // };
 
   return (
     <StateProvider initialState={initialState} reducer={mainReducer}>

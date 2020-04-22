@@ -80,13 +80,14 @@ const RBACDialog = ({ open, close, type, data, id }) => {
             method: "POST",
             url: `${sachima.url}/sachima/adduser`,
             headers: { Authorization: "Bearer " + localStorage.token },
-            data: {
-                "username": "admin980000yy",
-                "password": "1234561",
-                "email": "admin@sachima.com",
-                "firstname": "管理员yyy",
-                "lastname": "管理员yyy"
-            }
+            data: sachima.newPayLoad
+            // {
+            //     "username": "admin980000yy",
+            //     "password": "1234561",
+            //     "email": "admin@sachima.com",
+            //     "firstname": "管理员yyy",
+            //     "lastname": "管理员yyy"
+            // }
         }).then(response => {
             console.log(response)
             if (response.status === 200)
