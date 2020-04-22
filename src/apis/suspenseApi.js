@@ -1,15 +1,15 @@
 import axios from "axios"
 
-axios.interceptors.response.use(response => {
-    return response;
-}, error => {
-    if (error.response.status === 401) {
-        // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: `您没有权限,请登陆,或联系管理员${sachima.message}` } })
-        // history.push("/login")
-        console.log(401401401)
-    }
-    return Promise.resolve(error);
-});
+// axios.interceptors.response.use(response => {
+//     return response;
+// }, error => {
+//     if (error.response.status === 401) {
+//         // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: `您没有权限,请登陆,或联系管理员${sachima.message}` } })
+//         // history.push("/login")
+//         console.log(401401401)
+//     }
+//     return Promise.resolve(error);
+// });
 
 export function fetchProfileData() {
     let usersPromise = fetchUsers();

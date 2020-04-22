@@ -2,6 +2,7 @@ import { useStateValue } from "../utils/state"
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { useHistory } from "react-router-dom"
+import * as source from './source'
 
 
 // const url = `http://localhost:8000/sachima/role`
@@ -20,6 +21,8 @@ import { useHistory } from "react-router-dom"
 // export const clearUserStatus = function () {
 //     console.log("clearUser")
 // }
+
+export const API = () => source
 
 export const useDataApi = (initialURL, initialData) => {
     const [data, setData] = useState(initialData);

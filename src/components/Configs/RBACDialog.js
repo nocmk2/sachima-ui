@@ -17,7 +17,7 @@ import Role from '../forms/Role'
 import Object from '../forms/Object'
 import { green, purple } from '@material-ui/core/colors';
 
-import { ctx } from './Configs';
+import { ctx } from './RBAC';
 
 const ColorChip = withStyles((theme) => ({
     root: {
@@ -59,8 +59,8 @@ const Cal = (type, data) => {
 }
 
 
-const ConfigsDialog = ({ open, close, type, data, id }) => {
-    const { hei, dispatch } = useContext(ctx)
+const RBACDialog = ({ open, close, type, data, id }) => {
+    const { hei, dispatch, notifier } = useContext(ctx)
     // const 
     const { title, recommend, datashouldrender, form } = useMemo(
         () => Cal(type, data),
@@ -95,4 +95,4 @@ const ConfigsDialog = ({ open, close, type, data, id }) => {
         </Dialog >
     )
 }
-export default ConfigsDialog
+export default RBACDialog

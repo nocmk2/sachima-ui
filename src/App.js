@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import Main from "./components/Main";
+import ErrorBoundary from './components/ErrorBoundary'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -23,6 +24,7 @@ const Login = lazy(() => import("./components/Login"));
 const Configs = lazy(() => import("./components/Configs/Configs"));
 const Maps = lazy(() => import("./components/Maps"));
 const DashBoard = lazy(() => import("./components/DashBoard"))
+
 
 
 
@@ -61,19 +63,21 @@ const App = () => {
       <Router>
         <Main>
           <Switch>
-            <Suspense fallback={<LinearProgress color="primary" />}>
-              <Route exact path="/ThreeDemo" component={ThreeDemo} />
-              <Route exact path="/DashBoard" component={DashBoard} />
-              <Route exact path="/Rules" component={Rules} />
-              <Route exact path="/Login" component={Login} />
-              <Route exact path="/Configs" component={Configs} />
-              <Route exact path="/Cirp" component={Cirp} />
-              <Route exact path="/Reports">
-                <TTT visible={true} />
-              </Route>
-              <Route exact path="/Maps" component={Maps} />
-              <Route exact path="/" component={DashBoard} />
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<LinearProgress color="primary" />}>
+                <Route exact path="/ThreeDemo" component={ThreeDemo} />
+                <Route exact path="/DashBoard" component={DashBoard} />
+                <Route exact path="/Rules" component={Rules} />
+                <Route exact path="/Login" component={Login} />
+                <Route exact path="/Configs" component={Configs} />
+                <Route exact path="/Cirp" component={Cirp} />
+                <Route exact path="/Reports">
+                  <TTT visible={true} />
+                </Route>
+                <Route exact path="/Maps" component={Maps} />
+                <Route exact path="/" component={DashBoard} />
+              </Suspense>
+            </ErrorBoundary >
           </Switch>
         </Main>
       </Router>

@@ -7,21 +7,24 @@ class ErrorBoundary extends React.Component {
     static getDerivedStateFromError(error) {
         return {
             hasError: true,
-            // type: ""
-            message: error.message,
-            error
+            error,
+            message: error.message
         };
     }
     render() {
         if (this.state.hasError) {
+            console.log('@' + this.state.message + '@')
             if (this.state.message === "Request failed with status code 401") {
                 return <Error type="401" />
+                // return <Error type="basic" mes={this.state.message} />
             }
             else {
-                return this.props.fallback;
+                return <Error type="basic" mes={this.state.message} />
+                // return this.props.fallback;
             }
         }
         return this.props.children;
+        // return null
     }
 }
 
