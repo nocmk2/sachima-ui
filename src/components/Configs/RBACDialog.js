@@ -46,16 +46,27 @@ const Cal = (type, data) => {
     if (type === 'user') {
         // should render data.role
         return {
-            title: '用户', recommend: users, datashouldrender: roles, form: <User />
+            title: '用户',
+            recommend: users,
+            datashouldrender: roles,
+            form: dt => <User data={dt} />
         }
     } else if (type === 'role') {
         // should render data.user and data.object
         return {
-            title: '角色', recommend: roles, datashouldrender: [...users, ...objects], form: <Role />
+            title: '角色',
+            recommend: roles,
+            datashouldrender: [...users, ...objects],
+            form: dt => <Role data={dt} />
         }
     } else if (type === 'object') {
         // should render data.role
-        return { title: '权限', recommend: objects, datashouldrender: roles, form: <Object /> }
+        return {
+            title: '权限',
+            recommend: objects,
+            datashouldrender: roles,
+            form: dt => <Object data={dt} />
+        }
     }
 }
 
@@ -104,7 +115,7 @@ const RBACDialog = ({ open, close, type, data, id }) => {
                 {/* <DialogContentText>
                     input {type} info
                 </DialogContentText> */}
-                {form}
+                {form({ id: 123, name: '达啦崩吧' })}
                 <SmallChips data={datashouldrender} />
                 {/* <RecommendChips data={recommend} /> */}
             </DialogContent>
