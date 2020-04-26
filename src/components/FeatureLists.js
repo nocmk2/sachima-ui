@@ -49,22 +49,18 @@ const FeatureLists = ({ features }) => {
     const [newData, setNewData] = useState({})
     const [draweropen, setDrawerOpen] = useState(false)
     const [defaultEdit, setDefaultEdit] = useState(false) // Default 的设置默认是处于Button状态
-    const [defaultValue, setDefaultValue] = useState("")
-    // const [minmax, setMinmax] = React.useState([-1, 1])
-
     const featureNames = useMemo(() => {
         return Object.keys(f)
     }, [f])
+    const [defaultValue, setDefaultValue] = useState(0)
+    // const [minmax, setMinmax] = React.useState([-1, 1])
 
-
-    React.useEffect(() => {
+    useEffect(() => {
         const initDefaultValue = () => {
             return (
-                Object.keys(f).length === 0 ? 0 :
-                    f[featureNames[curval]]["default"]
+                f[featureNames[curval]] && f[featureNames[curval]]["default"]
             )
         }
-
         setDefaultValue(initDefaultValue())
     }, [f, featureNames, curval])
 
