@@ -14,8 +14,9 @@ import GroupSelect from "./GroupSelect"
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CloudUpload from '@material-ui/icons/CloudUpload';
-import { useStateValue } from '../utils/state'
-import TabPanel from './TabPanel'
+// import { useStateValue } from '../../utils/state'
+import { useStateValue } from '../../utils/state'
+import TabPanel from '../TabPanel'
 
 function a11yProps(index) {
     return {
@@ -45,6 +46,13 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         height: 800,
         // width: maxWidth,
+    },
+    dynamicbtn: {
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+        // position: "absolute",
+        // margin: "auto"
     },
     tabs: {
         borderRight: `1px solid ${theme.palette.divider}`,

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
@@ -20,7 +20,7 @@ import GavelRoundedIcon from '@material-ui/icons/GavelRounded';
 import FlashAutoIcon from '@material-ui/icons/FlashAuto';
 import BinMathSetter from "./BinMathSetter"
 import BinTextSetter from "./BinTextSetter"
-import { sortMathIntervalBin, getMinMax } from '../utils/mathInterval';
+import { sortMathIntervalBin, getMinMax } from '../../utils/mathInterval';
 
 const useStyles = makeStyles(theme => ({
     // binsetter: {
@@ -35,13 +35,6 @@ const useStyles = makeStyles(theme => ({
         '& > *': {
             margin: theme.spacing(1),
         },
-    },
-    dynamicbtn: {
-        '& > *': {
-            margin: theme.spacing(1),
-        },
-        // position: "absolute",
-        // margin: "auto"
     },
     log: {
         width: 250,
@@ -68,18 +61,18 @@ const useStyles = makeStyles(theme => ({
  */
 function FeatureDetail({ feature }) {
     const [defaultEdit, setDefaultEdit] = useState(false) // Default 的设置默认是处于Button状态
-    const [defaultValue, setDefaultValue] = useState(feature && feature.default)
+    const [defaultValue, setDefaultValue] = useState(0)
     const [isdel, setIsDelete] = useState(false)
-    const [bin, setBin] = useState(feature && feature.bin)
+    // const [bin, setBin] = useState(feature && feature.bin)
 
-    // useEffect(() => {
-    //     const initDefaultValue = () => {
-    //         return (
-    //             feature && feature.default
-    //         )
-    //     }
-    //     setDefaultValue(initDefaultValue())
-    // }, [feature])
+    useMemo(() => {
+        const initDefaultValue = () => {
+            return (
+                feature && feature.default
+            )
+        }
+        setDefaultValue(initDefaultValue())
+    }, [feature])
     const classes = useStyles();
 
     // 点击New按钮的时候 应该在feature中新增一个数据
@@ -127,6 +120,7 @@ function FeatureDetail({ feature }) {
         // // console.log(f)
     }
     const handleBinChange = (item, inchange) => {
+        // alert('handleBinChange')
         //  item change to inchange
 
         // if (newData.hasOwnProperty("bin")) {
@@ -196,25 +190,30 @@ function FeatureDetail({ feature }) {
 
             </div>
 
-
+            {/* <div>{JSON.stringify(feature)}</div> */}
+            {/* <div>{JSON.stringify(bin)}</div> */}
             {
                 feature === undefined ? "loading..." :
                     feature.bintype === "math"
                         ?
                         (Object
-                            .keys(bin)
+                            .keys(feature.bin)
                             .sort(sortMathIntervalBin)
                             .map((item, index) => (
                                 // item => "(-inf,100]" or (0, 20)
                                 <Paper key={"freg-" + index} className={classes.binpaper}>
+                                    {/* <div>{JSON.stringify(getMinMax(bin))}</div> */}
+                                    {/* <div>{JSON.stringify(item)}</div> */}
+
+                                    {/* <div>{JSON.stringify(bin[item])}</div> */}
                                     <Grid container spacing={3}>
                                         <Grid item>
                                             <BinMathSetter
                                                 className={classes.binsetter}
                                                 key={item + "-" + index}
                                                 express={item}
-                                                binscore={feature["bin"][item]}
-                                                minmax={getMinMax(feature["bin"]).bounds} // 
+                                                binscore={feature.bin[item]}
+                                                minmax={getMinMax(feature.bin).bounds} // 
                                                 onChange={(newData) => handleBinChange(item, newData)} //{"[-inf,1.6)": 23}
                                             />
                                         </Grid>
@@ -224,6 +223,7 @@ function FeatureDetail({ feature }) {
                                                 className={classes.delbtn}
                                                 onClick={() => handleBinDel(item)}
                                             >
+                                                {/* icon */}
                                                 <DeleteForever color="secondary" />
                                             </Button>
                                         )

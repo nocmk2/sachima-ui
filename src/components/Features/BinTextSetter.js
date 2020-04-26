@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 // import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 // import { getMathInterval } from "../utils/mathInterval"
-import { useDidUpdateEffect } from "../utils/tools"
+import { useDidUpdateEffect } from "../../utils/tools"
 
 // const PrettoSlider = withStyles({
 //     root: props => ({
