@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Paper from '@material-ui/core/Paper';
@@ -39,7 +39,7 @@ function a11yProps(index) {
 
 
 const FeatureLists = ({ features }) => {
-    const [value, setValue] = useState(3); // default feature list being selected
+    const [curval, setCurVal] = useState(3); // default feature list being selected
     const [, dispatch] = useStateValue();
     const [f, setF] = useState(features)
     const [isdel, setIsDelete] = useState(false)
@@ -48,7 +48,7 @@ const FeatureLists = ({ features }) => {
     const [isedit, setIsEdit] = useState(false)
     const [newData, setNewData] = useState({})
     const [draweropen, setDrawerOpen] = useState(false)
-    const [defaultEdit, setDefaultEdit] = useState(false)
+    const [defaultEdit, setDefaultEdit] = useState(false) // Default 的设置默认是处于Button状态
     const [defaultValue, setDefaultValue] = useState("")
     // const [minmax, setMinmax] = React.useState([-1, 1])
 
@@ -56,18 +56,17 @@ const FeatureLists = ({ features }) => {
         return Object.keys(f)
     }, [f])
 
-    // const featureNames = Object.keys(f)
 
     React.useEffect(() => {
         const initDefaultValue = () => {
             return (
                 Object.keys(f).length === 0 ? 0 :
-                    f[featureNames[value]]["default"]
+                    f[featureNames[curval]]["default"]
             )
         }
 
         setDefaultValue(initDefaultValue())
-    }, [value])
+    }, [f, featureNames, curval])
 
 
     // setDefaultValue(f[featureNames[value]]["default"])
@@ -135,20 +134,20 @@ const FeatureLists = ({ features }) => {
     }
 
     const handleTabChange = (event, newValue) => {
-        setValue(newValue);
+        setCurVal(newValue);
     };
 
     const handleSelectChange = (event) => {
         console.log(event.target.value)
-        setValue(featureNames.indexOf(event.target.value));
+        setCurVal(featureNames.indexOf(event.target.value));
     };
 
     const handleNew = () => {
         // binMath New 
         var temp = Object.assign({}, f)
-        var bin = temp[featureNames[value]]["bin"]
+        var bin = temp[featureNames[curval]]["bin"]
         var k = "new rule" + Object.keys(bin).length
-        if (temp[featureNames[value]]["bintype"] === "math") {
+        if (temp[featureNames[curval]]["bintype"] === "math") {
             let m = getMinMax(bin).origin[1] // eg: [1,9)  m = 9  origin[0] = 1
             console.log(m)
             k = `[${(m + 0.1).toFixed(2)},${(m + 0.2).toFixed(2)})`
@@ -157,7 +156,7 @@ const FeatureLists = ({ features }) => {
         setNewData({
             ...newData,
             ...{
-                [featureNames[value]]: { ...newData[featureNames[value]], ...{ [k]: { [k]: 99 } } }
+                [featureNames[curval]]: { ...newData[featureNames[curval]], ...{ [k]: { [k]: 99 } } }
             }
         })
         setF(temp)
@@ -179,7 +178,7 @@ const FeatureLists = ({ features }) => {
 
     const handleBinDel = (key) => {
         var temp = Object.assign({}, f)
-        var bin = temp[featureNames[value]]["bin"]
+        var bin = temp[featureNames[curval]]["bin"]
         // console.log(Object.keys(bin).length)
         if (Object.keys(bin).length > 1) {
             delete bin[key]
@@ -252,7 +251,7 @@ const FeatureLists = ({ features }) => {
         setNewData({
             ...newData,
             ...{
-                [featureNames[value]]: { ...newData[featureNames[value]], ...{ default: 9999999 } }
+                [featureNames[curval]]: { ...newData[featureNames[curval]], ...{ default: 9999999 } }
             }
         })
         setDefaultEdit(false)
@@ -263,7 +262,7 @@ const FeatureLists = ({ features }) => {
             <Tabs
                 orientation="vertical"
                 variant="scrollable"
-                value={value} // 0 1 2 3 4....
+                value={curval} // 0 1 2 3 4....
                 onChange={handleTabChange}
                 aria-label="Vertical tabs example"
                 className={classes.tabs}
@@ -274,7 +273,7 @@ const FeatureLists = ({ features }) => {
                     } />
                 ))}
             </Tabs>
-            <FeatureDetail value={value} index={value} >
+            <FeatureDetail value={curval} index={curval} >
                 <Grid container>
                     <Grid item>
                         {/* <Button variant="outlined" className={classes.delbtn}>+</Button> */}
@@ -296,11 +295,11 @@ const FeatureLists = ({ features }) => {
                     <Grid item>
                         {isedit ?
                             <>
-                                <TextField label="desc" value={f[featureNames[value]]["name"]} features={features} />
-                                <TextField label="feature" value={featureNames[value]} features={features} />
+                                <TextField label="desc" value={f[featureNames[curval]]["name"]} features={features} />
+                                <TextField label="feature" value={featureNames[curval]} features={features} />
                             </>
                             :
-                            <GroupSelect value={featureNames[value]} features={features} onSelect={handleSelectChange} />
+                            <GroupSelect value={featureNames[curval]} features={features} onSelect={handleSelectChange} />
                         }
                     </Grid>
                 </Grid>
@@ -317,7 +316,7 @@ const FeatureLists = ({ features }) => {
                         defaultEdit ?
                             <TextField autoFocus label="default" onChange={event => { setDefaultValue(event.target.value) }} value={defaultValue} onBlur={handleDefaultOnBlur}></TextField>
                             :
-                            <Button startIcon={<GavelRoundedIcon />} onClick={handleClickDefault} >{"Default:" + defaultValue}</Button>
+                            <Button startIcon={<GavelRoundedIcon />} onClick={handleClickDefault} >{"Default: " + defaultValue}</Button>
                     }
 
 
@@ -345,10 +344,10 @@ const FeatureLists = ({ features }) => {
 
                 {
                     Object.keys(f).length === 0 ? "loading..." :
-                        f[featureNames[value]]["bintype"] === "math"
+                        f[featureNames[curval]]["bintype"] === "math"
                             ?
                             (Object
-                                .keys(f[featureNames[value]]["bin"])
+                                .keys(f[featureNames[curval]]["bin"])
                                 .sort(sortMathIntervalBin)
                                 .map((item, index) => (
                                     // item => "(-inf,100]" or (0, 20)
@@ -359,8 +358,8 @@ const FeatureLists = ({ features }) => {
                                                     className={classes.binsetter}
                                                     key={item + "-" + index}
                                                     express={item}
-                                                    binscore={f[featureNames[value]]["bin"][item]}
-                                                    minmax={getMinMax(f[featureNames[value]]["bin"]).bounds} // 
+                                                    binscore={f[featureNames[curval]]["bin"][item]}
+                                                    minmax={getMinMax(f[featureNames[curval]]["bin"]).bounds} // 
                                                     onChange={(newData) => handleBinChange(item, newData)} //{"[-inf,1.6)": 23}
                                                 />
                                             </Grid>
@@ -381,7 +380,7 @@ const FeatureLists = ({ features }) => {
                             )
                             :
                             (Object
-                                .entries(f[featureNames[value]]["bin"])
+                                .entries(f[featureNames[curval]]["bin"])
                                 .map((kv, index) => (
                                     // item => "(-inf,100]" or (0, 20)
                                     <Paper key={"freg-" + index} className={classes.binpaper}>
