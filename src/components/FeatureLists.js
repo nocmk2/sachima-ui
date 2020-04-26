@@ -1,34 +1,21 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
-import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import Tab from '@material-ui/core/Tab';
 import { maxWidth } from '@material-ui/system';
-import Grid from '@material-ui/core/Grid';
-import DeleteForever from "@material-ui/icons/DeleteForever";
-import TabUnselected from "@material-ui/icons/TabUnselected";
-import DeleteSweep from "@material-ui/icons/DeleteSweep";
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import Functions from '@material-ui/icons/Functions';
-import Equalizer from "@material-ui/icons/Equalizer";
-import OpacityIcon from '@material-ui/icons/Opacity';
-import AttachFileRoundedIcon from '@material-ui/icons/AttachFileRounded';
-import GavelRoundedIcon from '@material-ui/icons/GavelRounded';
-import CloudUpload from '@material-ui/icons/CloudUpload';
-import FlashAutoIcon from '@material-ui/icons/FlashAuto';
-import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import Drawer from '@material-ui/core/Drawer';
 import FeatureDetail from "./FeatureDetail";
-import { useStateValue } from "../utils/state"
-import BinMathSetter from "./BinMathSetter"
-import BinTextSetter from "./BinTextSetter"
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import GroupSelect from "./GroupSelect"
-import { sortMathIntervalBin, getMinMax } from '../utils/mathInterval';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import CloudUpload from '@material-ui/icons/CloudUpload';
+import { useStateValue } from '../utils/state'
+import TabPanel from './TabPanel'
 
 function a11yProps(index) {
     return {
@@ -38,88 +25,63 @@ function a11yProps(index) {
 }
 
 
+/* 
+   {
+       "1PD7_pct": {
+           "[-inf,1.6)": { "[-inf,3.25)": 23 },
+           "[1.6,4.7)": { "[1.6,3.23)": -10 },
+           "[4.7,inf)": { "[3.47,inf)": -66 }
+       },
+       "company_found_years": {
+           "[0,0.5)": { "[0,1.03)": 20 },
+           "[0.5,1)": { "[0.5,2.91)": 25 }
+       }
+   }
+*/
+const useStyles = makeStyles(theme => ({
+    root: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper,
+        display: 'flex',
+        height: 800,
+        // width: maxWidth,
+    },
+    tabs: {
+        borderRight: `1px solid ${theme.palette.divider}`,
+    },
+    buttons: {
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
+}));
 const FeatureLists = ({ features }) => {
     const [curval, setCurVal] = useState(3); // default feature list being selected
-    const [, dispatch] = useStateValue();
     const [f, setF] = useState(features)
-    const [isdel, setIsDelete] = useState(false)
     const [height, setHeight] = useState(800)
-    const [featureAddButtonColor, setFeatureAddButtonColor] = React.useState("default")
-    const [isedit, setIsEdit] = useState(false)
-    const [newData, setNewData] = useState({})
     const [draweropen, setDrawerOpen] = useState(false)
-    const [defaultEdit, setDefaultEdit] = useState(false) // Default 的设置默认是处于Button状态
-    const [defaultValue, setDefaultValue] = useState(0)
+    const [newData, setNewData] = useState({ x: 111, y: 222, z: 333 })
     const featureNames = useMemo(() => {
         return Object.keys(f)
     }, [f])
+    const [isedit, setIsEdit] = useState(false)
+    const [featureAddButtonColor, setFeatureAddButtonColor] = useState("default")
+    const [, dispatch] = useStateValue();
     // const [minmax, setMinmax] = React.useState([-1, 1])
-
-    useEffect(() => {
-        const initDefaultValue = () => {
-            return (
-                f[featureNames[curval]] && f[featureNames[curval]]["default"]
-            )
-        }
-        setDefaultValue(initDefaultValue())
-    }, [f, featureNames, curval])
-
-
     // setDefaultValue(f[featureNames[value]]["default"])
+    const handleSelectChange = (event) => {
+        console.log(event.target.value)
+        setCurVal(featureNames.indexOf(event.target.value));
+    };
 
-    const useStyles = makeStyles(theme => ({
-        root: {
-            flexGrow: 1,
-            backgroundColor: theme.palette.background.paper,
-            display: 'flex',
-            height: height,
-            width: maxWidth,
-        },
-        tabs: {
-            borderRight: `1px solid ${theme.palette.divider}`,
-        },
-        binsetter: {
-            width: maxWidth
-        },
-        buttons: {
-            '& > *': {
-                margin: theme.spacing(1),
-            },
-        },
-        binpaper: {
-            '& > *': {
-                margin: theme.spacing(1),
-            },
-        },
-        dynamicbtn: {
-            '& > *': {
-                margin: theme.spacing(1),
-            },
-            // position: "absolute",
-            // margin: "auto"
-        },
-        log: {
-            width: 250,
-        },
-
-    }));
-
-    // React.useEffect(() => {
-    //     console.log(f)
-    //     // console.log(minmax)
-    //     if (Object.keys(f).length > 0) {
-    //         console.log("----------------------------=")
-    //         console.log(getMinMax(f[featureNames[value]]["bin"]).bounds)
-    //         // setMinmax(getMinMax(f[featureNames[value]]["bin"]).bounds)
-    //     }
-    // }, [f])
 
     const classes = useStyles();
 
+    const handleTabChange = (event, newValue) => {
+        setCurVal(newValue);
+    };
 
-    const handleFeatureAdd = () => {
-        setIsEdit(!isedit)
-    }
+    const dataChangeNumber = () => 3
 
     const toggleFeatureAddButtonColor = () => {
         if (isedit) {
@@ -128,97 +90,6 @@ const FeatureLists = ({ features }) => {
             setFeatureAddButtonColor(featureAddButtonColor === "default" ? "secondary" : "default")
         }
     }
-
-    const handleTabChange = (event, newValue) => {
-        setCurVal(newValue);
-    };
-
-    const handleSelectChange = (event) => {
-        console.log(event.target.value)
-        setCurVal(featureNames.indexOf(event.target.value));
-    };
-
-    const handleNew = () => {
-        // binMath New 
-        var temp = Object.assign({}, f)
-        var bin = temp[featureNames[curval]]["bin"]
-        var k = "new rule" + Object.keys(bin).length
-        if (temp[featureNames[curval]]["bintype"] === "math") {
-            let m = getMinMax(bin).origin[1] // eg: [1,9)  m = 9  origin[0] = 1
-            console.log(m)
-            k = `[${(m + 0.1).toFixed(2)},${(m + 0.2).toFixed(2)})`
-        }
-        bin[k] = 99
-        setNewData({
-            ...newData,
-            ...{
-                [featureNames[curval]]: { ...newData[featureNames[curval]], ...{ [k]: { [k]: 99 } } }
-            }
-        })
-        setF(temp)
-        if (Object.keys(bin).length > 8) {
-            setHeight(height + 86)
-        }
-
-        // binText New
-
-
-
-
-
-    }
-
-    const toggleDelete = () => {
-        setIsDelete(!isdel)
-    }
-
-    const handleBinDel = (key) => {
-        var temp = Object.assign({}, f)
-        var bin = temp[featureNames[curval]]["bin"]
-        // console.log(Object.keys(bin).length)
-        if (Object.keys(bin).length > 1) {
-            delete bin[key]
-            // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "✅删除成功" } })
-        } else {
-            dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️最后一条规则不能删除" } })
-        }
-        // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "⚠️最后一条规则不能删除" } })
-        setF(temp)
-        // console.log("=======")
-        // console.log(f)
-    }
-
-    /* 
-       {
-           "1PD7_pct": {
-               "[-inf,1.6)": { "[-inf,3.25)": 23 },
-               "[1.6,4.7)": { "[1.6,3.23)": -10 },
-               "[4.7,inf)": { "[3.47,inf)": -66 }
-           },
-           "company_found_years": {
-               "[0,0.5)": { "[0,1.03)": 20 },
-               "[0.5,1)": { "[0.5,2.91)": 25 }
-           }
-       }
-    */
-
-    const handleBinChange = (item, inchange) => {
-        //  item change to inchange
-
-        // if (newData.hasOwnProperty("bin")) {
-        //     alert("aaa")
-        // }
-
-        // setNewData({
-        //     ...newData,
-        //     ...{
-        //         [featureNames[value]]: {
-        //             bin: { ...inchange }
-        //         }
-        //     }
-        // })
-    }
-
     const handleSave = () => {
         for (const fname in newData) {
             console.log(fname)
@@ -239,20 +110,10 @@ const FeatureLists = ({ features }) => {
         dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "保存成功" } })
     }
 
-    const handleClickDefault = () => {
-        setDefaultEdit(true)
-    }
 
-    const handleDefaultOnBlur = () => {
-        setNewData({
-            ...newData,
-            ...{
-                [featureNames[curval]]: { ...newData[featureNames[curval]], ...{ default: 9999999 } }
-            }
-        })
-        setDefaultEdit(false)
+    const handleFeatureAdd = () => {
+        setIsEdit(!isedit)
     }
-
     return (
         <div className={classes.root}>
             <Tabs
@@ -264,15 +125,20 @@ const FeatureLists = ({ features }) => {
                 className={classes.tabs}
             >
                 {featureNames.map((item, index) => (
-                    <Tab key={item} index={item} {...a11yProps(index)} label={
-                        <Badge color="secondary" badgeContent={newData[item] === undefined ? undefined : Object.keys(newData[item]).length}>{item}</Badge>
+                    <Tab key={item} {...a11yProps(index)} index={item} label={
+                        <Badge
+                            color="secondary"
+                            // badgeContent={newData[item] === undefined ? undefined : Object.keys(newData[item]).length}
+                            badgeContent={dataChangeNumber()}
+                        >
+                            {item}
+                        </Badge>
                     } />
                 ))}
             </Tabs>
-            <FeatureDetail value={curval} index={curval} >
+            <TabPanel value={curval || 0} index={curval || 0}>
                 <Grid container>
                     <Grid item>
-                        {/* <Button variant="outlined" className={classes.delbtn}>+</Button> */}
                         <IconButton
                             onMouseEnter={toggleFeatureAddButtonColor}
                             onMouseLeave={toggleFeatureAddButtonColor}
@@ -299,133 +165,32 @@ const FeatureLists = ({ features }) => {
                         }
                     </Grid>
                 </Grid>
+                <FeatureDetail feature={f[featureNames[curval]]} />
+                <Grid container>
+                    <Grid item>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<CloudUpload />}
+                            // disabled={Object.keys(newData).length === 0 ? true : false}
+                            onClick={
+                                handleSave
+                            } >Save</Button>
 
-                {/* {value} -> {Object.keys(features)[value]} */}
-                {/* {features[Object.keys(features)[value]].bin.map((item, index) => (
-                    <BinSetter data={} />
-                ))} */}
-                {/* {Object.entries(features).length === 0 ? "loading..." : JSON.stringify(features[Object.keys(features)[value]])} */}
-                <div className={classes.buttons}>
-                    <Button startIcon={<AddCircleOutlineIcon />} variant="contained" color="secondary" onClick={handleNew}>New</Button>
-
-                    {
-                        defaultEdit ?
-                            <TextField autoFocus label="default" onChange={event => { setDefaultValue(event.target.value) }} value={defaultValue} onBlur={handleDefaultOnBlur}></TextField>
-                            :
-                            <Button startIcon={<GavelRoundedIcon />} onClick={handleClickDefault} >{"Default: " + defaultValue}</Button>
-                    }
-
-
-                    <Button startIcon={<AttachFileRoundedIcon />}>Pre</Button>
-                    {/* <Button>Percent</Button> */}
-                    <Button startIcon={<OpacityIcon />}>Catalog</Button>
-                    {/* <Button>Weight</Button> */}
-                    <Button startIcon={<Functions />}>Bintype</Button>
-                    <Button startIcon={<Equalizer />}>Graph</Button>
-                    <Button startIcon={<FlashAutoIcon />}>Auto</Button>
-                    <Button
-                        disabled={Object.keys(newData).length === 0 ? false : true}
-                        onClick={toggleDelete}
-                        startIcon={isdel ? <TabUnselected /> : <DeleteSweep />}
-                        variant={isdel ? "outlined" : "text"}
-                        color={isdel ? "secondary" : "default"}
-                    >
-                        Delete
-                    </Button>
-                    {/* <DeleteForever></DeleteForever> */}
-                    {/* <Switch size="small" checked={isdel} checkedIcon={<DeleteForever></DeleteForever>} edge="start" onChange={toggleDelete} /> */}
-
-                </div>
-
-
-                {
-                    Object.keys(f).length === 0 ? "loading..." :
-                        f[featureNames[curval]]["bintype"] === "math"
-                            ?
-                            (Object
-                                .keys(f[featureNames[curval]]["bin"])
-                                .sort(sortMathIntervalBin)
-                                .map((item, index) => (
-                                    // item => "(-inf,100]" or (0, 20)
-                                    <Paper key={"freg-" + index} className={classes.binpaper}>
-                                        <Grid container spacing={3}>
-                                            <Grid item>
-                                                <BinMathSetter
-                                                    className={classes.binsetter}
-                                                    key={item + "-" + index}
-                                                    express={item}
-                                                    binscore={f[featureNames[curval]]["bin"][item]}
-                                                    minmax={getMinMax(f[featureNames[curval]]["bin"]).bounds} // 
-                                                    onChange={(newData) => handleBinChange(item, newData)} //{"[-inf,1.6)": 23}
-                                                />
-                                            </Grid>
-                                            {isdel ? (
-                                                <Button
-                                                    key={"delbtn-" + index}
-                                                    className={classes.delbtn}
-                                                    onClick={() => handleBinDel(item)}
-                                                >
-                                                    <DeleteForever color="secondary" />
-                                                </Button>
-                                            )
-                                                : ""
-                                            }
-                                        </Grid>
-                                    </Paper>
-                                ))
-                            )
-                            :
-                            (Object
-                                .entries(f[featureNames[curval]]["bin"])
-                                .map((kv, index) => (
-                                    // item => "(-inf,100]" or (0, 20)
-                                    <Paper key={"freg-" + index} className={classes.binpaper}>
-                                        <Grid container spacing={3}>
-                                            <Grid item>
-                                                {/* {JSON.stringify(kv)} */}
-                                                <BinTextSetter
-                                                    className={classes.binsetter}
-                                                    key={kv[0] + "-" + index}
-                                                    kv={kv}
-                                                    binscore={kv[1]}
-                                                    onChange={(newData) => handleBinChange(kv[0], newData)} //{"[-inf,1.6)": 23}
-                                                />
-                                            </Grid>
-                                            {isdel ? (
-                                                <Button
-                                                    key={"delbtn-" + index}
-                                                    className={classes.delbtn}
-                                                    onClick={() => handleBinDel(kv[0])}
-                                                >
-                                                    <DeleteForever color="secondary" />
-                                                </Button>
-                                            )
-                                                : ""
-                                            }
-                                        </Grid>
-                                    </Paper>
-                                ))
-                            )
-                }
-                {/* {value ? "loading" : JSON.stringify(Object.keys(features[Object.keys(features)[value]]["bin"]))} */}
-                <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<CloudUpload />}
-                    disabled={Object.keys(newData).length === 0 ? true : false}
-                    onClick={
-                        handleSave
-                    } >Save</Button>
-
-                <Button color="primary"
-                    disabled={Object.keys(newData).length === 0 ? true : false}
-                    onClick={
-                        () => {
-                            setDrawerOpen(true)
-                        }
-                    } >ChangeLog</Button>
-            </FeatureDetail >
-            <Drawer anchor="right" open={draweropen} onClose={
+                        <Button color="primary"
+                            // disabled={Object.keys(newData).length === 0 ? true : false}
+                            onClick={
+                                () => {
+                                    setDrawerOpen(true)
+                                }
+                            } >ChangeLog</Button>
+                    </Grid>
+                </Grid>
+            </TabPanel>
+            {/* <Button variant="outlined" className={classes.delbtn}>+</Button> */}
+            {/* <FeatureDetail feature={f[featureNames[curval]]} /> */}
+            {/* <div>{JSON.stringify(f[featureNames[curval]])}</div> */}
+            < Drawer anchor="right" open={draweropen} onClose={
                 event => {
                     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
                         return;
@@ -434,7 +199,7 @@ const FeatureLists = ({ features }) => {
                 }
             } >
                 <div className={classes.log}>{JSON.stringify(newData)}</div>
-            </Drawer>
+            </Drawer >
             {/* <div>{JSON.stringify(f)}</div> */}
         </div >
     );

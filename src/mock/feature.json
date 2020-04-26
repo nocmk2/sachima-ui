@@ -1,0 +1,15 @@
+{
+    "bin": {
+        "missing": -1,
+        "全国多于五家": 5,
+        "全国少于五家": -1,
+        "无连锁": -2
+    },
+    "bintype": "text",
+    "catalog": "MODEL",
+    "default": -1,
+    "name": "医院连锁数量",
+    "percent": 0.1,
+    "pre": "",
+    "weight": 1
+}
