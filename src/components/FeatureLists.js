@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Paper from '@material-ui/core/Paper';
@@ -29,7 +29,6 @@ import BinMathSetter from "./BinMathSetter"
 import BinTextSetter from "./BinTextSetter"
 import GroupSelect from "./GroupSelect"
 import { sortMathIntervalBin, getMinMax } from '../utils/mathInterval';
-import { useDidUpdateEffect } from "../utils/tools"
 
 function a11yProps(index) {
     return {
@@ -40,21 +39,24 @@ function a11yProps(index) {
 
 
 const FeatureLists = ({ features }) => {
-    const [value, setValue] = React.useState(3); // default feature list being selected
+    const [value, setValue] = useState(3); // default feature list being selected
     const [, dispatch] = useStateValue();
-    const [f, setF] = React.useState(features)
-    const [oldf, setOldF] = React.useState(features)
-    const [isdel, setIsDelete] = React.useState(false)
-    const [height, setHeight] = React.useState(800)
+    const [f, setF] = useState(features)
+    const [isdel, setIsDelete] = useState(false)
+    const [height, setHeight] = useState(800)
     const [featureAddButtonColor, setFeatureAddButtonColor] = React.useState("default")
-    const [isedit, setIsEdit] = React.useState(false)
-    const [newData, setNewData] = React.useState({})
-    const [draweropen, setDrawerOpen] = React.useState(false)
-    const [defaultEdit, setDefaultEdit] = React.useState(false)
-    const [defaultValue, setDefaultValue] = React.useState("")
+    const [isedit, setIsEdit] = useState(false)
+    const [newData, setNewData] = useState({})
+    const [draweropen, setDrawerOpen] = useState(false)
+    const [defaultEdit, setDefaultEdit] = useState(false)
+    const [defaultValue, setDefaultValue] = useState("")
     // const [minmax, setMinmax] = React.useState([-1, 1])
 
-    const featureNames = Object.keys(f)
+    const featureNames = useMemo(() => {
+        return Object.keys(f)
+    }, [f])
+
+    // const featureNames = Object.keys(f)
 
     React.useEffect(() => {
         const initDefaultValue = () => {
@@ -65,8 +67,7 @@ const FeatureLists = ({ features }) => {
         }
 
         setDefaultValue(initDefaultValue())
-    }
-        , [value])
+    }, [value])
 
 
     // setDefaultValue(f[featureNames[value]]["default"])

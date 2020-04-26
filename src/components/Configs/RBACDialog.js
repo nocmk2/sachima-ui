@@ -100,7 +100,7 @@ const RBACDialog = ({ open, close, type, data, id }) => {
             //     "lastname": "管理员yyy"
             // }
         }).then(response => {
-            console.log(response)
+            // console.log(response)
             if (response.status === 200)
                 notifier.getUsers(`${sachima.url}/sachima/getusers?time=${Now()}`)
         })
