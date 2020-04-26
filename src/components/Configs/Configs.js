@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import { useStateValue } from "../../utils/state"
 // import SendMessage from "../utils/message"
-import { useReadApi, useWriteApi } from "../../apis/api"
+import { useReadApi } from "../../apis/api"
 import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 import RBAC from './RBAC'
 

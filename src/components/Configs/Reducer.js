@@ -1,4 +1,4 @@
-import { DrawLineX, DisposeLine, ToggleAnimateRelativeLine } from '../../utils/line'
+import { DrawLineX, DisposeLine } from '../../utils/line'
 
 const toRelation = (userrole, roleobject) => {
     const u = userrole.map(o => {

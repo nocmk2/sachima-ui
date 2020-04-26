@@ -49,10 +49,10 @@ const FeatureLists = ({ features }) => {
     const [newData, setNewData] = useState({})
     const [draweropen, setDrawerOpen] = useState(false)
     const [defaultEdit, setDefaultEdit] = useState(false) // Default 的设置默认是处于Button状态
+    const [defaultValue, setDefaultValue] = useState(0)
     const featureNames = useMemo(() => {
         return Object.keys(f)
     }, [f])
-    const [defaultValue, setDefaultValue] = useState(0)
     // const [minmax, setMinmax] = React.useState([-1, 1])
 
     useEffect(() => {
@@ -91,7 +91,7 @@ const FeatureLists = ({ features }) => {
                 margin: theme.spacing(1),
             },
         },
-        delbtn: {
+        dynamicbtn: {
             '& > *': {
                 margin: theme.spacing(1),
             },
@@ -277,7 +277,7 @@ const FeatureLists = ({ features }) => {
                             onMouseEnter={toggleFeatureAddButtonColor}
                             onMouseLeave={toggleFeatureAddButtonColor}
                             onClick={handleFeatureAdd}
-                            className={classes.delbtn}
+                            className={classes.dynamicbtn}
                             size="small"
                             color={featureAddButtonColor}
                             aria-label="upload picture"

@@ -1,42 +1,39 @@
 
-import React, { useMemo, useContext, useState, useEffect, createRef, useReducer } from "react";
-import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider'
+import React, { useMemo, useContext } from "react";
+// import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button'
-import Chip from '@material-ui/core/Chip'
+// import Chip from '@material-ui/core/Chip'
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 // import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
 import SmallChips from './SmallChips'
-import RecommendChips from './RecommendChips'
 import User from '../forms/User'
 import Role from '../forms/Role'
 import Object from '../forms/Object'
-import { green, purple } from '@material-ui/core/colors';
+// import { green, purple } from '@material-ui/core/colors';
 import axios from "axios"
 
 import { ctx } from './Configs';
 
-const ColorChip = withStyles((theme) => ({
-    root: {
-        color: theme.palette.getContrastText(purple[500]),
-        backgroundColor: purple[500],
-        '&:hover': {
-            backgroundColor: purple[700],
-        },
-    },
-}))(Chip);
+// const ColorChip = withStyles((theme) => ({
+//     root: {
+//         color: theme.palette.getContrastText(purple[500]),
+//         backgroundColor: purple[500],
+//         '&:hover': {
+//             backgroundColor: purple[700],
+//         },
+//     },
+// }))(Chip);
 
-const handleClose = () => {
-}
+// const handleClose = () => {
+// }
 
 const handleCancel = () => { }
 
-const handleSubscribe = () => {
-}
+// const handleSubscribe = () => {
+// }
 
 const Cal = (type, data) => {
     const users = data.users.map(o => ({ ...o, type: 'user' }))
@@ -75,7 +72,7 @@ const Now = () => {
 }
 
 const RBACDialog = ({ open, close, type, data, id }) => {
-    const { hei, sachima, dispatch, notifier } = useContext(ctx)
+    const { sachima, notifier } = useContext(ctx)
     // const 
     const { title, recommend, datashouldrender, form } = useMemo(
         () => Cal(type, data),
