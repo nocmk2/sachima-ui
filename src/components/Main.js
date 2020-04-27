@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router";
 
+
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import { makeStyles } from "@material-ui/core/styles";
 import Backdrop from "@material-ui/core/Backdrop";
 import Modal from "@material-ui/core/Modal";
@@ -15,6 +19,7 @@ import Login from "./Login";
 import Message from "./Message"
 import Menus from "./Menus"
 import BadgeAvatars from './BadgeAvatars'
+import { Divider } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -40,7 +45,7 @@ const Main = props => {
   const [hidden, setHidden] = useState(false);
   const [{ user, message }, dispatch] = useStateValue();
   const history = useHistory()
-
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   useEffect(() => {
     if (user.name) {
@@ -51,6 +56,14 @@ const Main = props => {
     }
   }, [user])
 
+
+  const handleAvtarMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleAvtarMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleVisibility = () => {
     setHidden(prevHidden => !prevHidden);
@@ -63,14 +76,11 @@ const Main = props => {
 
 
   const handleLogClick = () => {
-    if (user.name) {
-      localStorage.removeItem("email");
-      localStorage.removeItem("token");
-      dispatch({ type: "changeUser", newUser: { name: "", id: "", role: "" } })
-      history.push('/Login')
-    } else {
-      setOpenBack(true);
-    }
+    handleAvtarMenuClose()
+    localStorage.removeItem("email");
+    localStorage.removeItem("token");
+    dispatch({ type: "changeUser", newUser: { name: "", id: "", role: "" } })
+    history.push('/Login')
   };
 
   const handleMessageClose = (event, reason) => {
@@ -90,12 +100,33 @@ const Main = props => {
         <Button onClick={handleVisibility}>Sachima</Button>
         {
           user.name
-          && <BadgeAvatars onClick={handleLogClick} />
+          && <BadgeAvatars onMouseEnter={handleAvtarMenuOpen} />
         }
         {/* <div>{user.name}</div> */}
         {/* <Button variant="contained" onClick={handleLogClick}>{user.name ? "LogOut" : "LogIn"}</Button> */}
       </Grid>
       {/* TODO:APP bar */}
+      <Menu
+        id="simple-menu"
+        getContentAnchorEl={null}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        anchorEl={anchorEl}
+        // keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleAvtarMenuClose}
+      >
+        <MenuItem disabled={true}>{user.name}</MenuItem>
+        <Divider />
+        <MenuItem onClick={handleAvtarMenuClose}>My account</MenuItem>
+        <MenuItem onClick={handleLogClick}>Logout</MenuItem>
+      </Menu>
       {props.children}
 
       {/* login modal window */}

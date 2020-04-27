@@ -49,11 +49,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const BadgeAvatars = ({ onClick }) => {
+const BadgeAvatars = (props) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
+        <div {...props} className={classes.root} >
             <StyledBadge
                 overlap="circle"
                 anchorOrigin={{
@@ -62,7 +62,7 @@ const BadgeAvatars = ({ onClick }) => {
                 }}
                 variant="dot"
             >
-                <SmallAvatar onClick={onClick} alt="admin" src={process.env.PUBLIC_URL + "img/tech1.jpg"} />
+                <SmallAvatar alt="admin" src={process.env.PUBLIC_URL + "img/tech1.jpg"} />
             </StyledBadge>
         </div>
     );
