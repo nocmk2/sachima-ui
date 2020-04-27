@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { maxWidth } from '@material-ui/system';
@@ -17,6 +17,13 @@ import CloudUpload from '@material-ui/icons/CloudUpload';
 // import { useStateValue } from '../../utils/state'
 import { useStateValue } from '../../utils/state'
 import TabPanel from '../TabPanel'
+import Card from "@material-ui/core/Card";
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+// import bgpic from '/public/contemplative-reptile.jpg';
 
 function a11yProps(index) {
     return {
@@ -62,9 +69,13 @@ const useStyles = makeStyles(theme => ({
             margin: theme.spacing(1),
         },
     },
+    sidecard: {
+        maxWidth: 345,
+    }
 }));
 const FeatureLists = ({ features }) => {
-    const [curval, setCurVal] = useState(3); // default feature list being selected
+    const theme = useTheme();
+    const [curval, setCurVal] = useState(0); // default feature list being selected
     const [f, setF] = useState(features)
     const [height, setHeight] = useState(800)
     const [draweropen, setDrawerOpen] = useState(false)
@@ -122,30 +133,30 @@ const FeatureLists = ({ features }) => {
     const handleFeatureAdd = () => {
         setIsEdit(!isedit)
     }
+    const handleChangeIndex = (index) => {
+        setCurVal(index);
+    };
     return (
         <div className={classes.root}>
-            <Tabs
-                orientation="vertical"
-                variant="scrollable"
-                value={curval} // 0 1 2 3 4....
-                onChange={handleTabChange}
-                aria-label="Vertical tabs example"
-                className={classes.tabs}
-            >
-                {featureNames.map((item, index) => (
-                    <Tab key={item} {...a11yProps(index)} index={item} label={
-                        <Badge
-                            color="secondary"
-                            // badgeContent={newData[item] === undefined ? undefined : Object.keys(newData[item]).length}
-                            badgeContent={dataChangeNumber()}
-                        >
-                            {item}
-                        </Badge>
-                    } />
-                ))}
-            </Tabs>
-            <TabPanel value={curval || 0} index={curval || 0}>
-                <Grid container>
+            <Grid container>
+                <Card className={classes.sidecard}>
+                    <CardActionArea>
+                        <CardMedia
+                            component="img"
+                            alt="Contemplative Reptile"
+                            height="140"
+                            image={process.env.PUBLIC_URL + 'img/tech0.jpg'}
+                            title="Contemplative Reptile"
+                        />
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="h2">
+                                Acard stable v0.13
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                用于申请审批评分
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
                     <Grid item>
                         <IconButton
                             onMouseEnter={toggleFeatureAddButtonColor}
@@ -161,8 +172,6 @@ const FeatureLists = ({ features }) => {
                                 (isedit ? <LockOpenOutlinedIcon /> : <LockOutlinedIcon />)
                             }
                         </IconButton>
-                    </Grid>
-                    <Grid item>
                         {isedit ?
                             <>
                                 <TextField label="desc" value={f[featureNames[curval]]["name"]} features={features} />
@@ -172,9 +181,6 @@ const FeatureLists = ({ features }) => {
                             <GroupSelect value={featureNames[curval]} features={features} onSelect={handleSelectChange} />
                         }
                     </Grid>
-                </Grid>
-                <FeatureDetail feature={f[featureNames[curval]]} />
-                <Grid container>
                     <Grid item>
                         <Button
                             variant="contained"
@@ -193,8 +199,47 @@ const FeatureLists = ({ features }) => {
                                 }
                             } >ChangeLog</Button>
                     </Grid>
-                </Grid>
-            </TabPanel>
+                    {/* <Grid item>
+                        {JSON.stringify(f)}
+                    </Grid> */}
+                </Card>
+                <Tabs
+                    orientation="vertical"
+                    variant="scrollable"
+                    value={curval} // 0 1 2 3 4....
+                    onChange={handleTabChange}
+                    aria-label="Vertical tabs example"
+                    className={classes.tabs}
+                >
+                    {featureNames.map((item, index) => (
+                        <Tab key={item} {...a11yProps(index)} index={item} label={
+                            <Badge
+                                color="secondary"
+                                // badgeContent={newData[item] === undefined ? undefined : Object.keys(newData[item]).length}
+                                badgeContent={dataChangeNumber()}
+                            >
+                                {item}
+                            </Badge>
+                        } />
+                    ))}
+                </Tabs>
+                {/* <SwipeableViews
+                    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                    index={curval}
+                    onChangeIndex={handleChangeIndex}
+                > */}
+                {/* {featureNames.map((item, index) =>
+                    ( */}
+                <TabPanel value={curval} index={curval} dir={theme.direction} key={curval}>
+                    <FeatureDetail feature={f[featureNames[curval]]} />
+                </TabPanel>
+                {/* )
+                )} */}
+                {/* <TabPanel value={curval || 0} index={curval || 0} dir={theme.direction}>
+                    <FeatureDetail feature={f[featureNames[curval]]} />
+                </TabPanel> */}
+                {/* </SwipeableViews> */}
+            </Grid>
             {/* <Button variant="outlined" className={classes.delbtn}>+</Button> */}
             {/* <FeatureDetail feature={f[featureNames[curval]]} /> */}
             {/* <div>{JSON.stringify(f[featureNames[curval]])}</div> */}

@@ -35,12 +35,13 @@ const Rules = () => {
       {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features["1PD7_pct"]["bintype"]) : "b"}</div> */}
       {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features) : "b"}</div> */}
       {isLoading ? (<div>loading...</div>) : (
-        <Card>
+        <>
+          <Card>ScoreCard A v0.12</Card>
           {data ?
             <FeatureLists features={data.features}></FeatureLists>
             : <div>empty features</div>
           }
-        </Card>
+        </>
       )
       }
     </>)
