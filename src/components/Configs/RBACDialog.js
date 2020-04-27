@@ -46,6 +46,7 @@ const Cal = (type, data) => {
             title: '用户',
             recommend: users,
             datashouldrender: roles,
+            url: `/sachima/adduser`,
             form: dt => <User data={dt} />
         }
     } else if (type === 'role') {
@@ -74,7 +75,7 @@ const Now = () => {
 const RBACDialog = ({ open, close, type, data, id }) => {
     const { sachima, notifier } = useContext(ctx)
     // const 
-    const { title, recommend, datashouldrender, form } = useMemo(
+    const { title, recommend, datashouldrender, url, form } = useMemo(
         () => Cal(type, data),
         [type, data]
     );
@@ -86,16 +87,16 @@ const RBACDialog = ({ open, close, type, data, id }) => {
         // dispatch({ type: 'ADD_USER', payload: { id: '12345', name: 'Jerry' } })
         await axios({
             method: "POST",
-            url: `${sachima.url}/sachima/adduser`,
+            url: `${sachima.url}${url}`,
             headers: { Authorization: "Bearer " + localStorage.token },
-            data: sachima.newPayLoad
-            // {
-            //     "username": "admin980000yy",
-            //     "password": "1234561",
-            //     "email": "admin@sachima.com",
-            //     "firstname": "管理员yyy",
-            //     "lastname": "管理员yyy"
-            // }
+            data:
+            {
+                "username": "admin980000yy",
+                "password": "1234561",
+                "email": "admin@sachima.com",
+                "firstname": "管理员yyy",
+                "lastname": "管理员yyy"
+            }
         }).then(response => {
             // console.log(response)
             if (response.status === 200)
