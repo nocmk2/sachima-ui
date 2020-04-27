@@ -5,11 +5,11 @@ import { useStateValue } from "../utils/state"
 // import SendMessage from "../utils/message"
 import FeatureLists from "./Features/FeatureLists"
 import * as API from "../apis/api"
-import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
+// import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 
-const Now = () => {
-  return Math.floor(Date.now() / 1000)
-}
+// const Now = () => {
+//   return Math.floor(Date.now() / 1000)
+// }
 
 
 const Rules = () => {

@@ -173,7 +173,7 @@ const FeatureLists = ({ features }) => {
                             component="img"
                             alt="Contemplative Reptile"
                             height="140"
-                            image={process.env.PUBLIC_URL + 'img/tech0.jpg'}
+                            image={process.env.PUBLIC_URL + 'img/tech9.jpg'}
                             title="Contemplative Reptile"
                         />
                         <CardContent>
