@@ -261,9 +261,9 @@ const RBAC = ({ users, roles, objects, userrole, roleobject }) => {
           </Paper >
         </Grid>
       </Grid>
-      <Card>
+      {/* <Card>
         <div>{JSON.stringify(relation)}</div>
-      </Card>
+      </Card> */}
       <RBACDialog
         open={dialogopen}
         type={type}

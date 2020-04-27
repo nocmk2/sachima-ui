@@ -18,7 +18,7 @@ const Rules = () => {
 
   return (
     <>
-      <Button
+      {/* <Button
         // variant="contained"
         onClick={() => {
           dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "hahah" } })
@@ -31,7 +31,7 @@ const Rules = () => {
         }}
       >
         {isLoading && "loading..."}
-      </Button>
+      </Button> */}
       {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features["1PD7_pct"]["bintype"]) : "b"}</div> */}
       {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features) : "b"}</div> */}
       {isLoading ? (<div>loading...</div>) : (

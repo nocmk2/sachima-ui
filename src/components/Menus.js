@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const menus = [
-    { icon: <SupervisedUserCircle />, name: "Login" },
+    // { icon: <SupervisedUserCircle />, name: "Login" },
     { icon: <FileCopyIcon />, name: "Reports" },
     { icon: <SaveIcon />, name: "Rules" },
     { icon: <ShareIcon />, name: "Configs" },
@@ -34,7 +34,8 @@ const menus = [
     { icon: <Adb />, name: "DashBoard" },
     { icon: <MusicNote />, name: "Test" },
     { icon: <ArrowRightOutlined />, name: "ThreeDemo" },
-    { icon: <ApartmentRounded />, name: "Cirp" }
+    { icon: <ApartmentRounded />, name: "Cirp" },
+    { icon: <MusicNote />, name: "Search" }
 ];
 
 const Menus = props => {

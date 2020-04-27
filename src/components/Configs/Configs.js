@@ -25,7 +25,7 @@ const Configs = () => {
     const isLoading = usersIsLoading && rolesIsLoading && objectsIsLoading && userroleIsLoading && roleobjectIsLoading
     return (
         <>
-            <Button
+            {/* <Button
                 // variant="contained"
                 onClick={() => {
                     dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "hahah" } })
@@ -49,7 +49,7 @@ const Configs = () => {
                 }}
             >getRoles
                 {usersIsLoading && "loading..."}
-            </Button>
+            </Button> */}
             {isLoading ? (<div>loading...</div>) : (
                 <Card>
                     <ctx.Provider value={{ sachima: sachima, globalDispatch: dispatch, notifier: { getUsers, getRoles, getObjects, getUserRole, getRoleObject } }}>

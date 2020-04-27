@@ -5,13 +5,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import Backdrop from "@material-ui/core/Backdrop";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import Fade from "@material-ui/core/Fade";
+import { useHistory } from 'react-router-dom';
 
 import { useStateValue } from "../utils/state"
 
 import Login from "./Login";
 import Message from "./Message"
 import Menus from "./Menus"
+import BadgeAvatars from './BadgeAvatars'
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -36,6 +39,7 @@ const Main = props => {
   const [openBack, setOpenBack] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [{ user, message }, dispatch] = useStateValue();
+  const history = useHistory()
 
 
   useEffect(() => {
@@ -63,7 +67,7 @@ const Main = props => {
       localStorage.removeItem("email");
       localStorage.removeItem("token");
       dispatch({ type: "changeUser", newUser: { name: "", id: "", role: "" } })
-
+      history.push('/Login')
     } else {
       setOpenBack(true);
     }
@@ -81,12 +85,17 @@ const Main = props => {
     // <div className={classes.root}>
     <>
       <Message open={message.open} move={message.move} message={message.info} handleClose={handleMessageClose}></Message>
-      <Button onClick={handleVisibility}>Sachima</Button>
-      {
-        user.name
-        && <span>Hello {user.name}</span>
-      }
-      <Button variant="contained" onClick={handleLogClick}>{user.name ? "LogOut" : "LogIn"}</Button>
+      {/* TODO:App bar */}
+      <Grid container>
+        <Button onClick={handleVisibility}>Sachima</Button>
+        {
+          user.name
+          && <BadgeAvatars onClick={handleLogClick} />
+        }
+        {/* <div>{user.name}</div> */}
+        {/* <Button variant="contained" onClick={handleLogClick}>{user.name ? "LogOut" : "LogIn"}</Button> */}
+      </Grid>
+      {/* TODO:APP bar */}
       {props.children}
 
       {/* login modal window */}
