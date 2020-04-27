@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const menus = [
+export const menus = [
     // { icon: <SupervisedUserCircle />, name: "Login" },
     { icon: <FileCopyIcon />, name: "Reports" },
     { icon: <SaveIcon />, name: "Rules" },

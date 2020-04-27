@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import SmallChips from './SmallChips'
 import User from '../forms/User'
 import Role from '../forms/Role'
-import Object from '../forms/Object'
+import Authority from '../forms/Authority'
 // import { green, purple } from '@material-ui/core/colors';
 import axios from "axios"
 
@@ -62,7 +62,7 @@ const Cal = (type, data) => {
             title: '权限',
             recommend: objects,
             datashouldrender: roles,
-            form: dt => <Object data={dt} />
+            form: dt => <Authority data={dt} />
         }
     }
 }

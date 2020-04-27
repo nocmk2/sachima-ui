@@ -26,6 +26,7 @@ const Configs = lazy(() => import("./components/Configs/Configs"));
 const Maps = lazy(() => import("./components/Maps"));
 const DashBoard = lazy(() => import("./components/DashBoard"))
 const Search = lazy(() => import("./components/Search"))
+const Test = lazy(() => import("./components/Test"))
 
 
 
@@ -74,6 +75,7 @@ const App = () => {
                 <Route exact path="/Login" component={Login} />
                 <Route exact path="/Configs" component={Configs} />
                 <Route exact path="/Cirp" component={Cirp} />
+                <Route exact path="/Test" component={Test} />
                 <Route exact path="/Search" component={Search} />
                 <Route exact path="/Reports">
                   <TTT visible={true} />
