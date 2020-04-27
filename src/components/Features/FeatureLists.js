@@ -23,7 +23,12 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import Slide from '@material-ui/core/Slide';
 // import bgpic from '/public/contemplative-reptile.jpg';
+import { Motion, spring } from 'react-motion';
+import { useSpring, animated } from 'react-spring';
+
+const AnimatedFeatureDetail = animated(FeatureDetail)
 
 function a11yProps(index) {
     return {
@@ -86,6 +91,28 @@ const FeatureLists = ({ features }) => {
     const [isedit, setIsEdit] = useState(false)
     const [featureAddButtonColor, setFeatureAddButtonColor] = useState("default")
     const [, dispatch] = useStateValue();
+
+    const [ani, setAni] = useState(true)
+    const animation = useSpring({
+        opacity: ani ? 1 : 0,
+        marginLeft: ani ? 0 : 500
+        // from: { marginTop: 0 },
+        // to: { marginTop: -500 }
+    });
+    useEffect(() => {
+        setTimeout(() => {
+            setAni(true)
+        }, 500)
+    }, [ani])
+    // const animation = useSpring({
+    //     from: { opacity: 0, color: 'red' },
+    //     to: [
+    //         { opacity: 1, color: '#ffaaee' },
+    //         { opacity: 1, color: 'red' },
+    //         { opacity: .5, color: '#008000' },
+    //         { opacity: .8, color: 'black' }
+    //     ]
+    // });
     // const [minmax, setMinmax] = React.useState([-1, 1])
     // setDefaultValue(f[featureNames[value]]["default"])
     const handleSelectChange = (event) => {
@@ -97,6 +124,7 @@ const FeatureLists = ({ features }) => {
     const classes = useStyles();
 
     const handleTabChange = (event, newValue) => {
+        setAni(false)
         setCurVal(newValue);
     };
 
@@ -155,6 +183,7 @@ const FeatureLists = ({ features }) => {
                             <Typography variant="body2" color="textSecondary" component="p">
                                 用于申请审批评分
                             </Typography>
+                            {/* <animated.h1 style={multiAnimation}>Hello World</animated.h1> */}
                         </CardContent>
                     </CardActionArea>
                     <Grid item>
@@ -230,8 +259,15 @@ const FeatureLists = ({ features }) => {
                 > */}
                 {/* {featureNames.map((item, index) =>
                     ( */}
+                {/* <Motion defaultStyle={{ x: 0 }} style={{ x: spring(10) }}>
+                    {value => <div>{value.x}</div>}
+                </Motion> */}
                 <TabPanel value={curval} index={curval} dir={theme.direction} key={curval}>
-                    <FeatureDetail feature={f[featureNames[curval]]} />
+                    {/* AnimatedFeatureDetail */}
+                    <animated.div style={animation}>
+                        <FeatureDetail feature={f[featureNames[curval]]} />
+                    </animated.div>
+                    {/* <FeatureDetail feature={f[featureNames[curval]]} /> */}
                 </TabPanel>
                 {/* )
                 )} */}
