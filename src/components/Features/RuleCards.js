@@ -79,7 +79,7 @@ const LearnCard = ({ datas }) => {
                                         alt={el.title}
                                         // children={<h2>1111 eff1</h2>}
                                         height="240"
-                                        image={process.env.PUBLIC_URL + 'img/tech9.jpg'}
+                                        image={process.env.PUBLIC_URL + `img/${el.img}`}
                                         title={el.title}
                                     />
                                     <Typography className={classes.overlay}>

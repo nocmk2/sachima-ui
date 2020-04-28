@@ -55,9 +55,9 @@ const Rules = () => {
         >
           <Card>
             <RuleChips datas={[
-              { title: '商户评分卡 v1.23' },
-              // { title: 'Bcard' },
-              // { title: 'Bcard' },
+              { title: '商户评分卡 v1.23', img: 'tech9.jpg' },
+              { title: 'Ccard stable v2.3', img: 'tech_pink.jpg' },
+              { title: 'Acard stable v0.1', img: 'tech_gold.jpg' },
               // { title: 'Bcard' },
               // { title: 'Bcard' },
               // { title: 'Bcard' },
