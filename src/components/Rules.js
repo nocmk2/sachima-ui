@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const initData = [
-  { title: '商户评分卡 v1.23', img: 'tech0.jpg' },
+  { title: '商户评分卡 v1.23' },
   // { title: 'Ccard stable v2.3', img: 'tech_pink.jpg' },
   // { title: 'Acard stable v0.1', img: 'tech_gold.jpg' },
   // { title: 'Ccard stable v2.3', img: 'tech_pink.jpg' },
