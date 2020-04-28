@@ -62,7 +62,7 @@ const RuleCards = ({ datas }) => {
 
     const handleAddClick = () => {
         console.log('add rule~')
-        dispatch({ type: "ADD_RULE", payload: { title: '评分卡模型x v0.1', img: 'tech_green.jpg' } })
+        dispatch({ type: "ADD_RULE" })
     }
     // const [checked, setChecked] = React.useState(true);
     // const [elevation, setElevation] = React.useState(4);

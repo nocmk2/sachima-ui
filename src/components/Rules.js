@@ -26,22 +26,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initData = [
+  { title: '商户评分卡 v1.23', img: 'tech0.jpg' },
+  // { title: 'Ccard stable v2.3', img: 'tech_pink.jpg' },
+  // { title: 'Acard stable v0.1', img: 'tech_gold.jpg' },
+  // { title: 'Ccard stable v2.3', img: 'tech_pink.jpg' },
+]
+
 
 const Rules = () => {
   const [{ sachima }] = useStateValue();
   const [{ data, isLoading }, get] = API.useReadApi(`${sachima.url}/sachima/features`, { features: {} });
   // const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, {
-    rules: [
-      { title: '商户评分卡 v1.23', img: 'tech_orange.jpg' },
-      { title: 'Ccard stable v2.3', img: 'tech_pink.jpg' },
-      { title: 'Acard stable v0.1', img: 'tech_gold.jpg' },
-      { title: 'Ccard stable v2.3', img: 'tech_pink.jpg' },
-    ]
+    rules: initData
   })
-
-
-  // useReducer()
 
   return (
     <>
