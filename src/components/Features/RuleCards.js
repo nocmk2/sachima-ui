@@ -1,4 +1,5 @@
 import React from "react";
+import Add from '@material-ui/icons/Add';
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Card from "@material-ui/core/Card";
@@ -48,6 +49,10 @@ const LearnCard = ({ datas }) => {
             fill: theme.palette.common.white,
             stroke: theme.palette.divider,
             strokeWidth: 1
+        },
+        newBtn: {
+            border: '2px dotted',
+            color: 'gray'
         }
     }));
 
@@ -58,41 +63,46 @@ const LearnCard = ({ datas }) => {
         <div className={classes.root}>
             {
                 datas.map((el, index) =>
-                    // console.log(el);
-                    (
-                        <Grow
-                            key={index}
-                            in={true} //{el.checked}
-                            style={{ transformOrigin: "0 0 0" }}
-                            {...(true ? { timeout: index * 500 } : {})}
+                    <Grow
+                        key={index}
+                        in={true} //{el.checked}
+                        style={{ transformOrigin: "0 0 0" }}
+                        {...(true ? { timeout: index * 500 } : {})}
+                    >
+                        <Card
+                            elevation={18}
+                            className={classes.things}
+                            onClick={() => { console.log('you clicked score card') }}
                         >
-                            <Card
-                                elevation={18}
-                                className={classes.things}
-                                onClick={() => { console.log('you clicked score card') }}
-                            >
-                                {/* {el.title} */}
-                                <CardActionArea>
-                                    <CardMedia
-                                        className={classes.media}
-                                        component="img"
-                                        alt={el.title}
-                                        // children={<h2>1111 eff1</h2>}
-                                        height="240"
-                                        image={process.env.PUBLIC_URL + `img/${el.img}`}
-                                        title={el.title}
-                                    />
-                                    <Typography className={classes.overlay}>
-                                        {el.title}
-                                    </Typography>
-                                </CardActionArea> }
+                            {/* {el.title} */}
+                            <CardActionArea>
+                                <CardMedia
+                                    className={classes.media}
+                                    component="img"
+                                    alt={el.title}
+                                    // children={<h2>1111 eff1</h2>}
+                                    height="240"
+                                    image={process.env.PUBLIC_URL + `img/${el.img}`}
+                                    title={el.title}
+                                />
+                                <Typography className={classes.overlay}>
+                                    {el.title}
+                                </Typography>
+                            </CardActionArea> }
 
                             {/* <Button>{el.title}</Button> */}
-                            </Card>
-                        </Grow >
-                    )
+                        </Card>
+                    </Grow >
                 )
             }
+            {/* <Card>
+                <CardActionArea>
+                    <Typography className={classes.overlay}>
+                        +
+                </Typography>
+                </CardActionArea>
+            </Card> */}
+            <Button className={classes.newBtn} variant="outlined" startIcon={<Add />}></Button>
         </div >
 
     );
