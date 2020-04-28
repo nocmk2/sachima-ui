@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Add from '@material-ui/icons/Add';
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -10,53 +10,60 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import { ctx } from '../Rules'
 // import { connect } from "react-redux";
-
-const LearnCard = ({ datas }) => {
-    const useStyles = makeStyles(theme => ({
-        things: {
+const useStyles = makeStyles(theme => ({
+    things: {
+        margin: theme.spacing(1),
+        height: 140,
+        width: 180
+    },
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        '& > *': {
             margin: theme.spacing(1),
-            height: 140,
-            width: 180
-        },
-        root: {
-            display: 'flex',
-            flexWrap: 'wrap',
-            '& > *': {
-                margin: theme.spacing(1),
-                width: theme.spacing(16),
-                height: theme.spacing(16),
-            }
-        },
-        overlay: {
-            position: 'absolute',
-            top: '20px',
-            left: '20px',
-            color: 'white',
-            // fontSize: 31
-            // zIndex: 2000
-        },
-        media: {
-            // height: 240,
-            // paddingTop: '56.25%', // 16:9,
-            // zIndex: 1000
-        },
-        svg: {
-            width: 100,
-            height: 100
-        },
-        polygon: {
-            fill: theme.palette.common.white,
-            stroke: theme.palette.divider,
-            strokeWidth: 1
-        },
-        newBtn: {
-            border: '2px dotted',
-            color: 'gray'
+            width: theme.spacing(16),
+            height: theme.spacing(16),
         }
-    }));
+    },
+    overlay: {
+        position: 'absolute',
+        top: '20px',
+        left: '20px',
+        color: 'white',
+        // fontSize: 31
+        // zIndex: 2000
+    },
+    media: {
+        // height: 240,
+        // paddingTop: '56.25%', // 16:9,
+        // zIndex: 1000
+    },
+    svg: {
+        width: 100,
+        height: 100
+    },
+    polygon: {
+        fill: theme.palette.common.white,
+        stroke: theme.palette.divider,
+        strokeWidth: 1
+    },
+    newBtn: {
+        border: '2px dotted',
+        color: 'gray'
+    }
+}));
+
+const RuleCards = ({ datas }) => {
+    const { dispatch } = useContext(ctx)
 
     const classes = useStyles();
+
+    const handleAddClick = () => {
+        console.log('add rule~')
+        dispatch({ type: "ADD_RULE", payload: { title: '评分卡模型x v0.1', img: 'tech_green.jpg' } })
+    }
     // const [checked, setChecked] = React.useState(true);
     // const [elevation, setElevation] = React.useState(4);
     return (
@@ -74,7 +81,6 @@ const LearnCard = ({ datas }) => {
                             className={classes.things}
                             onClick={() => { console.log('you clicked score card') }}
                         >
-                            {/* {el.title} */}
                             <CardActionArea>
                                 <CardMedia
                                     className={classes.media}
@@ -88,24 +94,20 @@ const LearnCard = ({ datas }) => {
                                 <Typography className={classes.overlay}>
                                     {el.title}
                                 </Typography>
-                            </CardActionArea> }
-
-                            {/* <Button>{el.title}</Button> */}
+                            </CardActionArea>
                         </Card>
                     </Grow >
-                )
+                ) // end map
             }
-            {/* <Card>
-                <CardActionArea>
-                    <Typography className={classes.overlay}>
-                        +
-                </Typography>
-                </CardActionArea>
-            </Card> */}
-            <Button className={classes.newBtn} variant="outlined" startIcon={<Add />}></Button>
-        </div >
+            <Button
+                className={classes.newBtn}
+                variant="outlined"
+                startIcon={<Add />}
+                onClick={handleAddClick}
+            > </Button>
+        </div>
 
     );
 };
 
-export default LearnCard;
+export default RuleCards;
