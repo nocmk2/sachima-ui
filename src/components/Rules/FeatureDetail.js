@@ -193,7 +193,7 @@ function FeatureDetail({ feature }) {
             {/* <div>{JSON.stringify(feature)}</div> */}
             {/* <div>{JSON.stringify(bin)}</div> */}
             {
-                feature === undefined ? "loading..." :
+                feature === undefined ? "Loading..." :
                     feature.bintype === "math"
                         ?
                         (Object

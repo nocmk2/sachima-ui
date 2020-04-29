@@ -48,16 +48,23 @@ const init = (initData) => {
   }
 }
 
+const Doparse = (s) => {
+  console.log(s)
+  if (!s) return {}
+  return JSON.parse(s).feature
+}
+
 const Rules = () => {
   const [{ sachima }] = useStateValue();
   const [rules, getRules] = API.useReadApi(`${sachima.url}/sachima/rules`, []);
-  const [features, getFeatures] = API.useReadApi(`${sachima.url}/sachima/features?ruleid=0`, {});
+  const [rule, getRule] = API.useReadApi(`${sachima.url}/sachima/rule/商户评分卡/v0.1`, {});
   // const classes = useStyles();
 
   const [state, dispatch] = useReducer(reducer, {
     rules: [],
     features: []
   }, init)
+  const features = Doparse(rule.data.rule)
 
   // dispatch()
 
@@ -79,17 +86,19 @@ const Rules = () => {
       </Button> */}
       {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features["1PD7_pct"]["bintype"]) : "b"}</div> */}
       {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features) : "b"}</div> */}
-      {(features.isLoading && features.isLoading) ? (<div>loading...</div>) : (
-        <ctx.Provider value={{ dispatch: dispatch }}>
+      {(rule.isLoading && rules.isLoading) ? (<div>loading...</div>) : (
+        <ctx.Provider value={{ dispatch: dispatch, notifier: { getRules, getRule } }}>
           <div
           // className={classes.root}
           >
             <Card>
               <RuleCards datas={rules.data} />
             </Card>
-            {features.data ?
-              <FeatureLists features={features.data}></FeatureLists>
-              // <></>
+            {rule.data ?
+              <FeatureLists features={features}></FeatureLists>
+              // <div>{
+              //   Doparse(rule.data.rule).feature
+              // }</div>
               : <div>empty features</div>
             }
           </div >

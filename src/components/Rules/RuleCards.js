@@ -56,13 +56,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RuleCards = ({ datas }) => {
-    const { dispatch } = useContext(ctx)
+    const { dispatch, notifier } = useContext(ctx)
 
     const classes = useStyles();
 
-    const handleAddClick = () => {
+    const handleNew = () => {
         console.log('add rule~')
         dispatch({ type: "ADD_RULE" })
+    }
+
+    const handleSelect = (el, idx) => {
+        // console.log(e.target)
+        console.log(idx)
+        console.log(el)
     }
     // const [checked, setChecked] = React.useState(true);
     // const [elevation, setElevation] = React.useState(4);
@@ -79,7 +85,7 @@ const RuleCards = ({ datas }) => {
                         <Card
                             elevation={18}
                             className={classes.things}
-                            onClick={() => { console.log('you clicked score card') }}
+                            onClick={() => handleSelect(el, index)}
                         >
                             <CardActionArea>
                                 <CardMedia
@@ -103,7 +109,7 @@ const RuleCards = ({ datas }) => {
                 className={classes.newBtn}
                 variant="outlined"
                 startIcon={<Add />}
-                onClick={handleAddClick}
+                onClick={handleNew}
             > </Button>
         </div>
 

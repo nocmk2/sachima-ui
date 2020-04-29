@@ -79,15 +79,16 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 const FeatureLists = ({ features }) => {
+    console.log(features)
     const theme = useTheme();
     const [curval, setCurVal] = useState(0); // default feature list being selected
-    const [f, setF] = useState(features)
+    // const [f, setF] = useState(features)
     const [height, setHeight] = useState(800)
     const [draweropen, setDrawerOpen] = useState(false)
     const [newData, setNewData] = useState({ x: 111, y: 222, z: 333 })
     const featureNames = useMemo(() => {
-        return Object.keys(f)
-    }, [f])
+        return Object.keys(features)
+    }, [features])
     const [isedit, setIsEdit] = useState(false)
     const [featureAddButtonColor, setFeatureAddButtonColor] = useState("default")
     const [, dispatch] = useStateValue();
@@ -145,12 +146,12 @@ const FeatureLists = ({ features }) => {
                 console.log(n)
                 var newD = newData[fname][n]
                 console.log(newD)
-                var temp = Object.assign({}, f)
+                var temp = Object.assign({}, features)
                 var bin = temp[fname]["bin"]
                 delete bin[item]
                 var newbin = { ...bin, ...newD }
                 temp[fname]["bin"] = newbin
-                setF(temp)
+                // setF(temp)
             }
         }
         setNewData({})
@@ -203,7 +204,7 @@ const FeatureLists = ({ features }) => {
                         </IconButton>
                         {isedit ?
                             <>
-                                <TextField label="desc" value={f[featureNames[curval]]["name"]} features={features} />
+                                <TextField label="desc" value={features[featureNames[curval]]["name"]} features={features} />
                                 <TextField label="feature" value={featureNames[curval]} features={features} />
                             </>
                             :
@@ -265,7 +266,8 @@ const FeatureLists = ({ features }) => {
                 <TabPanel value={curval} index={curval} dir={theme.direction} key={curval}>
                     {/* AnimatedFeatureDetail */}
                     <animated.div style={animation}>
-                        <FeatureDetail feature={f[featureNames[curval]]} />
+                        <FeatureDetail feature={features[featureNames[curval]]} />
+                        {/* <div>{curval}</div> */}
                     </animated.div>
                     {/* <FeatureDetail feature={f[featureNames[curval]]} /> */}
                 </TabPanel>
