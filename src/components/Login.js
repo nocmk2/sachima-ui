@@ -72,7 +72,7 @@ const Login = () => {
         try {
             const result = await axios({
                 method: "post",
-                url: "http://localhost:8000/login",
+                url: `${sachima.url}/login`,
                 data: {
                     username: user.email,
                     password: user.password
@@ -84,7 +84,7 @@ const Login = () => {
             dispatch({ type: "changeUser", newUser: { name: user.email, id: user.email, role: user.email } })
             history.push("/")
         } catch (err) {
-            console.log(err)
+            alert(err)
             dispatch({ type: "sendMessage", newMessage: { open: true, move: "down", info: "登陆失败，请重试。或联系管理员" } })
         }
         setLoading(false)
