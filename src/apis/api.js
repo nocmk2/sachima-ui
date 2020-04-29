@@ -1,9 +1,10 @@
-import { useStateValue } from "../utils/state"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useReducer } from "react"
 import axios from "axios"
 import { useHistory } from "react-router-dom"
-// import * as source from './source'
+import { useStateValue } from "../utils/state"
 
+// Suspense api example
+// import * as source from './source'
 
 // const url = `http://localhost:8000/sachima/role`
 // const signal = axios.CancelToken.source();
@@ -23,100 +24,86 @@ import { useHistory } from "react-router-dom"
 // }
 
 // export const API = () => source
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'FETCH_INIT':
+            return {
+                ...state,
+                isLoading: true,
+                isError: false
+            };
+        case 'FETCH_SUCCESS':
+            return {
+                ...state,
+                isLoading: false,
+                isError: false,
+                data: action.payload,
+            };
+        case 'FETCH_FAILURE':
+            return {
+                ...state,
+                isLoading: false,
+                isError: true,
+            };
+        default:
+            throw new Error();
+    }
+};
 
 export const useReadApi = (initialURL, initialData) => {
-    const [data, setData] = useState(initialData);
     const [url, setUrl] = useState(initialURL);
-    const [isLoading, setIsLoading] = useState(false);
-    const [{ sachima }, dispatch] = useStateValue();
+
+    // const [data, setData] = useState(initialData);
+    // const [isLoading, setIsLoading] = useState(false);
+    const [state, dispatch] = useReducer(reducer, {
+        isLoading: false,
+        isError: false,
+        data: initialData
+    })
+
+    const [{ sachima }] = useStateValue();
     const history = useHistory();
 
     axios.interceptors.response.use(response => {
         return response;
     }, error => {
         if (error.response.status === 401) {
-            dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: `您没有权限,请登陆,或联系管理员${sachima.message}` } })
+            dispatch({
+                type: "sendMessage",
+                newMessage: { open: true, move: "left", info: `您没有权限,请登陆,或联系管理员${sachima.message}` }
+            })
             history.push("/login")
         }
         // return error;
     });
 
     useEffect(() => {
+        let didCancel = false;
+
         const fetchData = async () => {
-            setIsLoading(true);
+            dispatch({ type: 'FETCH_INIT' });
+
             try {
                 const result = await axios({
                     method: "GET",
                     url: url,
                     headers: { Authorization: "Bearer " + localStorage.token }
                 });
-                setData(result.data);
-                // console.log(result.data)
+                if (!didCancel) {
+                    dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+                }
             } catch (error) {
-                console.log(error)
+                if (!didCancel) {
+                    dispatch({ type: 'FETCH_FAILURE' });
+                }
             }
-            setIsLoading(false);
         };
         fetchData();
+
+        return (() => {
+            didCancel = true;
+        })
     }, [url]);
 
-    // console.log("--------api called--------")
-    // console.log(data)
-    return [{ data, isLoading }, setUrl]
-
+    return [state, setUrl]
 }
-
-
-// // export const useWriteApi = (initialURL, initialData) => {
-// //     const [data, setData] = useState(initialData);
-// //     const [url, setUrl] = useState(initialURL);
-// //     const [isLoading, setIsLoading] = useState(false);
-// //     const [{ sachima }, dispatch] = useStateValue();
-// //     const history = useHistory();
-
-// //     axios.interceptors.response.use(response => {
-// //         return response;
-// //     }, error => {
-// //         if (error.response.status === 401) {
-// //             dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: `您没有权限,请登陆,或联系管理员${sachima.message}` } })
-// //             history.push("/login")
-// //         }
-// //         // return error;
-// //     });
-
-// //     const setter = payload => {
-// //         const result = axios({
-// //             method: "POST",
-// //             url: url,
-// //             headers: { Authorization: "Bearer " + localStorage.token },
-// //             data: payload
-// //         });
-// //         return result
-// //     }
-
-// // useEffect(() => {
-// //     const writeData = async () => {
-// //         setIsLoading(true);
-// //         try {
-// //             const result = await axios({
-// //                 method: "POST",
-// //                 url: url,
-// //                 headers: { Authorization: "Bearer " + localStorage.token },
-// //                 data: payload
-// //             });
-// //             setData(result.data);
-// //             // console.log(result.data)
-// //         } catch (error) {
-// //             console.log(error)
-// //         }
-// //         setIsLoading(false);
-// //     };
-// //     writeData();
-// // }, [url]);
-
-// // console.log("--------api called--------")
-// // console.log(data)
-// return [{ setter, data, isLoading }, setUrl]
-
-// }
-

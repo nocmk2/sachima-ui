@@ -85,14 +85,14 @@ const RuleCards = ({ datas }) => {
                                 <CardMedia
                                     className={classes.media}
                                     component="img"
-                                    alt={el.title}
+                                    alt={`${el.name} ${el.version}`}
                                     // children={<h2>1111 eff1</h2>}
                                     height="240"
                                     image={process.env.PUBLIC_URL + `img/tech${index}.jpg`}
-                                    title={el.title}
+                                    title={`${el.name} ${el.version}`}
                                 />
                                 <Typography className={classes.overlay}>
-                                    {el.title}
+                                    {`${el.name} ${el.version}`}
                                 </Typography>
                             </CardActionArea>
                         </Card>

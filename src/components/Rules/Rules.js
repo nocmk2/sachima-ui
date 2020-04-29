@@ -33,14 +33,33 @@ const initData = [
   { id: 3, title: 'Bcard stable v0.1' },
 ]
 
+// const Init = (data) => {
+//   // const [{ sachima }] = useStateValue();
+//   // const [{ data: rules, isloading: rulesIsLoading }, getRules] = API.useReadApi(`${sachima.url}/sachima/rules`, { rules: [] });
+//   // const [{ data: features, isloading: featuresIsLoading }, getFeatures] = API.useReadApi(`${sachima.url}/sachima/features?ruleid=0`, { features: {} });
+//   // return { rules: initData, features: [] }
+//   return <></>
+// }
+
+const init = (initData) => {
+  return {
+    rules: initData,
+    features: {}
+  }
+}
 
 const Rules = () => {
   const [{ sachima }] = useStateValue();
-  const [{ data, isLoading }, get] = API.useReadApi(`${sachima.url}/sachima/features?ruleid=0`, { features: {} });
+  const [rules, getRules] = API.useReadApi(`${sachima.url}/sachima/rules`, []);
+  const [features, getFeatures] = API.useReadApi(`${sachima.url}/sachima/features?ruleid=0`, {});
   // const classes = useStyles();
+
   const [state, dispatch] = useReducer(reducer, {
-    rules: initData
-  })
+    rules: [],
+    features: []
+  }, init)
+
+  // dispatch()
 
   return (
     <>
@@ -60,16 +79,17 @@ const Rules = () => {
       </Button> */}
       {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features["1PD7_pct"]["bintype"]) : "b"}</div> */}
       {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features) : "b"}</div> */}
-      {isLoading ? (<div>loading...</div>) : (
+      {(features.isLoading && features.isLoading) ? (<div>loading...</div>) : (
         <ctx.Provider value={{ dispatch: dispatch }}>
           <div
           // className={classes.root}
           >
             <Card>
-              <RuleCards datas={state.rules} />
+              <RuleCards datas={rules.data} />
             </Card>
-            {data ?
-              <FeatureLists features={data.features}></FeatureLists>
+            {features.data ?
+              <FeatureLists features={features.data}></FeatureLists>
+              // <></>
               : <div>empty features</div>
             }
           </div >
