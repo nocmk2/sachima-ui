@@ -53,7 +53,7 @@ const Doparse = (s) => {
   if (!s) return {}
   return JSON.parse(s).feature
 }
-
+// TODO: 完成rulecard切换逻辑
 const Rules = () => {
   const [{ sachima }] = useStateValue();
   const [rules, getRules] = API.useReadApi(`${sachima.url}/sachima/rules`, []);

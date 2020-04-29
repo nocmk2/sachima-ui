@@ -78,6 +78,7 @@ const useStyles = makeStyles(theme => ({
         maxWidth: 345,
     }
 }));
+// TODO: 换成Rule 修复bug 完成save逻辑
 const FeatureLists = ({ features }) => {
     console.log(features)
     const theme = useTheme();
