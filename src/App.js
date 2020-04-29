@@ -20,7 +20,7 @@ import { mainReducer } from './reducers/mainReducers'
 const Cirp = lazy(() => import("./components/Cirp"))
 const TTT = lazy(() => import("./components/TTT"));
 const ThreeDemo = lazy(() => import("./components/threedemo/ThreeDemo"));
-const Rules = lazy(() => import("./components/Rules"));
+const Rules = lazy(() => import("./components/Rules/Rules"));
 const Login = lazy(() => import("./components/Login"));
 const Configs = lazy(() => import("./components/Configs/Configs"));
 const Maps = lazy(() => import("./components/Maps"));

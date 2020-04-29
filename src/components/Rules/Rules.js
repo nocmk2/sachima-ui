@@ -1,13 +1,13 @@
 import React, { useReducer, createContext } from "react";
 // import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import { useStateValue } from "../utils/state"
+import { useStateValue } from "../../utils/state"
 // import SendMessage from "../utils/message"
-import FeatureLists from "./Features/FeatureLists"
-import * as API from "../apis/api"
-import RuleCards from './Features/RuleCards'
+import FeatureLists from "./FeatureLists"
+import * as API from "../../apis/api"
+import RuleCards from './RuleCards'
 import { makeStyles } from '@material-ui/core/styles';
-import { reducer } from './Features/Reducer'
+import { reducer } from './Reducer'
 // import classes from '*.module.css';
 // import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 

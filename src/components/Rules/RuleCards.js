@@ -10,7 +10,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { ctx } from '../Rules'
+import { ctx } from './Rules'
 // import { connect } from "react-redux";
 const useStyles = makeStyles(theme => ({
     things: {
