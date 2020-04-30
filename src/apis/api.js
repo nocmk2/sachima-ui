@@ -46,7 +46,8 @@ const reducer = (state, action) => {
                 isError: true,
             };
         default:
-            throw new Error();
+            return state
+        // throw new Error();
     }
 };
 
