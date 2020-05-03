@@ -130,7 +130,7 @@ const FeatureLists = ({ features }) => {
         setCurVal(newValue);
     };
 
-    const dataChangeNumber = () => 3
+    const dataChangeNumber = () => null
 
     const toggleFeatureAddButtonColor = () => {
         if (isedit) {
