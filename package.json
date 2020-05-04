@@ -8,6 +8,7 @@
     "@material-ui/lab": "^4.0.0-alpha.31",
     "axios": "^0.19.2",
     "big.js": "^5.2.2",
+    "echarts": "^4.7.0",
     "immer": "^6.0.3",
     "leader-line": "^1.0.5",
     "mobx": "^5.15.4",

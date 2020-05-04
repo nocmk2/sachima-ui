@@ -8,13 +8,12 @@ import 'echarts/lib/component/legend';
 import 'echarts/lib/component/toolbox';
 import 'echarts/lib/component/markPoint';
 import 'echarts/lib/component/markLine';
-import 'echarts/lib/component/dataZoomInside';
 
 
 
 const Me = () => {
     useEffect(() => {
-        var mychart = echarts.init(document.getElementById('main'))
+        var mychart = echarts.init()
         mychart.setOption(option)
     }, [])
 
