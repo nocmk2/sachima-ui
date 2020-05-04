@@ -13,8 +13,8 @@ const useStyles = makeStyles((theme) => ({
         padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        width: 900,
-        margin: '200px 400px',
+        width: 1500,
+        // margin: '200px 400px',
         position: 'absolute'
     },
     input: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const CustomizedInputBase = () => {
+const Search = props => {
     const classes = useStyles();
 
     return (
@@ -40,8 +40,9 @@ const CustomizedInputBase = () => {
             </IconButton>
             <InputBase
                 className={classes.input}
-                placeholder="搜索内容"
+                placeholder={props.placeholder}
                 inputProps={{ 'aria-label': '搜索内容' }}
+                onChange={props.onChange}
             />
             <IconButton type="submit" className={classes.iconButton} aria-label="search">
                 <SearchIcon />
@@ -52,12 +53,6 @@ const CustomizedInputBase = () => {
             </IconButton> */}
         </Paper>
     );
-}
-
-const Search = () => {
-    return (
-        <CustomizedInputBase></CustomizedInputBase>
-    )
 }
 
 export default Search 
