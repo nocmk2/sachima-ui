@@ -1,4 +1,4 @@
-import React, { useReducer, createContext } from "react";
+import React, { useReducer, createContext, useEffect } from "react";
 // import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import { useStateValue } from "../../utils/state"
@@ -48,23 +48,29 @@ const init = (initData) => {
   }
 }
 
-const Doparse = (s) => {
-  console.log(s)
-  if (!s) return {}
-  return JSON.parse(s).feature
-}
 // TODO: 完成rulecard切换逻辑
 const Rules = () => {
   const [{ sachima }] = useStateValue();
-  const [rules, getRules] = API.useReadApi(`${sachima.url}/sachima/rules`, []);
-  const [rule, getRule] = API.useReadApi(`${sachima.url}/sachima/rule/商户评分卡/v0.1`, {});
-  // const classes = useStyles();
+  const [rulesAPI, getRules] = API.useReadApi(`${sachima.url}/sachima/rules`, []);
+  const [ruleAPI, getRule] = API.useReadApi(`${sachima.url}/sachima/rule/商户评分卡/v0.1`, null);
+  // const [state, dispatch] = useReducer(reducer, {
+  //   rules: [],
+  //   features: []
+  // })
 
-  const [state, dispatch] = useReducer(reducer, {
-    rules: [],
-    features: []
-  }, init)
-  const features = Doparse(rule.data.rule)
+  // useEffect(() => {
+  //   dispatch({ type: "GET_RULES", payload: rules.data })
+  //   dispatch({ type: "GET_FEATURES", payload: rule.data })
+  // }, [rule, rules])
+  // console.log(Object.keys(rule))
+  // rule ["isLoading", "isError", "data"]
+
+  // const d = Do(rule.data.rule)
+  // console.log(d)
+  // const features = d.features
+
+
+  // const catalog =DoparseCatalog(rule.data.ru)
 
   // dispatch()
 
@@ -86,19 +92,26 @@ const Rules = () => {
       </Button> */}
       {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features["1PD7_pct"]["bintype"]) : "b"}</div> */}
       {/* <div>{data.features["1PD7_pct"] ? JSON.stringify(data.features) : "b"}</div> */}
-      {(rule.isLoading && rules.isLoading) ? (<div>loading...</div>) : (
-        <ctx.Provider value={{ dispatch: dispatch, notifier: { getRules, getRule } }}>
+      {(ruleAPI.isLoading && rulesAPI.isLoading) ? (<div>loading...</div>) : (
+        <ctx.Provider value={{ notifier: { getRules, getRule } }}>
           <div
           // className={classes.root}
           >
             <Card>
-              <RuleCards datas={rules.data} />
+              <RuleCards datas={rulesAPI.data} />
             </Card>
-            {rule.data ?
-              <FeatureLists features={features}></FeatureLists>
-              // <div>{
-              //   Doparse(rule.data.rule).feature
-              // }</div>
+            {ruleAPI.data ?
+              <div>
+                <FeatureLists
+                  // features={JSON.parse(ruleAPI.data).feature}
+                  // datasrc={JSON.parse(ruleAPI.data).datasrc}
+                  // datatarget={JSON.parse(ruleAPI.data).datatarget}
+                  // colname={JSON.parse(ruleAPI.data).colname}
+                  // rulers={JSON.parse(ruleAPI.data).rulers}
+                  // catalog={JSON.parse(ruleAPI.data).catalog}
+                  {...JSON.parse(ruleAPI.data)}
+                ></FeatureLists>
+              </div>
               : <div>empty features</div>
             }
           </div >

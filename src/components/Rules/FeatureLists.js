@@ -27,6 +27,7 @@ import Typography from '@material-ui/core/Typography';
 // import bgpic from '/public/contemplative-reptile.jpg';
 // import { Motion, spring } from 'react-motion';
 import { useSpring, animated } from 'react-spring';
+import Others from './Others'
 
 // const AnimatedFeatureDetail = animated(FeatureDetail)
 
@@ -79,8 +80,8 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 // TODO: 换成Rule 修复bug 完成save逻辑
-const FeatureLists = ({ features }) => {
-    console.log(features)
+const FeatureLists = ({ feature, datasrc, datatarget, colname, rulers, catalog }) => {
+    // console.log(features)
     const theme = useTheme();
     const [curval, setCurVal] = useState(0); // default feature list being selected
     // const [f, setF] = useState(features)
@@ -88,8 +89,8 @@ const FeatureLists = ({ features }) => {
     const [draweropen, setDrawerOpen] = useState(false)
     const [newData, setNewData] = useState({ x: 111, y: 222, z: 333 })
     const featureNames = useMemo(() => {
-        return Object.keys(features)
-    }, [features])
+        return Object.keys(feature)
+    }, [feature])
     const [isedit, setIsEdit] = useState(false)
     const [featureAddButtonColor, setFeatureAddButtonColor] = useState("default")
     const [, dispatch] = useStateValue();
@@ -147,7 +148,7 @@ const FeatureLists = ({ features }) => {
                 console.log(n)
                 var newD = newData[fname][n]
                 console.log(newD)
-                var temp = Object.assign({}, features)
+                var temp = Object.assign({}, feature)
                 var bin = temp[fname]["bin"]
                 delete bin[item]
                 var newbin = { ...bin, ...newD }
@@ -189,30 +190,6 @@ const FeatureLists = ({ features }) => {
                         </CardContent>
                     </CardActionArea>
                     <Grid item>
-                        <IconButton
-                            onMouseEnter={toggleFeatureAddButtonColor}
-                            onMouseLeave={toggleFeatureAddButtonColor}
-                            onClick={handleFeatureAdd}
-                            className={classes.dynamicbtn}
-                            size="small"
-                            color={featureAddButtonColor}
-                            aria-label="upload picture"
-                            component="span">
-                            {
-                                // (isedit ? <CreateOutlinedIcon /> : <Style />)
-                                (isedit ? <LockOpenOutlinedIcon /> : <LockOutlinedIcon />)
-                            }
-                        </IconButton>
-                        {isedit ?
-                            <>
-                                <TextField label="desc" value={features[featureNames[curval]]["name"]} features={features} />
-                                <TextField label="feature" value={featureNames[curval]} features={features} />
-                            </>
-                            :
-                            <GroupSelect value={featureNames[curval]} features={features} onSelect={handleSelectChange} />
-                        }
-                    </Grid>
-                    <Grid item>
                         <Button
                             variant="contained"
                             color="primary"
@@ -229,7 +206,33 @@ const FeatureLists = ({ features }) => {
                                     setDrawerOpen(true)
                                 }
                             } >ChangeLog</Button>
+                        <IconButton
+                            onMouseEnter={toggleFeatureAddButtonColor}
+                            onMouseLeave={toggleFeatureAddButtonColor}
+                            onClick={handleFeatureAdd}
+                            className={classes.dynamicbtn}
+                            size="small"
+                            color={featureAddButtonColor}
+                            aria-label="upload picture"
+                            component="span">
+                            {
+                                // (isedit ? <CreateOutlinedIcon /> : <Style />)
+                                (isedit ? <LockOpenOutlinedIcon /> : <LockOutlinedIcon />)
+                            }
+                        </IconButton>
+                        {isedit ?
+                            <>
+                                <TextField label="desc" value={feature[featureNames[curval]]["name"]} features={feature} />
+                                <TextField label="feature" value={featureNames[curval]} features={feature} />
+                            </>
+                            :
+                            <GroupSelect value={featureNames[curval]} features={feature} onSelect={handleSelectChange} />
+                        }
                     </Grid>
+                    <Others data={{ datasrc, datatarget, colname, rulers, catalog }}></Others>
+                    {/* <div>
+                        {JSON.stringify(datasrc)}
+                    </div> */}
                     {/* <Grid item>
                         {JSON.stringify(f)}
                     </Grid> */}
@@ -267,7 +270,7 @@ const FeatureLists = ({ features }) => {
                 <TabPanel value={curval} index={curval} dir={theme.direction} key={curval}>
                     {/* AnimatedFeatureDetail */}
                     <animated.div style={animation}>
-                        <FeatureDetail feature={features[featureNames[curval]]} />
+                        <FeatureDetail feature={feature[featureNames[curval]]} />
                         {/* <div>{curval}</div> */}
                     </animated.div>
                     {/* <FeatureDetail feature={f[featureNames[curval]]} /> */}
