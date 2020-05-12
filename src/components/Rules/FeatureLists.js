@@ -80,7 +80,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 // TODO: 换成Rule 修复bug 完成save逻辑
-const FeatureLists = ({ feature, datasrc, datatarget, colname, rulers, catalog }) => {
+const FeatureLists = ({ ruleindex, name, version, comment, feature, datasrc, datatarget, colname, rulers, catalog }) => {
     // console.log(features)
     const theme = useTheme();
     const [curval, setCurVal] = useState(0); // default feature list being selected
@@ -176,15 +176,15 @@ const FeatureLists = ({ feature, datasrc, datatarget, colname, rulers, catalog }
                             component="img"
                             alt="Contemplative Reptile"
                             height="140"
-                            image={process.env.PUBLIC_URL + 'img/tech3.jpg'}
+                            image={process.env.PUBLIC_URL + `img/tech${ruleindex}.jpg`}
                             title="Contemplative Reptile"
                         />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
-                                Acard stable v0.13
+                                {`${name} ${version}`}
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
-                                用于申请审批评分
+                                {`${comment}`}
                             </Typography>
                             {/* <animated.h1 style={multiAnimation}>Hello World</animated.h1> */}
                         </CardContent>
@@ -198,6 +198,20 @@ const FeatureLists = ({ feature, datasrc, datatarget, colname, rulers, catalog }
                             onClick={
                                 handleSave
                             } >Save</Button>
+                        <Button
+                        // variant="contained"
+                        // color="primary"
+                        // startIcon={<CloudUpload />}
+                        // disabled={Object.keys(newData).length === 0 ? true : false}
+                        // onClick={ // handleSave }
+                        > Run </Button>
+                        <Button
+                        // variant="contained"
+                        // color="primary"
+                        // startIcon={<CloudUpload />}
+                        // disabled={Object.keys(newData).length === 0 ? true : false}
+                        // onClick={ // handleSave }
+                        > API </Button>
 
                         <Button color="primary"
                             // disabled={Object.keys(newData).length === 0 ? true : false}

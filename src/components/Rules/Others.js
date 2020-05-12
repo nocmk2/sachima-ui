@@ -40,7 +40,7 @@ const Others = props => {
     return (
         <div className={classes.root}>
             {menus.map((m, i) =>
-                <ExpansionPanel expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
+                <ExpansionPanel key={i} expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1bh-content"

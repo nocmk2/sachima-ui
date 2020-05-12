@@ -26,12 +26,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const initData = [
-  { id: 0, title: '商户评分卡 v1.23' },
-  { id: 1, title: 'Ccard stable v2.3' },
-  { id: 2, title: 'Acard stable v0.1' },
-  { id: 3, title: 'Bcard stable v0.1' },
-]
+// const initData = [
+//   { id: 0, title: '商户评分卡 v1.23' },
+//   { id: 1, title: 'Ccard stable v2.3' },
+//   { id: 2, title: 'Acard stable v0.1' },
+//   { id: 3, title: 'Bcard stable v0.1' },
+// ]
 
 // const Init = (data) => {
 //   // const [{ sachima }] = useStateValue();
@@ -41,12 +41,12 @@ const initData = [
 //   return <></>
 // }
 
-const init = (initData) => {
-  return {
-    rules: initData,
-    features: {}
-  }
-}
+// const init = (initData) => {
+//   return {
+//     rules: initData,
+//     features: {}
+//   }
+// }
 
 // TODO: 完成rulecard切换逻辑
 const Rules = () => {
@@ -109,7 +109,11 @@ const Rules = () => {
                   // colname={JSON.parse(ruleAPI.data).colname}
                   // rulers={JSON.parse(ruleAPI.data).rulers}
                   // catalog={JSON.parse(ruleAPI.data).catalog}
-                  {...JSON.parse(ruleAPI.data)}
+                  ruleindex={0}
+                  name={ruleAPI.data.name}
+                  version={ruleAPI.data.version}
+                  comment={ruleAPI.data.comment}
+                  {...JSON.parse(ruleAPI.data.rule)}
                 ></FeatureLists>
               </div>
               : <div>empty features</div>
