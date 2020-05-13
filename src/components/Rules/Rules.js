@@ -1,4 +1,4 @@
-import React, { useReducer, createContext, useEffect } from "react";
+import React, { useState, useReducer, createContext, useEffect } from "react";
 // import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import { useStateValue } from "../../utils/state"
@@ -51,8 +51,19 @@ const useStyles = makeStyles((theme) => ({
 // TODO: 完成rulecard切换逻辑
 const Rules = () => {
   const [{ sachima }] = useStateValue();
+  const [name, setName] = useState('商户评分卡');
+  const [version, setVersion] = useState('v0.1');
+  const [index, setIndex] = useState(0)
   const [rulesAPI, getRules] = API.useReadApi(`${sachima.url}/sachima/rules`, []);
-  const [ruleAPI, getRule] = API.useReadApi(`${sachima.url}/sachima/rule/商户评分卡/v0.1`, null);
+  const [ruleAPI, getRule] = API.useReadApi(`${sachima.url}/sachima/rule/${name}/${version}`, null);
+
+  const changeRuleCard = (name, version, index) => {
+    console.log('changeRuleCard called')
+    setIndex(index)
+    // setName(name)
+    // setVersion(version)
+    getRule(`${sachima.url}/sachima/rule/${name}/${version}`)
+  }
   // const [state, dispatch] = useReducer(reducer, {
   //   rules: [],
   //   features: []
@@ -98,23 +109,18 @@ const Rules = () => {
           // className={classes.root}
           >
             <Card>
-              <RuleCards datas={rulesAPI.data} />
+              <RuleCards datas={rulesAPI.data} callback={changeRuleCard} />
             </Card>
             {ruleAPI.data ?
               <div>
                 <FeatureLists
-                  // features={JSON.parse(ruleAPI.data).feature}
-                  // datasrc={JSON.parse(ruleAPI.data).datasrc}
-                  // datatarget={JSON.parse(ruleAPI.data).datatarget}
-                  // colname={JSON.parse(ruleAPI.data).colname}
-                  // rulers={JSON.parse(ruleAPI.data).rulers}
-                  // catalog={JSON.parse(ruleAPI.data).catalog}
-                  ruleindex={0}
+                  ruleindex={index}
                   name={ruleAPI.data.name}
                   version={ruleAPI.data.version}
                   comment={ruleAPI.data.comment}
                   {...JSON.parse(ruleAPI.data.rule)}
                 ></FeatureLists>
+                {JSON.stringify(ruleAPI.data.rule)}
               </div>
               : <div>empty features</div>
             }

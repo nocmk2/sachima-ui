@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const RuleCards = ({ datas }) => {
+const RuleCards = ({ datas, callback }) => {
     const { dispatch, notifier } = useContext(ctx)
 
     const classes = useStyles();
@@ -85,7 +85,7 @@ const RuleCards = ({ datas }) => {
                         <Card
                             elevation={18}
                             className={classes.things}
-                            onClick={() => handleSelect(el, index)}
+                            onClick={() => callback(el.name, el.version, index)}
                         >
                             <CardActionArea>
                                 <CardMedia
