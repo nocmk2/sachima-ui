@@ -65,13 +65,6 @@ const RuleCards = ({ datas, callback }) => {
         // dispatch({ type: "ADD_RULE" })
     }
 
-    const handleSelect = (el, idx) => {
-        // console.log(e.target)
-        console.log(idx)
-        console.log(el)
-    }
-    // const [checked, setChecked] = React.useState(true);
-    // const [elevation, setElevation] = React.useState(4);
     return (
         <div className={classes.root}>
             {
