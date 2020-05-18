@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 
 import store from './app/store'
 
-// disable right click
+// disable right click1
 document.oncontextmenu = function () {
     return false;
 }
