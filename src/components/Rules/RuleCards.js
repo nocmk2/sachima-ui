@@ -62,7 +62,7 @@ const RuleCards = ({ datas, callback }) => {
 
     const handleNew = () => {
         console.log('add rule~')
-        dispatch({ type: "ADD_RULE" })
+        // dispatch({ type: "ADD_RULE" })
     }
 
     const handleSelect = (el, idx) => {

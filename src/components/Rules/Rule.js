@@ -16,7 +16,6 @@ import Button from '@material-ui/core/Button';
 import CloudUpload from '@material-ui/icons/CloudUpload';
 // import { useStateValue } from '../../utils/state'
 import { useStateValue } from '../../utils/state'
-import TabPanel from '../TabPanel'
 import Card from "@material-ui/core/Card";
 import CardActionArea from '@material-ui/core/CardActionArea';
 // import CardActions from '@material-ui/core/CardActions';
@@ -27,6 +26,7 @@ import Typography from '@material-ui/core/Typography';
 // import bgpic from '/public/contemplative-reptile.jpg';
 // import { Motion, spring } from 'react-motion';
 import { useSpring, animated } from 'react-spring';
+import TabPanel from '../TabPanel'
 import Others from './Others'
 
 // const AnimatedFeatureDetail = animated(FeatureDetail)
@@ -80,7 +80,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 // TODO: 换成Rule 修复bug 完成save逻辑
-const FeatureLists = ({ ruleindex, name, version, comment, feature, datasrc, datatarget, colname, rulers, catalog }) => {
+const Rule = ({ ruleindex, name, version, comment, feature, datasrc, datatarget, colname, rulers, catalog }) => {
     // console.log(features)
     const theme = useTheme();
     const [curval, setCurVal] = useState(0); // default feature list being selected
@@ -314,4 +314,4 @@ const FeatureLists = ({ ruleindex, name, version, comment, feature, datasrc, dat
     );
 }
 
-export default FeatureLists 
+export default Rule 

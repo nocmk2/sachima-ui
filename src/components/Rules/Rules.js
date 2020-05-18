@@ -3,7 +3,7 @@ import React, { useState, useReducer, createContext, useEffect } from "react";
 import Card from "@material-ui/core/Card";
 import { useStateValue } from "../../utils/state"
 // import SendMessage from "../utils/message"
-import FeatureLists from "./FeatureLists"
+import Rule from "./Rule"
 import * as API from "../../apis/api"
 import RuleCards from './RuleCards'
 import { makeStyles } from '@material-ui/core/styles';
@@ -113,13 +113,13 @@ const Rules = () => {
             </Card>
             {ruleAPI.data ?
               <div>
-                <FeatureLists
+                <Rule
                   ruleindex={index}
                   name={ruleAPI.data.name}
                   version={ruleAPI.data.version}
                   comment={ruleAPI.data.comment}
                   {...JSON.parse(ruleAPI.data.rule)}
-                ></FeatureLists>
+                ></Rule>
                 {/* {JSON.stringify(ruleAPI.data.rule)} */}
               </div>
               : <div>empty features</div>
