@@ -9,8 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Add from "@material-ui/icons/Add";
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
-import { getMathInterval } from "../../utils/mathInterval"
-import { useDidUpdateEffect } from "../../utils/tools"
+import { getMathInterval } from "utils/mathInterval"
+import { useDidUpdateEffect } from "utils/tools"
 
 const PrettoSlider = withStyles({
     root: props => ({

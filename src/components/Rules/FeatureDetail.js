@@ -1,9 +1,9 @@
 
 import React, { useState, useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+// import PropTypes from 'prop-types';
+// import Typography from '@material-ui/core/Typography';
+// import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -20,7 +20,7 @@ import GavelRoundedIcon from '@material-ui/icons/GavelRounded';
 import FlashAutoIcon from '@material-ui/icons/FlashAuto';
 import BinMathSetter from "./BinMathSetter"
 import BinTextSetter from "./BinTextSetter"
-import { sortMathIntervalBin, getMinMax } from '../../utils/mathInterval';
+import { sortMathIntervalBin, getMinMax } from 'utils/mathInterval';
 
 const useStyles = makeStyles(theme => ({
     // binsetter: {

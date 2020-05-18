@@ -15,7 +15,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CloudUpload from '@material-ui/icons/CloudUpload';
 // import { useStateValue } from '../../utils/state'
-import { useStateValue } from '../../utils/state'
+import { useStateValue } from 'utils/state'
 import Card from "@material-ui/core/Card";
 import CardActionArea from '@material-ui/core/CardActionArea';
 // import CardActions from '@material-ui/core/CardActions';
@@ -26,7 +26,7 @@ import Typography from '@material-ui/core/Typography';
 // import bgpic from '/public/contemplative-reptile.jpg';
 // import { Motion, spring } from 'react-motion';
 import { useSpring, animated } from 'react-spring';
-import TabPanel from '../TabPanel'
+import TabPanel from 'common/TabPanel'
 import Others from './Others'
 
 // const AnimatedFeatureDetail = animated(FeatureDetail)
@@ -112,7 +112,7 @@ const Rule = ({ ruleindex, name, version, comment, feature, datasrc, datatarget,
      */
     useEffect(() => {
         setCurVal(0)
-     },[ruleindex])
+    }, [ruleindex])
 
     const handleSelectChange = (event) => {
         console.log(event.target.value)

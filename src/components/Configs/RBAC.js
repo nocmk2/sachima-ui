@@ -2,7 +2,7 @@ import React, { useState, useEffect, createRef, useReducer } from "react";
 import Button from '@material-ui/core/Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import Card from '@material-ui/core/Card';
+// import Card from '@material-ui/core/Card';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
@@ -16,7 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
 // import useData from '../../apis/config'
 // import useConfigPageSource from '../../apis/useConfigPageSource'
-import { ToggleAnimateRelativeLine } from '../../utils/line'
+import { ToggleAnimateRelativeLine } from 'utils/line'
 import RBACDialog from './RBACDialog';
 // import { green, purple } from '@material-ui/core/colors';
 // import { createMuiTheme, withStyles, ThemeProvider } from '@material-ui/core/styles';

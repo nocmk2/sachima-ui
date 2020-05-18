@@ -13,7 +13,7 @@ import Grid from "@material-ui/core/Grid";
 import Fade from "@material-ui/core/Fade";
 import { useHistory } from 'react-router-dom';
 
-import { useStateValue } from "../utils/state"
+import { useStateValue } from "utils/state"
 
 import Login from "./Login";
 import Message from "./Message"

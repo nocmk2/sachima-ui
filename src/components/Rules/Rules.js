@@ -1,10 +1,10 @@
 import React, { useState, useReducer, createContext, useEffect } from "react";
 // import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import { useStateValue } from "../../utils/state"
+import { useStateValue } from "utils/state"
 // import SendMessage from "../utils/message"
 import Rule from "./Rule"
-import * as API from "../../apis/api"
+import * as API from "apis/api"
 import RuleCards from './RuleCards'
 import { makeStyles } from '@material-ui/core/styles';
 import { reducer } from './Reducer'

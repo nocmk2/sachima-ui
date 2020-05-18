@@ -1,6 +1,6 @@
 import React, { useState, Suspense } from "react";
 import Button from "@material-ui/core/Button";
-import { fetchProfileData } from "../apis/suspenseApi";
+import { fetchProfileData } from "apis/suspenseApi";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ErrorBoundary from './ErrorBoundary'

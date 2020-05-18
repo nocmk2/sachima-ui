@@ -1,4 +1,3 @@
-
 import React, { useMemo, useContext } from "react";
 // import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button'
@@ -9,9 +8,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 // import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SmallChips from './SmallChips'
-import User from '../forms/User'
-import Role from '../forms/Role'
-import Authority from '../forms/Authority'
+import User from 'components/forms/User'
+import Role from 'components/forms/Role'
+import Authority from 'components/forms/Authority'
 // import { green, purple } from '@material-ui/core/colors';
 import axios from "axios"
 
