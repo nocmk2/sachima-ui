@@ -120,7 +120,7 @@ const Rules = () => {
                   comment={ruleAPI.data.comment}
                   {...JSON.parse(ruleAPI.data.rule)}
                 ></FeatureLists>
-                {JSON.stringify(ruleAPI.data.rule)}
+                {/* {JSON.stringify(ruleAPI.data.rule)} */}
               </div>
               : <div>empty features</div>
             }
