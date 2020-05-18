@@ -1,3 +1,1 @@
-IT工程化效率高
-统计监控简便
-风险模型可解释
+To make better FinTech 
