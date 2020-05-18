@@ -95,7 +95,6 @@ const Main = props => {
     // <div className={classes.root}>
     <>
       <Message open={message.open} move={message.move} message={message.info} handleClose={handleMessageClose}></Message>
-      {/* TODO:App bar */}
       <Grid container>
         <Button onClick={handleVisibility}>Sachima</Button>
         {
@@ -105,7 +104,6 @@ const Main = props => {
         {/* <div>{user.name}</div> */}
         {/* <Button variant="contained" onClick={handleLogClick}>{user.name ? "LogOut" : "LogIn"}</Button> */}
       </Grid>
-      {/* TODO:APP bar */}
       <Menu
         id="simple-menu"
         getContentAnchorEl={null}

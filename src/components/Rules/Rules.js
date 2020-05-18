@@ -8,12 +8,6 @@ import * as API from "../../apis/api"
 import RuleCards from './RuleCards'
 import { makeStyles } from '@material-ui/core/styles';
 import { reducer } from './Reducer'
-// import classes from '*.module.css';
-// import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
-
-// const Now = () => {
-//   return Math.floor(Date.now() / 1000)
-// }
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -37,8 +31,6 @@ const Rules = () => {
   const changeRuleCard = (name, version, index) => {
     console.log('changeRuleCard called')
     setIndex(index)
-    // setName(name)
-    // setVersion(version)
     getRule(`${sachima.url}/sachima/rule/${name}/${version}`)
   }
 
@@ -46,9 +38,7 @@ const Rules = () => {
     <>
       {(ruleAPI.isLoading && rulesAPI.isLoading) ? (<div>loading...</div>) : (
         <ctx.Provider value={{ notifier: { getRules, getRule } }}>
-          <div
-          // className={classes.root}
-          >
+          <div >
             <Card>
               <RuleCards datas={rulesAPI.data} callback={changeRuleCard} />
             </Card>

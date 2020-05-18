@@ -79,12 +79,10 @@ const useStyles = makeStyles(theme => ({
         maxWidth: 345,
     }
 }));
-// TODO: 换成Rule 修复bug 完成save逻辑
+// TODO:  完成save逻辑
 const Rule = ({ ruleindex, name, version, comment, feature, datasrc, datatarget, colname, rulers, catalog }) => {
-    // console.log(features)
     const theme = useTheme();
     const [curval, setCurVal] = useState(0); // default feature list being selected
-    // const [f, setF] = useState(features)
     const [height, setHeight] = useState(800)
     const [draweropen, setDrawerOpen] = useState(false)
     const [newData, setNewData] = useState({ x: 111, y: 222, z: 333 })
@@ -107,17 +105,15 @@ const Rule = ({ ruleindex, name, version, comment, feature, datasrc, datatarget,
             setAni(true)
         }, 500)
     }, [ani])
-    // const animation = useSpring({
-    //     from: { opacity: 0, color: 'red' },
-    //     to: [
-    //         { opacity: 1, color: '#ffaaee' },
-    //         { opacity: 1, color: 'red' },
-    //         { opacity: .5, color: '#008000' },
-    //         { opacity: .8, color: 'black' }
-    //     ]
-    // });
-    // const [minmax, setMinmax] = React.useState([-1, 1])
-    // setDefaultValue(f[featureNames[value]]["default"])
+
+    /**
+     * 评分卡列表切换的话tab选择第一个feature
+     * TODO:jijfiejf
+     */
+    useEffect(() => {
+        setCurVal(0)
+     },[ruleindex])
+
     const handleSelectChange = (event) => {
         console.log(event.target.value)
         setCurVal(featureNames.indexOf(event.target.value));
@@ -198,23 +194,10 @@ const Rule = ({ ruleindex, name, version, comment, feature, datasrc, datatarget,
                             onClick={
                                 handleSave
                             } >Save</Button>
-                        <Button
-                        // variant="contained"
-                        // color="primary"
-                        // startIcon={<CloudUpload />}
-                        // disabled={Object.keys(newData).length === 0 ? true : false}
-                        // onClick={ // handleSave }
-                        > Run </Button>
-                        <Button
-                        // variant="contained"
-                        // color="primary"
-                        // startIcon={<CloudUpload />}
-                        // disabled={Object.keys(newData).length === 0 ? true : false}
-                        // onClick={ // handleSave }
-                        > API </Button>
+                        <Button > Run </Button>
+                        <Button > API </Button>
 
                         <Button color="primary"
-                            // disabled={Object.keys(newData).length === 0 ? true : false}
                             onClick={
                                 () => {
                                     setDrawerOpen(true)
@@ -230,7 +213,6 @@ const Rule = ({ ruleindex, name, version, comment, feature, datasrc, datatarget,
                             aria-label="upload picture"
                             component="span">
                             {
-                                // (isedit ? <CreateOutlinedIcon /> : <Style />)
                                 (isedit ? <LockOpenOutlinedIcon /> : <LockOutlinedIcon />)
                             }
                         </IconButton>
@@ -244,12 +226,6 @@ const Rule = ({ ruleindex, name, version, comment, feature, datasrc, datatarget,
                         }
                     </Grid>
                     <Others data={{ datasrc, datatarget, colname, rulers, catalog }}></Others>
-                    {/* <div>
-                        {JSON.stringify(datasrc)}
-                    </div> */}
-                    {/* <Grid item>
-                        {JSON.stringify(f)}
-                    </Grid> */}
                 </Card>
                 <Tabs
                     orientation="vertical"
@@ -263,6 +239,7 @@ const Rule = ({ ruleindex, name, version, comment, feature, datasrc, datatarget,
                         <Tab key={item} {...a11yProps(index)} index={item} label={
                             <Badge
                                 color="secondary"
+                                //TODO: 修改数量显示
                                 // badgeContent={newData[item] === undefined ? undefined : Object.keys(newData[item]).length}
                                 badgeContent={dataChangeNumber()}
                             >
@@ -271,30 +248,13 @@ const Rule = ({ ruleindex, name, version, comment, feature, datasrc, datatarget,
                         } />
                     ))}
                 </Tabs>
-                {/* <SwipeableViews
-                    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                    index={curval}
-                    onChangeIndex={handleChangeIndex}
-                > */}
-                {/* {featureNames.map((item, index) =>
-                    ( */}
-                {/* <Motion defaultStyle={{ x: 0 }} style={{ x: spring(10) }}>
-                    {value => <div>{value.x}</div>}
-                </Motion> */}
                 <TabPanel value={curval} index={curval} dir={theme.direction} key={curval}>
                     {/* AnimatedFeatureDetail */}
                     <animated.div style={animation}>
                         <FeatureDetail feature={feature[featureNames[curval]]} />
                         {/* <div>{curval}</div> */}
                     </animated.div>
-                    {/* <FeatureDetail feature={f[featureNames[curval]]} /> */}
                 </TabPanel>
-                {/* )
-                )} */}
-                {/* <TabPanel value={curval || 0} index={curval || 0} dir={theme.direction}>
-                    <FeatureDetail feature={f[featureNames[curval]]} />
-                </TabPanel> */}
-                {/* </SwipeableViews> */}
             </Grid>
             {/* <Button variant="outlined" className={classes.delbtn}>+</Button> */}
             {/* <FeatureDetail feature={f[featureNames[curval]]} /> */}
