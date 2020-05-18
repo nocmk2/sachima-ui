@@ -10,7 +10,7 @@ document.oncontextmenu = function () {
 }
 
 const render = () => {
-    const App = require('./App').default
+    const App = require('./app/App').default
   
     ReactDOM.render(
       <Provider store={store}>
@@ -23,6 +23,6 @@ const render = () => {
 render()
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
-    module.hot.accept('./App', render)
+    module.hot.accept('./app/App', render)
   }
 

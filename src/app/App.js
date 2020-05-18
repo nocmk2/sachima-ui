@@ -1,11 +1,11 @@
 import React, { Suspense, lazy } from "react";
-import Main from "./components/Main";
-import ErrorBoundary from './components/ErrorBoundary'
+import Main from "../components/Main";
+import ErrorBoundary from '../components/ErrorBoundary'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import { StateProvider } from "./utils/state"
-import { mainReducer } from './reducers/mainReducers'
+import { StateProvider } from "../utils/state"
+import { mainReducer } from '../reducers/mainReducers'
 
 
 // import Configs from './components/Configs/Configs'
@@ -17,16 +17,16 @@ import { mainReducer } from './reducers/mainReducers'
 // import Login from './components/Login'
 // import Maps from './components/Maps'
 
-const Cirp = lazy(() => import("./components/Cirp"))
-const TTT = lazy(() => import("./components/TTT"));
-const ThreeDemo = lazy(() => import("./components/threedemo/ThreeDemo"));
-const Rules = lazy(() => import("./components/Rules/Rules"));
-const Login = lazy(() => import("./components/Login"));
-const Configs = lazy(() => import("./components/Configs/Configs"));
-const Maps = lazy(() => import("./components/Maps"));
-const DashBoard = lazy(() => import("./components/DashBoard"))
-const Search = lazy(() => import("./components/Search"))
-const Test = lazy(() => import("./components/Test"))
+const Cirp = lazy(() => import("../components/Cirp"))
+const TTT = lazy(() => import("../components/TTT"));
+const ThreeDemo = lazy(() => import("../components/threedemo/ThreeDemo"));
+const Rules = lazy(() => import("../components/Rules/Rules"));
+const Login = lazy(() => import("../components/Login"));
+const Configs = lazy(() => import("../components/Configs/Configs"));
+const Maps = lazy(() => import("../components/Maps"));
+const DashBoard = lazy(() => import("../components/DashBoard"))
+const Search = lazy(() => import("../components/Search"))
+const Test = lazy(() => import("../components/Test"))
 
 
 
