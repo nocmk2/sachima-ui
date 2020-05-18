@@ -28,6 +28,7 @@ const Rules = () => {
   const [rulesAPI, getRules] = API.useReadApi(`${sachima.url}/sachima/rules`, []);
   const [ruleAPI, getRule] = API.useReadApi(`${sachima.url}/sachima/rule/${name}/${version}`, null);
 
+  // TODO: 切换的时候如果key一样 score不会变化 deep diff?
   const changeRuleCard = (name, version, index) => {
     console.log('changeRuleCard called')
     setIndex(index)

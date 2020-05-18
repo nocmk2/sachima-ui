@@ -34,7 +34,7 @@ function ProfileTimeline() {
   return (
     <ul>
       {roles.map(r => (
-        <li key={r.id}>{r.id} -> {r.name}</li>
+        <li key={r.id}>{r.id}  {r.name}</li>
       ))}
     </ul>
   );
