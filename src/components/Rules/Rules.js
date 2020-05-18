@@ -25,8 +25,8 @@ const Rules = () => {
   const [name, setName] = useState('商户评分卡');
   const [version, setVersion] = useState('v0.1');
   const [index, setIndex] = useState(0)
-  const [rulesAPI, getRules] = API.useReadApi(`${sachima.url}/sachima/rules`, []);
-  const [ruleAPI, getRule] = API.useReadApi(`${sachima.url}/sachima/rule/${name}/${version}`, null);
+  const [rulesAPI, getRules] = API.useReadApi(`${process.env.REACT_APP_BASE_URL}/sachima/rules`, []);
+  const [ruleAPI, getRule] = API.useReadApi(`${process.env.REACT_APP_BASE_URL}/sachima/rule/${name}/${version}`, null);
 
   // TODO: 切换的时候如果key一样 score不会变化 deep diff?
   const changeRuleCard = (name, version, index) => {
