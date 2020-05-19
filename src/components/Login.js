@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',//'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', //,
+        background: 'linear-gradient(45deg, #0f4c81 30%, #21CBF3 90%)',//'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', //,
         boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)'
 
     },
@@ -104,7 +104,7 @@ const Login = () => {
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <VerifiedUser />
+                    {/* <VerifiedUser /> */}
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     {sachima.login}

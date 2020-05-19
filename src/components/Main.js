@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router";
+import { ReactComponent as Logo } from './logo.svg';
 
 
 import Menu from '@material-ui/core/Menu';
@@ -96,6 +97,7 @@ const Main = props => {
     <>
       <Message open={message.open} move={message.move} message={message.info} handleClose={handleMessageClose}></Message>
       <Grid container>
+        <Logo />
         <Button onClick={handleVisibility}>Sachima</Button>
         {
           user.name
