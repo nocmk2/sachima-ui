@@ -14,6 +14,9 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
+import { formulaState, charCountState } from 'atoms/atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -27,7 +30,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Me = () => {
     const classes = useStyles();
-    const [formula, setFormula] = useState('15/(1+Math.exp(0.22-9.88*x))');
+    // const [formula, setFormula] = useState('');
+    const [formula, setFormula] = useRecoilState(formulaState)
+    const formularLength = useRecoilValue(charCountState)
 
     useEffect(() => {
         var mychart = echarts.init(document.getElementById('main'))
@@ -126,11 +131,12 @@ const Me = () => {
         console.log(e.target.value)
     }
 
-
-
     return (
         <div className={classes.root}>
             <Grid container>
+                <Grid item xs={12}>
+                    <div>formula length：{formularLength}</div>
+                </Grid>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
                         <Search onChange={handleFormulaChange} placeholder={"15/(1+Math.exp(0.22-9.88*x))"}></Search>
