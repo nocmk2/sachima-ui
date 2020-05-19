@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Me = () => {
     const classes = useStyles();
-    // const [formula, setFormula] = useState('');
     const [formula, setFormula] = useRecoilState(formulaState)
     const formularLength = useRecoilValue(charCountState)
 

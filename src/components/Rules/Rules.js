@@ -7,7 +7,11 @@ import Rule from "./Rule"
 import * as API from "apis/api"
 import RuleCards from './RuleCards'
 import { makeStyles } from '@material-ui/core/styles';
-import { reducer } from './Reducer'
+// import { reducer } from './Reducer'
+
+import { useRecoilValue, useRecoilState } from 'recoil'
+import { ruleListsQuery, ruleQuery } from 'model/atom';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -25,8 +29,9 @@ const Rules = () => {
   const [name, setName] = useState('商户评分卡');
   const [version, setVersion] = useState('v0.1');
   const [index, setIndex] = useState(0)
-  const [rulesAPI, getRules] = API.useReadApi(`${process.env.REACT_APP_BASE_URL}/sachima/rules`, []);
+  // const [rulesAPI, getRules] = API.useReadApi(`${process.env.REACT_APP_BASE_URL}/sachima/rules`, []);
   const [ruleAPI, getRule] = API.useReadApi(`${process.env.REACT_APP_BASE_URL}/sachima/rule/${name}/${version}`, null);
+  const rules = useRecoilValue(ruleListsQuery)
 
   // TODO: 切换的时候如果key一样 score不会变化 deep diff?
   const changeRuleCard = (name, version, index) => {
@@ -37,26 +42,26 @@ const Rules = () => {
 
   return (
     <>
-      {(ruleAPI.isLoading && rulesAPI.isLoading) ? (<div>loading...</div>) : (
-        <ctx.Provider value={{ notifier: { getRules, getRule } }}>
-          <div >
-            <Card>
-              <RuleCards datas={rulesAPI.data} callback={changeRuleCard} />
-            </Card>
-            {ruleAPI.data ?
-              <div>
-                <Rule
-                  ruleindex={index}
-                  name={ruleAPI.data.name}
-                  version={ruleAPI.data.version}
-                  comment={ruleAPI.data.comment}
-                  {...JSON.parse(ruleAPI.data.rule)}
-                ></Rule>
-              </div>
-              : <div>empty features</div>
-            }
-          </div >
-        </ctx.Provider>
+      {(ruleAPI.isLoading) ? (<div>loading...</div>) : (
+        // <ctx.Provider value={{ notifier: { getRules, getRule } }}>
+        <div >
+          <Card>
+            <RuleCards datas={rules} callback={changeRuleCard} />
+          </Card>
+          {ruleAPI.data ?
+            <div>
+              <Rule
+                ruleindex={index}
+                name={ruleAPI.data.name}
+                version={ruleAPI.data.version}
+                comment={ruleAPI.data.comment}
+                {...JSON.parse(ruleAPI.data.rule)}
+              ></Rule>
+            </div>
+            : <div>empty features</div>
+          }
+        </div >
+        // </ctx.Provider>
       )
       }
     </>)
