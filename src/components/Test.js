@@ -14,7 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
-import { formulaState, charCountState } from 'atoms/atom';
+import { formulaState, charCountState } from 'model/atom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 const useStyles = makeStyles((theme) => ({
