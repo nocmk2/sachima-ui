@@ -29,13 +29,24 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center"
   },
   root: {
-    flexGrow: 1
+    display: 'flex',
+    alignItems: 'center',
+    flexGrow: 2
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3)
+  },
+  user: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  logo: {
+    marginRight: 12
   }
 }));
 
@@ -93,19 +104,21 @@ const Main = props => {
   };
 
   return (
-    // <div className={classes.root}>
     <>
       <Message open={message.open} move={message.move} message={message.info} handleClose={handleMessageClose}></Message>
-      <Grid container>
-        <Logo />
-        <Button onClick={handleVisibility}>Sachima</Button>
-        {
-          user.name
-          && <BadgeAvatars onMouseEnter={handleAvtarMenuOpen} />
-        }
-        {/* <div>{user.name}</div> */}
-        {/* <Button variant="contained" onClick={handleLogClick}>{user.name ? "LogOut" : "LogIn"}</Button> */}
-      </Grid>
+      <div className={classes.root} >
+        <Logo className={classes.logo} />
+        <strong>Sachima</strong>
+        {/* <Button onClick={handleVisibility}>Sachima</Button> */}
+        <div className={classes.user}>
+          {
+            user.name
+            && <BadgeAvatars style={{ float: 'right' }} onMouseEnter={handleAvtarMenuOpen} />
+          }
+        </div>
+      </div>
+      {/* <div>{user.name}</div> */}
+      {/* <Button variant="contained" onClick={handleLogClick}>{user.name ? "LogOut" : "LogIn"}</Button> */}
       <Menu
         id="simple-menu"
         getContentAnchorEl={null}

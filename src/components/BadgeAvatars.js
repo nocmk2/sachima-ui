@@ -62,7 +62,7 @@ const BadgeAvatars = (props) => {
                 }}
                 variant="dot"
             >
-                <SmallAvatar alt="admin" src={process.env.PUBLIC_URL + "img/tech1.jpg"} />
+                <SmallAvatar alt="admin" src={process.env.PUBLIC_URL + "img/tech3.jpg"} />
             </StyledBadge>
         </div>
     );
