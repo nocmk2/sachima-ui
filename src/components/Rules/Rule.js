@@ -251,7 +251,7 @@ const Rule = ({ ruleindex, name, version, comment, feature, datasrc, datatarget,
                 <TabPanel value={curval} index={curval} dir={theme.direction} key={curval}>
                     {/* AnimatedFeatureDetail */}
                     <animated.div style={animation}>
-                        <FeatureDetail feature={feature[featureNames[curval]]} />
+                        <FeatureDetail currule={ruleindex} feature={feature[featureNames[curval]]} />
                         {/* <div>{curval}</div> */}
                     </animated.div>
                 </TabPanel>
