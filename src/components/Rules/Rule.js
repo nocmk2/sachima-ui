@@ -115,7 +115,7 @@ const Rule = ({ ruleindex, name, version, comment, feature, datasrc, datatarget,
     }, [ruleindex])
 
     const handleSelectChange = (event) => {
-        console.log(event.target.value)
+        // console.log(event.target.value)
         setCurVal(featureNames.indexOf(event.target.value));
     };
 

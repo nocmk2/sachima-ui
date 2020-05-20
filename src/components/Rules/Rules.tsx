@@ -83,7 +83,7 @@ const Rules = () => {
 
   return (
     <div>
-      {JSON.stringify(rule)}
+      {/* {JSON.stringify(rule)} */}
       <Card>
         <RuleCards datas={rules} callback={changeRuleCard} />
       </Card>
