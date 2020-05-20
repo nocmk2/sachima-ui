@@ -7,7 +7,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import { StateProvider } from "utils/state"
 import { mainReducer } from 'reducers/mainReducers'
 
-import { RecoilRoot } from 'recoil';
+// import { RecoilRoot } from 'recoil';
 
 
 // import Configs from './components/Configs/Configs'
@@ -66,31 +66,31 @@ const App = () => {
 
   return (
     <StateProvider initialState={initialState} reducer={mainReducer}>
-      <RecoilRoot>
-        <Router>
-          <Main>
-            <Switch>
-              <ErrorBoundary>
-                <Suspense fallback={<LinearProgress color="primary" />}>
-                  <Route exact path="/ThreeDemo" component={ThreeDemo} />
-                  <Route exact path="/DashBoard" component={DashBoard} />
-                  <Route exact path="/Rules" component={Rules} />
-                  <Route exact path="/Login" component={Login} />
-                  <Route exact path="/Configs" component={Configs} />
-                  <Route exact path="/Cirp" component={Cirp} />
-                  <Route exact path="/Test" component={Test} />
-                  <Route exact path="/Search" component={Search} />
-                  <Route exact path="/Reports">
-                    <TTT visible={true} />
-                  </Route>
-                  <Route exact path="/Maps" component={Maps} />
-                  <Route exact path="/" component={Search} />
-                </Suspense>
-              </ErrorBoundary >
-            </Switch>
-          </Main>
-        </Router>
-      </RecoilRoot>
+      {/* <RecoilRoot> */}
+      <Router>
+        <Main>
+          <Switch>
+            <ErrorBoundary>
+              <Suspense fallback={<LinearProgress color="primary" />}>
+                <Route exact path="/ThreeDemo" component={ThreeDemo} />
+                <Route exact path="/DashBoard" component={DashBoard} />
+                <Route exact path="/Rules" component={Rules} />
+                <Route exact path="/Login" component={Login} />
+                <Route exact path="/Configs" component={Configs} />
+                <Route exact path="/Cirp" component={Cirp} />
+                <Route exact path="/Test" component={Test} />
+                <Route exact path="/Search" component={Search} />
+                <Route exact path="/Reports">
+                  <TTT visible={true} />
+                </Route>
+                <Route exact path="/Maps" component={Maps} />
+                <Route exact path="/" component={Search} />
+              </Suspense>
+            </ErrorBoundary >
+          </Switch>
+        </Main>
+      </Router>
+      {/* </RecoilRoot> */}
     </StateProvider>
   );
 };

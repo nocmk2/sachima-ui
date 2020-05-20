@@ -3,8 +3,7 @@ import { RuleSummary, Rule, getRule, getRuleLists } from 'api/rulesAPI'
 import { AppThunk } from 'app/store'
 
 interface RulesState {
-    // selectedName: string
-    // selectedVersion: string
+    ruleSummarys: RuleSummary[]
     selectedIndex: number
     currentRule: any
     isLoading: boolean
@@ -12,8 +11,9 @@ interface RulesState {
 }
 
 const rulesInitialState: RulesState = {
+    ruleSummarys: [],
     selectedIndex: 0,
-    currentRule: {},
+    currentRule: { rule: '', name: '', version: '' },
     isLoading: false,
     error: null
 }
@@ -32,14 +32,53 @@ const rules = createSlice({
     initialState: rulesInitialState,
     reducers: {
         getRuleStart: startLoading,
-        getRulesStart: startLoading,
-
+        getRuleSummarysStart: startLoading,
+        getRuleSummarysSucess(state, { payload }: PayloadAction<RuleSummary[]>) {
+            state.ruleSummarys = payload
+            state.isLoading = false
+            state.error = null
+        },
+        getRuleSucess(state, { payload }: PayloadAction<Rule>) {
+            state.currentRule = payload
+            state.isLoading = false
+            state.error = null
+        },
+        getRuleFailed: loadingFailed,
+        getRuleSummarysFailed: loadingFailed,
     }
 })
 
-// export const fetchRules = (): AppThunk => async dispatch => {
-//     try {
-//         dispatch()
-//     }
-// }
+export const {
+    getRuleStart,
+    getRuleSummarysStart,
+    getRuleSummarysSucess,
+    getRuleSucess,
+    getRuleFailed,
+    getRuleSummarysFailed
+} = rules.actions
+
+export default rules.reducer
+
+export const fetchRuleSummarys = (): AppThunk => async dispatch => {
+    try {
+        dispatch(getRuleSummarysStart())
+        const ruleSummaryLists = await getRuleLists()
+        dispatch(getRuleSummarysSucess(ruleSummaryLists))
+    } catch (err) {
+        dispatch(getRuleSummarysFailed(err.toString()))
+    }
+}
+
+export const fetchRule = (
+    name: string,
+    version: string
+): AppThunk => async dispatch => {
+    try {
+        dispatch(getRuleStart())
+        const rule = await getRule(name, version)
+        dispatch(getRuleSucess(rule))
+    } catch (err) {
+        dispatch(getRuleFailed(err.toString()))
+    }
+}
 

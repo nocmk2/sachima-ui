@@ -78,7 +78,7 @@ const RuleCards = ({ datas, callback }) => {
                         <Card
                             elevation={18}
                             className={classes.things}
-                            onClick={() => callback(el.name, el.version, index)}
+                            onClick={() => callback(index)}
                         >
                             <CardActionArea>
                                 <CardMedia

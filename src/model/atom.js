@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil'
+import { atom, selector, selectorFamily } from 'recoil'
 import { getRule, getRuleLists } from 'api/rulesAPI'
 
 export const formulaState = atom({
@@ -7,7 +7,7 @@ export const formulaState = atom({
 })
 
 export const curSelectedRuleIndexState = atom({
-    key: 'curSelectedRuleInexState',
+    key: 'curSelectedRuleIndexState',
     default: 0
 })
 
@@ -27,10 +27,32 @@ export const ruleListsQuery = selector({
     }
 })
 
+// export const ruleSummaryQuery = selectorFamily({
+//     key: 'ruleSummaryQuery',
+//     get: id => async ({ get }) => {
+//         const response = await getRuleLists()
+//         return response[id]
+//     }
+// })
+
+// export const ruleSummaryQuery = selector({
+//     key: 'RuleSummaryQuery',
+//     get: ID => async ({ get }) => {
+//         const response = await getRuleLists();
+//         const name = response.name
+//         const version = response.version
+//         return {
+//             name: name,
+//             version: version
+//         };
+//     },
+// });
+
+
 export const ruleQuery = selector({
     key: 'rule',
-    get: async ({ get }) => {
-        const response = await getRule({ name: '商户评分卡', version: 'v0.1' })
+    get: (id) => async ({ get }) => {
+        const response = await getRule()
         return response
     }
 })

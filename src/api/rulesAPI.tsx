@@ -5,8 +5,12 @@ export interface RuleSummary {
     version: string
 }
 
-export interface Rule extends RuleSummary {
+export interface RuleRaw extends RuleSummary {
     rule: string
+}
+
+export interface Rule extends RuleSummary {
+    rule: any
 }
 
 const OPTIONS = {
@@ -21,10 +25,11 @@ export const getRuleLists = async (): Promise<RuleSummary[]> => {
 
 export const getRule = async (name: string, version: string): Promise<Rule> => {
     const url = `${process.env.REACT_APP_BASE_URL}/sachima/rule/${name}/${version}`
-    const rule = await axios.get<Rule>(url, OPTIONS);
+    const rule = await axios.get<RuleRaw>(url, OPTIONS);
+    const ruleJSON = JSON.parse(rule.data.rule)
     return {
         name: rule.data.name,
         version: rule.data.version,
-        rule: JSON.parse(rule.data.rule)
+        rule: ruleJSON
     }
 }
