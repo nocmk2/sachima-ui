@@ -57,3 +57,30 @@ export interface RulesState {
     isLoading: boolean
     error: string | null
 }
+
+export interface User {
+    id: string
+    name: string
+}
+
+export interface Role {
+    id: string
+    name: string
+}
+
+export interface Object {
+    id: string
+    name: string
+}
+
+export interface UserRole {
+    user: string
+    role: string
+}
+
+export interface RoleObjectAction {
+    role: string
+    obj: string
+    action: string
+}
+
