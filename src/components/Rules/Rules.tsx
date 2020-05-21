@@ -46,8 +46,6 @@ const Rules = () => {
     dispatch(fetchRuleSummarys())
   }, [dispatch])
 
-
-  // TODO: 切换的时候如果key一样 score不会变化 deep diff?
   const changeRuleCard = (index: number) => {
     setCurSelectedIndex(index)
     const name = rules[index].name

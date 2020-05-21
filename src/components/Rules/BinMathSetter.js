@@ -98,30 +98,37 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
     const [inf, setinf] = React.useState(initValue.inf) // -1 -Inf    0     1   Inf
     const [leftbound, setLeftbound] = React.useState(initValue.left)
     const [rightbound, setRightbound] = React.useState(initValue.right)
+    const [score, setScore] = React.useState(binscore)
     // const [min, setMin] = React.useState(minmax[0])
     // const [max, setMax] = React.useState(minmax[1])
     const [his, setHis] = React.useState(initValue.his)
     const [inputerror, setInputError] = React.useState(false)
-    const [isedited, setIsEdited] = React.useState(false)
+    // const [isedited, setIsEdited] = React.useState(false)
     // const [marks, setMarks] = React.useState([])
 
+    // 当porps.binscore变化的时候更新score，否则在切换rule的时候score不会更新
+    React.useEffect(() => {
+        setScore(binscore)
+    }, [binscore])
     React.useEffect(() => {
         if (value[0] > value[1]) {
             setInputError(true)
+        } else {
+            setInputError(false)
         }
     }, [value])
 
 
     useDidUpdateEffect(() => {
-        // var ex = constructExpress()
+        var ex = constructExpress()
 
         // 通过回调onChange把新的表达式传递到上层组建
         // TODO: 把这个传递变化的过程放到redux中去
-        // onChange({
-        //     [ex]: Number(score)  // {"[-inf,1.6]": 23}
-        // })
-        setIsEdited(true)
-    }, [value, binscore, leftbound, rightbound])
+        onChange({
+            [ex]: Number(score)  // {"[-inf,1.6]": 23}
+        })
+        // setIsEdited(true)
+    }, [value, score, leftbound, rightbound])
 
 
     // const Resilient = (v, direction) => {
@@ -199,7 +206,7 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
         // scaleSlider()
 
 
-    }, [value, binscore])
+    }, [value, score])
 
 
     const handleSliderChange = (event, newValue) => {
@@ -276,9 +283,7 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
         //     // event.target.type = "number"
         //     return
         // }
-        // setScore(event.target.value)
-        //TODO: dispatch(setScore(event.target.value))
-        dispatch(setBin())
+        setScore(event.target.value)
     }
 
     const handleRightboundChange = event => {
@@ -447,7 +452,7 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
                         <TextField
                             // className={classes.input}
                             label="Score"
-                            value={binscore}
+                            value={score}
                             // margin="dense"
                             // multiline={true}
                             onChange={handleScoreChange}

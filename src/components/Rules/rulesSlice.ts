@@ -21,12 +21,6 @@ const loadingFailed = (state: RulesState, action: PayloadAction<string>) => {
     state.error = action.payload
 }
 
-const updateBin = (state: RulesState, action: PayloadAction<any>) => {
-    // state.currentRule.rule.feature[0].bin[0] = 123
-    if (state.currentRule.rule) {
-        state.currentRule.rule.feature['approved_3M_amt'].bin['[-inf,1.0)'] = 123
-    }
-}
 
 const rules = createSlice({
     name: 'rules',
@@ -46,7 +40,13 @@ const rules = createSlice({
         },
         getRuleFailed: loadingFailed,
         getRuleSummarysFailed: loadingFailed,
-        setBin: updateBin,
+        setBin(state: RulesState, { payload }: PayloadAction<any>) {
+            // state.currentRule.rule.feature[0].bin[0] = 123
+            // if (state.currentRule.rule) {
+            //     state.currentRule.rule.feature['approved_3M_amt'].bin['[-inf,1.0)'] = payload.value
+            // }
+            // alert('setBin slow!!!!!!!')
+        }
     }
 })
 
