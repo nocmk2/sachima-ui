@@ -12,6 +12,9 @@ import TextField from '@material-ui/core/TextField';
 import { getMathInterval } from "utils/mathInterval"
 import { useDidUpdateEffect } from "utils/tools"
 
+import { useDispatch } from 'react-redux'
+import { setBin } from 'components/Rules/rulesSlice'
+
 const PrettoSlider = withStyles({
     root: props => ({
         // color: '#52af77',
@@ -85,6 +88,7 @@ function valuetext(value) {
 
 
 const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
+    const dispatch = useDispatch()
     const initValue = React.useMemo(
         () => getMathInterval(express),  // [-inf,1.0)
         [express] // ✅ Don’t recalculate until `express` changes
@@ -92,11 +96,10 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
     const classes = useStyles();
     const [value, setValue] = React.useState(initValue.interval); // inf=-1 value=38 means (-inf,38)
     const [inf, setinf] = React.useState(initValue.inf) // -1 -Inf    0     1   Inf
-    const [score, setScore] = React.useState(binscore)
     const [leftbound, setLeftbound] = React.useState(initValue.left)
     const [rightbound, setRightbound] = React.useState(initValue.right)
-    const [min, setMin] = React.useState(minmax[0])
-    const [max, setMax] = React.useState(minmax[1])
+    // const [min, setMin] = React.useState(minmax[0])
+    // const [max, setMax] = React.useState(minmax[1])
     const [his, setHis] = React.useState(initValue.his)
     const [inputerror, setInputError] = React.useState(false)
     const [isedited, setIsEdited] = React.useState(false)
@@ -110,12 +113,15 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
 
 
     useDidUpdateEffect(() => {
-        var ex = constructExpress()
-        onChange({
-            [ex]: Number(score)
-        })
+        // var ex = constructExpress()
+
+        // 通过回调onChange把新的表达式传递到上层组建
+        // TODO: 把这个传递变化的过程放到redux中去
+        // onChange({
+        //     [ex]: Number(score)  // {"[-inf,1.6]": 23}
+        // })
         setIsEdited(true)
-    }, [value, score, leftbound, rightbound])
+    }, [value, binscore, leftbound, rightbound])
 
 
     // const Resilient = (v, direction) => {
@@ -179,21 +185,21 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
                 return Number(value)
             }
         }
-        const scaleSlider = () => {
-            // getMarks()
-            if (leftValue() <= min) {
-                setMin(leftValue() - 2)
-            }
+        // const scaleSlider = () => {
+        //     // getMarks()
+        //     if (leftValue() <= min) {
+        //         setMin(leftValue() - 2)
+        //     }
 
-            if (rightValue() >= max) {
-                setMax(rightValue() + 2)
-            }
-        }
+        //     if (rightValue() >= max) {
+        //         setMax(rightValue() + 2)
+        //     }
+        // }
 
-        scaleSlider()
+        // scaleSlider()
 
 
-    }, [value, min, max, score])
+    }, [value, binscore])
 
 
     const handleSliderChange = (event, newValue) => {
@@ -239,6 +245,11 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
         }
     }
 
+    /**
+     * 从现有的状态构建表达式 
+     * input:   leftbound value[0]  , value[1]  rightbound
+     * example: [-inf,100) 
+     */
     const constructExpress = () => {
         var res = ""
         res += leftbound
@@ -265,7 +276,9 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
         //     // event.target.type = "number"
         //     return
         // }
-        setScore(event.target.value)
+        // setScore(event.target.value)
+        //TODO: dispatch(setScore(event.target.value))
+        dispatch(setBin())
     }
 
     const handleRightboundChange = event => {
@@ -338,10 +351,10 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
                             // marks={marks}                               // slider 下方的标注 这里实现成动态的
                             value={typeof value === "object" ? [Number(value[0]), Number(value[1])] : Number(value)}                               // value有两种 number 和 [number,number], 分别表示无穷和区间
                             onChange={handleSliderChange}
-                            step={0.01}
+                            step={0.1}
                             valueLabelDisplay="auto"
-                            min={isedited ? min : minmax[0]}
-                            max={isedited ? max : minmax[1]}
+                            min={minmax[0]}
+                            max={minmax[1]}
                             aria-labelledby="range-slider"
                             getAriaValueText={valuetext}
                         />
@@ -434,7 +447,7 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
                         <TextField
                             // className={classes.input}
                             label="Score"
-                            value={score}
+                            value={binscore}
                             // margin="dense"
                             // multiline={true}
                             onChange={handleScoreChange}

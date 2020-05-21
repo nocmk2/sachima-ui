@@ -56,16 +56,20 @@ const Rules = () => {
   }
 
   let ruleComp
-  if (rule.rule.feature) {
-    ruleComp = <div>
+  if (rule.rule) {
+    ruleComp =
       <Rule
         ruleindex={curSelectedIndex}
         name={rule.name}
         version={rule.version}
         comment={rule.comment}
-        {...rule.rule}
-      > </Rule>
-    </div>
+        feature={rule.rule?.feature}
+        datasrc={rule.rule?.datasrc}
+        datatarget={rule.rule?.datatarget}
+        colname={rule.rule?.colname}
+        rulers={rule.rule?.rulers}
+        catalog={rule.rule?.catalog}
+      />
   } else if (rulesLoading) {
     ruleComp = (
       <div className="rule--loading">

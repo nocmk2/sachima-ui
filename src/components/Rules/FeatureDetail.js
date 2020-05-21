@@ -220,9 +220,9 @@ function FeatureDetail({ currule, feature }) {
                                             <BinMathSetter
                                                 className={classes.binsetter}
                                                 key={currule + "-" + item + "-" + index}
-                                                express={item}
-                                                binscore={feature.bin[item]}
-                                                minmax={getMinMax(feature.bin).bounds} // 
+                                                express={item}   // [-inf,1.6)
+                                                binscore={feature.bin[item]} // 23
+                                                minmax={getMinMax(feature.bin).bounds} // 通过所有的bin计算出minmax
                                                 onChange={(newData) => handleBinChange(item, newData)} //{"[-inf,1.6)": 23}
                                             />
                                         </Grid>

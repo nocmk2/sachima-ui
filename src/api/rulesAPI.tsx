@@ -1,17 +1,5 @@
 import axios from "axios"
-
-export interface RuleSummary {
-    name: string,
-    version: string
-}
-
-export interface RuleRaw extends RuleSummary {
-    rule: string
-}
-
-export interface Rule extends RuleSummary {
-    rule: any
-}
+import { RuleSummary, RuleWithSummary, RuleRaw } from 'types/types'
 
 const OPTIONS = {
     headers: { Authorization: "Bearer " + localStorage.token }
@@ -23,13 +11,14 @@ export const getRuleLists = async (): Promise<RuleSummary[]> => {
     return ruleListsResponse.data
 }
 
-export const getRule = async (name: string, version: string): Promise<Rule> => {
+export const getRule = async (name: string, version: string): Promise<RuleWithSummary> => {
     const url = `${process.env.REACT_APP_BASE_URL}/sachima/rule/${name}/${version}`
     const rule = await axios.get<RuleRaw>(url, OPTIONS);
     const ruleJSON = JSON.parse(rule.data.rule)
     return {
         name: rule.data.name,
         version: rule.data.version,
+        comment: rule.data.comment,
         rule: ruleJSON
     }
 }

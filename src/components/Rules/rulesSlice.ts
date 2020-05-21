@@ -1,19 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RuleSummary, Rule, getRule, getRuleLists } from 'api/rulesAPI'
+import { getRule, getRuleLists } from 'api/rulesAPI'
+import { RuleSummary, RuleWithSummary, RulesState, Rule } from 'types/types'
 import { AppThunk } from 'app/store'
 
-interface RulesState {
-    ruleSummarys: RuleSummary[]
-    selectedIndex: number
-    currentRule: any
-    isLoading: boolean
-    error: string | null
-}
 
 const rulesInitialState: RulesState = {
     ruleSummarys: [],
     selectedIndex: 0,
-    currentRule: { rule: '', name: '', version: '' },
+    currentRule: { rule: null, name: '', version: '', comment: '' },
     isLoading: false,
     error: null
 }
@@ -27,6 +21,13 @@ const loadingFailed = (state: RulesState, action: PayloadAction<string>) => {
     state.error = action.payload
 }
 
+const updateBin = (state: RulesState, action: PayloadAction<any>) => {
+    // state.currentRule.rule.feature[0].bin[0] = 123
+    if (state.currentRule.rule) {
+        state.currentRule.rule.feature['approved_3M_amt'].bin['[-inf,1.0)'] = 123
+    }
+}
+
 const rules = createSlice({
     name: 'rules',
     initialState: rulesInitialState,
@@ -38,13 +39,14 @@ const rules = createSlice({
             state.isLoading = false
             state.error = null
         },
-        getRuleSucess(state, { payload }: PayloadAction<Rule>) {
+        getRuleSucess(state, { payload }: PayloadAction<RuleWithSummary>) {
             state.currentRule = payload
             state.isLoading = false
             state.error = null
         },
         getRuleFailed: loadingFailed,
         getRuleSummarysFailed: loadingFailed,
+        setBin: updateBin,
     }
 })
 
@@ -54,7 +56,8 @@ export const {
     getRuleSummarysSucess,
     getRuleSucess,
     getRuleFailed,
-    getRuleSummarysFailed
+    getRuleSummarysFailed,
+    setBin
 } = rules.actions
 
 export default rules.reducer
