@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { getRule, getRuleLists } from 'api/rulesAPI'
+import { getRule, getRuleLists } from 'api/api'
 import { RuleSummary, RuleWithSummary, RulesState, Rule } from 'types/types'
 import { AppThunk } from 'app/store'
 

@@ -1,5 +1,5 @@
 import { atom, selector, selectorFamily } from 'recoil'
-import { getRule, getRuleLists } from 'api/rulesAPI'
+import { getRule, getRuleLists } from 'api/api'
 
 export const formulaState = atom({
     key: 'formulaState',

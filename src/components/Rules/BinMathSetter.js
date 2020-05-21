@@ -110,6 +110,7 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
     React.useEffect(() => {
         setScore(binscore)
     }, [binscore])
+
     React.useEffect(() => {
         if (value[0] > value[1]) {
             setInputError(true)
@@ -356,7 +357,7 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
                             // marks={marks}                               // slider 下方的标注 这里实现成动态的
                             value={typeof value === "object" ? [Number(value[0]), Number(value[1])] : Number(value)}                               // value有两种 number 和 [number,number], 分别表示无穷和区间
                             onChange={handleSliderChange}
-                            step={0.1}
+                            step={0.01}
                             valueLabelDisplay="auto"
                             min={minmax[0]}
                             max={minmax[1]}
