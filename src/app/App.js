@@ -31,6 +31,7 @@ const Maps = lazy(() => import("components/Maps"));
 const DashBoard = lazy(() => import("components/DashBoard"))
 const Search = lazy(() => import("components/Search"))
 const Test = lazy(() => import("components/Test"))
+const Demo = lazy(() => import("components/Demo"))
 
 
 
@@ -83,7 +84,8 @@ const App = () => {
                 <Route exact path="/Test" component={Test} />
                 <Route exact path="/Search" component={Search} />
                 <Route exact path="/Reports">
-                  <TTT visible={true} />
+                  {/* <TTT visible={true} /> */}
+                  <Demo />
                 </Route>
                 <Route exact path="/Maps" component={Maps} />
                 <Route exact path="/" component={Search} />
