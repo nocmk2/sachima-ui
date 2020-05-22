@@ -1,8 +1,10 @@
 import React, { Suspense, lazy } from "react";
 import Main from "components/Main";
-import ErrorBoundary from 'components/ErrorBoundary'
+import ErrorBoundary from 'common/ErrorBoundary'
+import Error from 'common/Error'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LinearProgress from '@material-ui/core/LinearProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { StateProvider } from "utils/state"
 import { mainReducer } from 'reducers/mainReducers'
@@ -13,7 +15,7 @@ import { mainReducer } from 'reducers/mainReducers'
 // import Configs from './components/Configs/Configs'
 // import DashBoard from './components/DashBoard'
 // import Cirp from './components/Cirp'
-// import TTT from './components/TTT'
+// import TTT from 'components/TTT'
 // import ThreeDemo from './components/threedemo/ThreeDemo'
 // import Rules from './components/Rules'
 // import Login from './components/Login'
@@ -70,8 +72,8 @@ const App = () => {
       <Router>
         <Main>
           <Switch>
-            <ErrorBoundary>
-              <Suspense fallback={<LinearProgress color="primary" />}>
+            <ErrorBoundary fallback={<Error />}>
+              <Suspense fallback={<CircularProgress color="primary" />}>
                 <Route exact path="/ThreeDemo" component={ThreeDemo} />
                 <Route exact path="/DashBoard" component={DashBoard} />
                 <Route exact path="/Rules" component={Rules} />

@@ -13,9 +13,8 @@ class ErrorBoundary extends React.Component {
     }
     render() {
         if (this.state.hasError) {
-            console.log('@' + this.state.message + '@')
             if (this.state.message === "Request failed with status code 401") {
-                return <Error type="401" />
+                return <Error type="401" mes={this.state.message} />
                 // return <Error type="basic" mes={this.state.message} />
             }
             else {
@@ -23,8 +22,8 @@ class ErrorBoundary extends React.Component {
                 // return this.props.fallback;
             }
         }
+        console.log('noooooooooooooooooooooo')
         return this.props.children;
-        // return null
     }
 }
 

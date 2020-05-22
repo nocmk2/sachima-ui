@@ -1,17 +1,20 @@
 import axios from "axios"
+import { useHistory } from "react-router-dom"
 
-// axios.interceptors.response.use(response => {
-//     return response;
-// }, error => {
-//     if (error.response.status === 401) {
-//         // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: `您没有权限,请登陆,或联系管理员${sachima.message}` } })
-//         // history.push("/login")
-//         console.log(401401401)
-//     }
-//     return Promise.resolve(error);
-// });
+axios.interceptors.response.use(response => {
+    return response;
+}, error => {
+    if (error.response.status === 401) {
+        // dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: `您没有权限,请登陆,或联系管理员${sachima.message}` } })
+        // history.push("/login")
+        // alert('你没有权限！')
+        // console.log(401401401)
+    }
+    return Promise.resolve(error);
+});
 
 export function fetchProfileData() {
+    // const history = useHistory()
     let usersPromise = fetchUsers();
     let rolesPromise = fetchRoles();
     let objectsPromise = fetchObjects();
@@ -48,7 +51,9 @@ const wrapPromise = (promise) => {
             if (status === "pending") {
                 throw suspender;
             } else if (status === "error") {
-                throw result;
+                throw suspender
+                // console.log('throw error in suspense wraper')
+                // throw result;
             } else if (status === "success") {
                 return result;
             }
