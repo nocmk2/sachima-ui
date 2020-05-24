@@ -1,6 +1,6 @@
 import axios from "axios"
 import { RuleSummary, RuleWithSummary, RuleRaw, User, Role, Object, UserRole, RoleObjectAction } from 'types/types'
-import { useStateValue } from "../utils/state"
+// import { useStateValue } from "../utils/state"
 // import { useHistory } from "react-router-dom"
 
 // axios.interceptors.response.use(response => {
