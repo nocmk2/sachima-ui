@@ -62,14 +62,14 @@ export const useReadApi = (initialURL, initialData) => {
         data: initialData
     })
 
-    const [{ sachima }] = useStateValue();
+    const [{ sachima }, global] = useStateValue();
     const history = useHistory();
 
     axios.interceptors.response.use(response => {
         return response;
     }, error => {
         if (error.response.status === 401) {
-            dispatch({
+            global({
                 type: "sendMessage",
                 newMessage: { open: true, move: "left", info: `您没有权限,请登陆,或联系管理员${sachima.message}` }
             })
