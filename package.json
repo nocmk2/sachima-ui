@@ -12,6 +12,7 @@
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.8",
+    "@types/react-router-dom": "^5.1.5",
     "@types/webpack-env": "^1.15.2",
     "axios": "^0.19.2",
     "big.js": "^5.2.2",
