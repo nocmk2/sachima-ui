@@ -1,7 +1,8 @@
 import { useState, useEffect, useReducer } from "react"
 import axios from "axios"
 import { useHistory } from "react-router-dom"
-import { useStateValue } from "../utils/state"
+import { useStateValue } from "utils/state"
+import { getUsers, getRoles, getObjects, getUserRole, getRoleObjectAction } from 'api/api'
 
 // Suspense api example
 // import * as source from './source'
@@ -24,7 +25,7 @@ import { useStateValue } from "../utils/state"
 // }
 
 // export const API = () => source
-const reducer = (state, action) => {
+const reducer = (state: any, action: any) => {
     switch (action.type) {
         case 'FETCH_INIT':
             return {
@@ -51,7 +52,47 @@ const reducer = (state, action) => {
     }
 };
 
-export const useReadApi = (initialURL, initialData) => {
+const wrapPromise = (promise: Promise<any>) => {
+    let status = "pending";
+    let result: any;
+    let suspender = promise.then(
+        r => {
+            status = "success";
+            result = r;
+        },
+        e => {
+            status = "error";
+            result = e;
+        }
+    );
+    return {
+        read() {
+            if (status === "pending") {
+                throw suspender;
+            } else if (status === "error") {
+                throw suspender
+                // console.log('throw error in suspense wraper')
+                // throw result;
+            } else if (status === "success") {
+                return result;
+            }
+        }
+    };
+}
+
+
+export const useImpromptu = (improptu: Promise<any>) => {
+    useEffect(() => {
+        return () => {
+            // cleanup
+        }
+    }, [])
+    return null
+}
+
+
+
+export const useReadApi = (initialURL: string, initialData: any) => {
     const [url, setUrl] = useState(initialURL);
 
     // const [data, setData] = useState(initialData);
