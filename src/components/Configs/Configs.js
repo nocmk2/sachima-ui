@@ -9,7 +9,7 @@ import { useFetchProfileData } from 'api/api'
 // const source = fetchProfileData()
 
 const Configs = () => {
-    const source = useFetchProfileData()
+    const [source, refresher, refreshTimes] = useFetchProfileData()
     // useInterceptor()
     // const [{ sachima }, dispatch] = useStateValue();
     // const [{ data: users, isLoading: usersIsLoading }, getUsers] = useReadApi(`${sachima.url}/sachima/getusers`, []);
@@ -26,10 +26,11 @@ const Configs = () => {
                 <ctx.Provider value={{
                     // sachima: sachima,
                     // globalDispatch: dispatch,
-                    // notifier: { refresher }
+                    notifier: { refresher }
                 }}>
                     {/* {JSON.stringify(data[0].read())} */}
                     {/* {JSON.stringify(data)} */}
+                    <h3>{refreshTimes}</h3>
                     {source ?
                         (
                             <RBAC

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import axios from "axios"
 import { RuleSummary, RuleWithSummary, RuleRaw, User, Role, Object, UserRole, RoleObjectAction } from 'types/types'
 import { useInterceptor } from "utils/tools"
+import { isMaster } from 'cluster'
 // import { useStateValue } from "../utils/state"
 // import { useHistory } from "react-router-dom"
 
@@ -76,6 +77,30 @@ export const getRoleObjectAction = async (): Promise<RoleObjectAction[]> => {
     return result.data
 }
 
+
+
+/**
+ * 随机增加用户 测试
+ *  
+ */
+export const addRandomUser = async (name: string) => {
+    const randomNum = Math.floor(Math.random() * 1000) + 1
+    const url = `${process.env.REACT_APP_BASE_URL}/sachima/adduser`
+    const response = await axios({
+        ...OPTIONS, //headers
+        method: 'POST',
+        url: url,
+        data: {
+            "username": name + randomNum,
+            "password": "1234567",
+            "email": "admin@sachima.com",
+            "firstname": "新增用户" + randomNum,
+            "lastname": "新增用户" + randomNum
+        }
+    })
+    return response
+}
+
 // Suspense integrations like Relay implement
 // a contract like this to integrate with React.
 // Real implementations can be significantly more complex.
@@ -107,16 +132,41 @@ const wrapPromise = (promise: Promise<any>) => {
     };
 }
 
-// interface DataResult {
-//     users: Promise<User[]> | null,
-//     roles: Promise<Role[]> | null,
-//     objects: Promise<Object[]> | null,
-//     userrole: Promise<UserRole[]> | null,
-//     roleobject: Promise<RoleObjectAction[]> | null
-// }
+
+
+
+// TODO: 抽象
+interface SuspenseReader {
+    read: Function
+}
+
+interface ProfileDataType {
+    users: SuspenseReader,
+    roles: SuspenseReader,
+    objects: SuspenseReader,
+    userRole: SuspenseReader,
+    roleObject: SuspenseReader
+}
 // { users: null, roles: null, objects: null, userrole: null, roleobject: null }
+// const initialState = { count: 0 };
+
+// const reducer = (state: ProfileDataType, action: any) => {
+//     switch (action.type) {
+//         case 'refresh':
+//             return { count: state. + 1 };
+//         default:
+//             throw new Error();
+//     }
+// }
+
 export const useFetchProfileData = () => {
-    const [data, setData] = useState<object | null>(null)
+    // const [state, dispatch] = useReducer(reducer, null)
+    const [count, setCount] = useState(0)
+    const [data, setData] = useState<ProfileDataType | null>(null)
+
+    const refresher = () => {
+        setCount(prev => prev + 1)
+    }
 
     useInterceptor()
 
@@ -127,7 +177,31 @@ export const useFetchProfileData = () => {
         const userRole = wrapPromise(getUserRole());
         const roleObject = wrapPromise(getRoleObjectAction());
         setData({ users, roles, objects, userRole, roleObject })
+    }, [count])
+
+    //TODO: return [data, refresher]
+    return [data, refresher, count]
+}
+
+
+// 过度抽象？
+interface DataType {
+    [key: string]: SuspenseReader
+}
+export const useImpromptu = (imps: Function[]) => {
+    const [data, setData] = useState<DataType | null>(null)
+
+    useInterceptor()
+
+    useEffect(() => {
+        imps.forEach(imp => {
+            wrapPromise(imp())
+        })
+
     }, [])
 
-    return data
+
+
+
 }
+

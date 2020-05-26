@@ -14,6 +14,8 @@ import Authority from 'components/forms/Authority'
 // import { green, purple } from '@material-ui/core/colors';
 import axios from "axios"
 
+import { addRandomUser } from 'api/api'
+
 import { ctx } from './Configs';
 
 // const ColorChip = withStyles((theme) => ({
@@ -45,7 +47,6 @@ const Cal = (type, data) => {
             title: '用户',
             recommend: users,
             datashouldrender: roles,
-            url: `/sachima/adduser`,
             form: dt => <User data={dt} />
         }
     } else if (type === 'role') {
@@ -79,29 +80,15 @@ const RBACDialog = ({ open, close, type, data, id }) => {
         [type, data]
     );
 
-    // const doit = () => {
-    //     dispatch({ type: "DRAWLINE" })
-    // }
-    const submit = async () => {
-        // dispatch({ type: 'ADD_USER', payload: { id: '12345', name: 'Jerry' } })
-        await axios({
-            method: "POST",
-            url: `${sachima.url}${url}`,
-            headers: { Authorization: "Bearer " + localStorage.token },
-            data:
-            {
-                "username": "admin980000yy",
-                "password": "1234561",
-                "email": "admin@sachima.com",
-                "firstname": "管理员yyy",
-                "lastname": "管理员yyy"
-            }
-        }).then(response => {
-            // console.log(response)
-            if (response.status === 200)
-                notifier.getUsers(`${sachima.url}/sachima/getusers?time=${Now()}`)
-        })
-    }
+    const submit = async () =>
+        addRandomUser('xman')
+            .then(response => {
+                // console.log(response)
+                if (response.status === 200)
+                    notifier.refresher()
+                // alert('提交成功！！！！！！！！！！！！')
+            })
+
 
     return (
         <Dialog maxWidth={'lg'} fullWidth open={open} onClose={close}  >
