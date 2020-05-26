@@ -72,9 +72,9 @@ const App = () => {
       {/* <RecoilRoot> */}
       <Router>
         <Main>
-          <Switch>
-            <ErrorBoundary fallback={<Error />}>
-              <Suspense fallback={<CircularProgress color="primary" />}>
+          <ErrorBoundary fallback={<Error />}>
+            <Suspense fallback={<CircularProgress color="primary" />}>
+              <Switch>
                 <Route exact path="/ThreeDemo" component={ThreeDemo} />
                 <Route exact path="/DashBoard" component={DashBoard} />
                 <Route exact path="/Rules" component={Rules} />
@@ -89,13 +89,13 @@ const App = () => {
                 </Route>
                 <Route exact path="/Maps" component={Maps} />
                 <Route exact path="/" component={Search} />
-              </Suspense>
-            </ErrorBoundary >
-          </Switch>
+              </Switch>
+            </Suspense>
+          </ErrorBoundary >
         </Main>
       </Router>
       {/* </RecoilRoot> */}
-    </StateProvider>
+    </StateProvider >
   );
 };
 

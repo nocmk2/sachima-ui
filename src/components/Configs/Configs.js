@@ -2,62 +2,51 @@ import React, { createContext } from "react";
 // import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import { useStateValue } from "utils/state"
-import { useReadApi } from "apis/api"
 // import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 import RBAC from './RBAC'
+import { useFetchProfileData } from 'api/api'
 
-
-const Now = () => {
-    return Math.floor(Date.now() / 1000)
-}
+// const source = fetchProfileData()
 
 const Configs = () => {
-    const [{ sachima }, dispatch] = useStateValue();
-    const [{ data: users, isLoading: usersIsLoading }, getUsers] = useReadApi(`${sachima.url}/sachima/getusers`, []);
-    const [{ data: roles, isLoading: rolesIsLoading }, getRoles] = useReadApi(`${sachima.url}/sachima/getroles`, []);
-    const [{ data: objects, isLoading: objectsIsLoading }, getObjects] = useReadApi(`${sachima.url}/sachima/getobjects`, []);
-    const [{ data: userrole, isLoading: userroleIsLoading }, getUserRole] = useReadApi(`${sachima.url}/sachima/getuserrole`, []);
-    const [{ data: roleobject, isLoading: roleobjectIsLoading }, getRoleObject] = useReadApi(`${sachima.url}/sachima/getroleobject`, []);
+    const source = useFetchProfileData()
+    // useInterceptor()
+    // const [{ sachima }, dispatch] = useStateValue();
+    // const [{ data: users, isLoading: usersIsLoading }, getUsers] = useReadApi(`${sachima.url}/sachima/getusers`, []);
+    // const [{ data: roles, isLoading: rolesIsLoading }, getRoles] = useReadApi(`${sachima.url}/sachima/getroles`, []);
+    // const [{ data: objects, isLoading: objectsIsLoading }, getObjects] = useReadApi(`${sachima.url}/sachima/getobjects`, []);
+    // const [{ data: userrole, isLoading: userroleIsLoading }, getUserRole] = useReadApi(`${sachima.url}/sachima/getuserrole`, []);
+    // const [{ data: roleobject, isLoading: roleobjectIsLoading }, getRoleObject] = useReadApi(`${sachima.url}/sachima/getroleobject`, []);
     // const [{ setter: setUser, isLoading: isSetUserWaiting }] = useWriteApi(`${sachima.url}/sachima/adduser`, {}, {})
 
-
-    const isLoading = usersIsLoading && rolesIsLoading && objectsIsLoading && userroleIsLoading && roleobjectIsLoading
+    // const isLoading = usersIsLoading && rolesIsLoading && objectsIsLoading && userroleIsLoading && roleobjectIsLoading
     return (
         <>
-            {/* <Button
-                // variant="contained"
-                onClick={() => {
-                    dispatch({ type: "sendMessage", newMessage: { open: true, move: "left", info: "hahah" } })
-                }}>message</Button>
-            <Button
-                // variant="contained"
-                startIcon={<RefreshRoundedIcon />}
-                onClick={() => {
-                    getUsers(`${sachima.url}/sachima/getusers?time=${Now()}`);
-                    // console.log(users)
-                }}
-            >getUsers
-                {usersIsLoading && "loading..."}
-            </Button>
-            <Button
-                // variant="contained"
-                startIcon={<RefreshRoundedIcon />}
-                onClick={() => {
-                    getRoles(`${sachima.url}/sachima/getroles?time=${Now()}`);
-                    // console.log(users)
-                }}
-            >getRoles
-                {usersIsLoading && "loading..."}
-            </Button> */}
-            {isLoading ? (<div>loading...</div>) : (
-                <Card>
-                    <ctx.Provider value={{ sachima: sachima, globalDispatch: dispatch, notifier: { getUsers, getRoles, getObjects, getUserRole, getRoleObject } }}>
-                        <RBAC {...{ users, roles, objects, userrole, roleobject }} />
-                    </ctx.Provider>
-                </Card>
-            )
-            }
-        </>)
+            <Card>
+                <ctx.Provider value={{
+                    // sachima: sachima,
+                    // globalDispatch: dispatch,
+                    // notifier: { refresher }
+                }}>
+                    {/* {JSON.stringify(data[0].read())} */}
+                    {/* {JSON.stringify(data)} */}
+                    {source ?
+                        (
+                            <RBAC
+                                users={source.users.read()}
+                                roles={source.roles.read()}
+                                objects={source.objects.read()}
+                                userrole={source.userRole.read()}
+                                roleobject={source.roleObject.read()}
+                            />
+                            // <h1>12dwd</h1>
+                        )
+                        : 'loading...'}
+                    {/* {typeof source} */}
+                </ctx.Provider>
+            </Card>
+        </>
+    )
 }
 
 export const ctx = createContext({})
