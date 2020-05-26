@@ -30,7 +30,7 @@ const Configs = () => {
                 }}>
                     {/* {JSON.stringify(data[0].read())} */}
                     {/* {JSON.stringify(data)} */}
-                    <h3>{refreshTimes}</h3>
+                    <h3>提交次数： {refreshTimes}</h3>
                     {source ?
                         (
                             <RBAC

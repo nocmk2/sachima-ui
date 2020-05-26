@@ -80,10 +80,10 @@ export const getRoleObjectAction = async (): Promise<RoleObjectAction[]> => {
 
 
 /**
- * 随机增加用户 测试
+ * 随机增加 用户/角色/权限 测试
  *  
  */
-export const addRandomUser = async (name: string) => {
+export const addRandom = async (name: string) => {
     const randomNum = Math.floor(Math.random() * 1000) + 1
     const url = `${process.env.REACT_APP_BASE_URL}/sachima/adduser`
     const response = await axios({

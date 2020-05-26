@@ -14,7 +14,7 @@ import Authority from 'components/forms/Authority'
 // import { green, purple } from '@material-ui/core/colors';
 import axios from "axios"
 
-import { addRandomUser } from 'api/api'
+import { addRandom } from 'api/api'
 
 import { ctx } from './Configs';
 
@@ -81,7 +81,7 @@ const RBACDialog = ({ open, close, type, data, id }) => {
     );
 
     const submit = async () =>
-        addRandomUser('xman')
+        addRandom('xman')
             .then(response => {
                 // console.log(response)
                 if (response.status === 200)
