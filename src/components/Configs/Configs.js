@@ -8,6 +8,11 @@ import { useFetchProfileData } from 'api/api'
 
 // const source = fetchProfileData()
 
+const OPTIONS = {
+    headers: { Authorization: "Bearer " + localStorage.token }
+}
+console.log(Object.keys(OPTIONS))
+
 const Configs = () => {
     const [source, refresher, refreshTimes] = useFetchProfileData()
     // useInterceptor()

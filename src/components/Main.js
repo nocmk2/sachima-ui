@@ -87,6 +87,7 @@ const Main = props => {
   };
 
 
+  //FIXME: 增加logout接口调用
   const handleLogClick = () => {
     handleAvtarMenuClose()
     localStorage.removeItem("email");

@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import axios from "axios"
-import { RuleSummary, RuleWithSummary, RuleRaw, User, Role, Object, UserRole, RoleObjectAction } from 'types/types'
 import { useInterceptor } from "utils/tools"
-import { isMaster } from 'cluster'
 // import { useStateValue } from "../utils/state"
 // import { useHistory } from "react-router-dom"
 
@@ -19,19 +17,41 @@ import { isMaster } from 'cluster'
 //     // return error;
 // });
 
-const OPTIONS = {
-    headers: { Authorization: "Bearer " + localStorage.token }
+// var OPTIONS = {}
+
+// Object.defineProperty(OPTIONS, "headers", {
+//     get: function () {
+//         return { Authorization: "Bearer " + localStorage.token }
+//     }
+// })
+
+// function getToken(callback) {
+//     let token = localStorage.token
+//     callback(token)
+// }
+
+
+// const OPTIONS = {
+//     headers: { Authorization: "Bearer " + getToken(token => token) }
+// }
+
+const OPTIONS = () => {
+    return {
+        headers: { Authorization: "Bearer " + localStorage.token }
+    }
 }
 
-export const getRuleLists = async (): Promise<RuleSummary[]> => {
+// console.log(Object.keys(OPTIONS))
+
+export const getRuleLists = async () => {
     const url = `${process.env.REACT_APP_BASE_URL}/sachima/rules`
-    const ruleListsResponse = await axios.get<RuleSummary[]>(url, OPTIONS);
+    const ruleListsResponse = await axios.get(url, OPTIONS());
     return ruleListsResponse.data
 }
 
-export const getRule = async (name: string, version: string): Promise<RuleWithSummary> => {
+export const getRule = async (name, version) => {
     const url = `${process.env.REACT_APP_BASE_URL}/sachima/rule/${name}/${version}`
-    const rule = await axios.get<RuleRaw>(url, OPTIONS);
+    const rule = await axios.get(url, OPTIONS());
     const ruleJSON = JSON.parse(rule.data.rule)
     return {
         name: rule.data.name,
@@ -41,39 +61,39 @@ export const getRule = async (name: string, version: string): Promise<RuleWithSu
     }
 }
 
-export const getUsers = async (): Promise<User[]> => {
+export const getUsers = async () => {
     const url = `${process.env.REACT_APP_BASE_URL}/sachima/getusers`
-    const result = await axios.get(url, OPTIONS);
+    const result = await axios.get(url, OPTIONS());
     return result.data
 }
 
-export const getRoles = async (): Promise<Role[]> => {
+export const getRoles = async () => {
     const url = `${process.env.REACT_APP_BASE_URL}/sachima/getroles`
-    const result = await axios.get(url, OPTIONS);
+    const result = await axios.get(url, OPTIONS());
     return result.data
 }
 
 /**
  * 权限对象 
  */
-export const getObjects = async (): Promise<Object[]> => {
+export const getObjects = async () => {
     const url = `${process.env.REACT_APP_BASE_URL}/sachima/getobjects`
-    const result = await axios.get(url, OPTIONS);
+    const result = await axios.get(url, OPTIONS());
     return result.data
 }
 
-export const getUserRole = async (): Promise<UserRole[]> => {
+export const getUserRole = async () => {
     const url = `${process.env.REACT_APP_BASE_URL}/sachima/getuserrole`
-    const result = await axios.get(url, OPTIONS);
+    const result = await axios.get(url, OPTIONS());
     return result.data
 }
 
 /**
  * roleobject关系中分为write和read两种action，读写权限分离
  */
-export const getRoleObjectAction = async (): Promise<RoleObjectAction[]> => {
+export const getRoleObjectAction = async () => {
     const url = `${process.env.REACT_APP_BASE_URL}/sachima/getroleobject`
-    const result = await axios.get(url, OPTIONS);
+    const result = await axios.get(url, OPTIONS());
     return result.data
 }
 
@@ -83,7 +103,7 @@ export const getRoleObjectAction = async (): Promise<RoleObjectAction[]> => {
  * 随机增加 用户/角色/权限 测试
  *  
  */
-export const addRandom = async (name: string) => {
+export const addRandom = async (name) => {
     const randomNum = Math.floor(Math.random() * 1000) + 1
     const url = `${process.env.REACT_APP_BASE_URL}/sachima/adduser`
     const response = await axios({
@@ -105,9 +125,9 @@ export const addRandom = async (name: string) => {
 // a contract like this to integrate with React.
 // Real implementations can be significantly more complex.
 // Don't copy-paste this into your project!
-const wrapPromise = (promise: Promise<any>) => {
+const wrapPromise = (promise) => {
     let status = "pending";
-    let result: any;
+    let result;
     let suspender = promise.then(
         r => {
             status = "success";
@@ -135,18 +155,6 @@ const wrapPromise = (promise: Promise<any>) => {
 
 
 
-// TODO: 抽象
-interface SuspenseReader {
-    read: Function
-}
-
-interface ProfileDataType {
-    users: SuspenseReader,
-    roles: SuspenseReader,
-    objects: SuspenseReader,
-    userRole: SuspenseReader,
-    roleObject: SuspenseReader
-}
 // { users: null, roles: null, objects: null, userrole: null, roleobject: null }
 // const initialState = { count: 0 };
 
@@ -162,21 +170,37 @@ interface ProfileDataType {
 export const useFetchProfileData = () => {
     // const [state, dispatch] = useReducer(reducer, null)
     const [count, setCount] = useState(0)
-    const [data, setData] = useState<ProfileDataType | null>(null)
+    const [data, setData] = useState(null)
 
     const refresher = () => {
         setCount(prev => prev + 1)
     }
 
     useInterceptor()
+    // useEffect(() => {
+    //     effect
+    //     return () => {
+    //         cleanup
+    //     }
+    // }, [input])
+
 
     useEffect(() => {
+        // let mounted = true
+        // if (mounted) {
         const users = wrapPromise(getUsers());
         const roles = wrapPromise(getRoles());
         const objects = wrapPromise(getObjects());
         const userRole = wrapPromise(getUserRole());
         const roleObject = wrapPromise(getRoleObjectAction());
         setData({ users, roles, objects, userRole, roleObject })
+        // } else {
+        //     setData(null)
+        // }
+
+        return () => {
+            // mounted = false
+        }
     }, [count])
 
     //TODO: return [data, refresher]
@@ -185,11 +209,11 @@ export const useFetchProfileData = () => {
 
 
 // 过度抽象？
-interface DataType {
-    [key: string]: SuspenseReader
-}
-export const useImpromptu = (imps: Function[]) => {
-    const [data, setData] = useState<DataType | null>(null)
+// interface DataType {
+//     [key: string]: SuspenseReader
+// }
+export const useImpromptu = (imps) => {
+    const [data, setData] = useState(null)
 
     useInterceptor()
 
