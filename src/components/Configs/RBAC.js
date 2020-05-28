@@ -30,7 +30,6 @@ import { CircularProgress } from '@material-ui/core';
 
 // import ErrorBoundary from '../ErrorBoundary'
 // import Error from '../Error'
-// import { fetchProfileData } from "../../apis/suspenseApi";
 
 const useStyles = makeStyles((theme) => ({
   root: {
