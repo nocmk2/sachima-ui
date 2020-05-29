@@ -73,7 +73,7 @@ export const addRandom = async (name) => {
     const randomNum = Math.floor(Math.random() * 1000) + 1
     const url = `${process.env.REACT_APP_BASE_URL}/sachima/adduser`
     const response = await axios({
-        ...OPTIONS, //headers
+        ...OPTIONS(), //headers
         method: 'POST',
         url: url,
         data: {

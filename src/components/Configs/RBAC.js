@@ -140,16 +140,19 @@ const RBAC = ({ users, roles, objects, userrole, roleobject }) => {
 
   const addUser = (event) => {
     // setUsers([...users, { id: 'newuser', name: '新用户' }])
+    setShowLine(false)
     setDialogOpen(true)
     setType('user')
   }
 
   const addRole = (event) => {
+    setShowLine(false)
     setDialogOpen(true)
     setType('role')
   }
 
   const addObject = (event) => {
+    setShowLine(false)
     setDialogOpen(true)
     setType('object')
   }
