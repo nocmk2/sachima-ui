@@ -11,7 +11,7 @@ import { useFetchProfileData } from 'api/api'
 const OPTIONS = {
     headers: { Authorization: "Bearer " + localStorage.token }
 }
-console.log(Object.keys(OPTIONS))
+// console.log(Object.keys(OPTIONS))
 
 const Configs = () => {
     const [source, refresher, refreshTimes] = useFetchProfileData()
@@ -35,7 +35,7 @@ const Configs = () => {
                 }}>
                     {/* {JSON.stringify(data[0].read())} */}
                     {/* {JSON.stringify(data)} */}
-                    <h3>提交次数： {refreshTimes}</h3>
+                    <h3>刷新次数： {refreshTimes}</h3>
                     {source ?
                         (
                             <RBAC
