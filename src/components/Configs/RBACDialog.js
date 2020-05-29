@@ -1,4 +1,4 @@
-import React, { useMemo, useContext } from "react";
+import React, { useMemo, useContext, useState } from "react";
 // import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button'
 // import Chip from '@material-ui/core/Chip'
@@ -12,7 +12,7 @@ import User from 'components/forms/User'
 import Role from 'components/forms/Role'
 import Authority from 'components/forms/Authority'
 // import { green, purple } from '@material-ui/core/colors';
-import axios from "axios"
+// import axios from "axios"
 
 import { addRandom } from 'api/api'
 
@@ -31,7 +31,6 @@ import { ctx } from './Configs';
 // const handleClose = () => {
 // }
 
-const handleCancel = () => { }
 
 // const handleSubscribe = () => {
 // }
@@ -80,13 +79,14 @@ const RBACDialog = ({ open, close, type, data, id }) => {
         [type, data]
     );
 
+    const handleCancel = () => {
+        close()
+    }
     const submit = async () =>
         addRandom('xman')
             .then(response => {
-                // console.log(response)
                 if (response.status === 200)
                     notifier.refresher()
-                // alert('提交成功！！！！！！！！！！！！')
             })
 
 
