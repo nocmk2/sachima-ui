@@ -199,6 +199,7 @@ const RBAC = ({ users, roles, objects, userrole, roleobject }) => {
                 <Chip
                   className={classes.chip}
                   ref={refs[user.id]}
+                  clickable
                   size="small"
                   icon={<FaceIcon />}
                   label={user.name}
