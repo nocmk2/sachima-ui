@@ -124,7 +124,6 @@ const BinMathSetter = ({ express, binscore, minmax, onChange }) => {
         var ex = constructExpress()
 
         // 通过回调onChange把新的表达式传递到上层组建
-        // TODO: 把这个传递变化的过程放到redux中去
         onChange({
             [ex]: Number(score)  // {"[-inf,1.6]": 23}
         })

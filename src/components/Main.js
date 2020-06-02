@@ -87,7 +87,7 @@ const Main = props => {
   };
 
 
-  //FIXME: 增加logout接口调用
+  //FIXME: logout should disable old token here
   const handleLogClick = () => {
     handleAvtarMenuClose()
     localStorage.removeItem("email");
