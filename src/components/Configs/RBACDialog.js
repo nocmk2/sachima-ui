@@ -14,7 +14,7 @@ import Authority from 'components/forms/Authority'
 // import { green, purple } from '@material-ui/core/colors';
 // import axios from "axios"
 
-import { addRandom } from 'api/api'
+import { addRandom, addUser } from 'api/api'
 
 import { ctx } from './Configs';
 
@@ -35,47 +35,79 @@ import { ctx } from './Configs';
 // const handleSubscribe = () => {
 // }
 
+const MOCK_NEW_USER = {
+    id: 12345,
+    name: "new User",
+    password: "12345566",
+    passwordAgain: "12345566",
+    email: "eif@gmail.com"
+}
+
+const MOCK_NEW_ROLE = {
+    id: 34545,
+    name: '角色13xxxys'
+}
+
+const MOCK_NEW_AUTHORITY = {
+    id: 8745775,
+    name: '权限897897487577'
+}
+
+
 const Cal = (type, data) => {
     const users = data.users.map(o => ({ ...o, type: 'user' }))
     const roles = data.roles.map(o => ({ ...o, type: 'role' }))
     const objects = data.objects.map(o => ({ ...o, type: 'object' }))
 
+    let formData = {}
+
+    const changeUserForm = data => {
+        alert('user changed' + data)
+    }
+
+    const changeRoleForm = data => {
+        alert('role changed' + data)
+    }
+
+    const changeAuthorityForm = data => {
+        alert('Authority changed' + data)
+    }
+
     if (type === 'user') {
         // should render data.role
         return {
             title: '用户',
-            recommend: users,
-            datashouldrender: roles,
-            form: dt => <User data={dt} />
+            currentList: users,
+            relationList: roles,
+            form: <User initData={MOCK_NEW_USER} onChange={changeUserForm} />
         }
     } else if (type === 'role') {
         // should render data.user and data.object
         return {
             title: '角色',
-            recommend: roles,
-            datashouldrender: [...users, ...objects],
-            form: dt => <Role data={dt} />
+            currentList: roles,
+            relationList: [...users, ...objects],
+            form: <Role initData={MOCK_NEW_ROLE} onChange={changeRoleForm} />
         }
     } else if (type === 'object') {
         // should render data.role
         return {
             title: '权限',
-            recommend: objects,
-            datashouldrender: roles,
-            form: dt => <Authority data={dt} />
+            currentList: objects,
+            relationList: roles,
+            form: <Authority initData={MOCK_NEW_AUTHORITY} onChange={changeAuthorityForm} />
         }
     }
 }
 
-const Now = () => {
-    return Math.floor(Date.now() / 1000)
-}
+// const Now = () => {
+//     return Math.floor(Date.now() / 1000)
+// }
 
 const RBACDialog = ({ open, close, type, data, id }) => {
     const { sachima, notifier } = useContext(ctx)
     // const 
-    const { title, recommend, datashouldrender, url, form } = useMemo(
-        () => Cal(type, data),
+    const { title, currentList, relationList, url, form } = useMemo(() => Cal(type, data),
         [type, data]
     );
 
@@ -83,27 +115,26 @@ const RBACDialog = ({ open, close, type, data, id }) => {
         close()
     }
     const submit = async () =>
-        addRandom('xman')
-            .then(response => {
-                if (response.status === 200)
-                    notifier.refresher()
-            })
+        addUser().then(res => {
+            if (res.status === 200) {
+                notifier.refresher()
+            }
+        })
+    // addRandom('xman')
+    //     .then(response => {
+    //         if (response.status === 200)
+    //             notifier.refresher()
+    //     })
 
 
     return (
         <Dialog maxWidth={'lg'} fullWidth open={open} onClose={close}  >
             <DialogTitle id="form-dialog-title">{title}</DialogTitle>
             <DialogContent dividers={true}>
-                {/* <Button color='secondary' variant='contained' onClick={doit} >{hei}</Button> */}
-                <SmallChips data={recommend} />
-                {/* <DialogContentText>
-                    input {type} info
-                </DialogContentText> */}
-                {form({ id: 123, name: '达啦崩吧' })}
-                <SmallChips data={datashouldrender} />
-                {/* <RecommendChips data={recommend} /> */}
+                <SmallChips data={currentList} />
+                {form}
+                <SmallChips data={relationList} />
             </DialogContent>
-            {/* <DialogTitle id="form-dialog-title">{title}</DialogTitle> */}
             <DialogActions>
                 <Button onClick={handleCancel} > 取 消 </Button>
                 <Button variant="contained" color="primary" onClick={submit}> 提 交 </Button>

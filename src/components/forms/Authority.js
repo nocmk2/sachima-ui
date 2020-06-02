@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
@@ -20,8 +20,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Authority = ({ data }) => {
+const Authority = ({ initData, onChange }) => {
     const classes = useStyles();
+
+    const [authority, setAuthority] = useState(initData)
+
     return (
         <>
             {/* {JSON.stringify(data)} */}
@@ -32,7 +35,7 @@ const Authority = ({ data }) => {
                 label={'权限编号'}
                 type="text"
                 fullWidth
-                value={data.id}
+                value={authority.id}
             // variant="outlined"
             />
             <TextField
@@ -41,12 +44,12 @@ const Authority = ({ data }) => {
                 label={'权限名称'}
                 type="text"
                 fullWidth
-                value={data.name}
+                value={authority.name}
             // variant="outlined"
             />
             <FormControl
-                className={classes.formControl}
-            >
+                className={classes.formControl}>
+
                 <InputLabel id="router-label" htmlFor="age-native-simple">设置可访问菜单</InputLabel>
                 <Select
                     labelId="router-label"

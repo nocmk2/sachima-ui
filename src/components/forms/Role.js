@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TextField from '@material-ui/core/TextField';
 
-const Role = data => {
+const Role = ({ initData, onChange }) => {
+
+    const [role, setRole] = useState(initData)
+
     return (
         <>
             <TextField
@@ -9,16 +12,16 @@ const Role = data => {
                 id="id"
                 label={'角色编号'}
                 type="text"
+                value={role.id}
                 fullWidth
-            // variant="outlined"
             />
             <TextField
                 margin="normal"
                 id="name"
                 label={'角色名称'}
                 type="text"
+                value={role.name}
                 fullWidth
-            // variant="outlined"
             />
         </>
     )

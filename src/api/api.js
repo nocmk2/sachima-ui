@@ -27,6 +27,45 @@ export const getRule = async (name, version) => {
     }
 }
 
+export const addUser = async (name, password, email, firstname, lastname) => {
+    const url = `${process.env.REACT_APP_BASE_URL}/sachima/adduser`
+    const response = await axios({
+        ...OPTIONS(),
+        method: 'POST',
+        url: url,
+        data: {
+            "username": name,
+            "password": password,
+            "email": email,
+            "firstname": firstname,
+            "lastname": lastname
+        }
+    })
+    return response
+}
+
+/**
+ * 随机增加 用户/角色/权限 测试
+ *  
+ */
+export const addRandom = async (name) => {
+    const randomNum = Math.floor(Math.random() * 1000) + 1
+    const url = `${process.env.REACT_APP_BASE_URL}/sachima/adduser`
+    const response = await axios({
+        ...OPTIONS(), //headers
+        method: 'POST',
+        url: url,
+        data: {
+            "username": name + randomNum,
+            "password": "1234567",
+            "email": "admin@sachima.com",
+            "firstname": "新增用户" + randomNum,
+            "lastname": "新增用户" + randomNum
+        }
+    })
+    return response
+}
+
 export const getUsers = async () => {
     const url = `${process.env.REACT_APP_BASE_URL}/sachima/getusers`
     const result = await axios.get(url, OPTIONS());
@@ -65,27 +104,6 @@ export const getRoleObjectAction = async () => {
 
 
 
-/**
- * 随机增加 用户/角色/权限 测试
- *  
- */
-export const addRandom = async (name) => {
-    const randomNum = Math.floor(Math.random() * 1000) + 1
-    const url = `${process.env.REACT_APP_BASE_URL}/sachima/adduser`
-    const response = await axios({
-        ...OPTIONS(), //headers
-        method: 'POST',
-        url: url,
-        data: {
-            "username": name + randomNum,
-            "password": "1234567",
-            "email": "admin@sachima.com",
-            "firstname": "新增用户" + randomNum,
-            "lastname": "新增用户" + randomNum
-        }
-    })
-    return response
-}
 
 // Suspense integrations like Relay implement
 // a contract like this to integrate with React.
