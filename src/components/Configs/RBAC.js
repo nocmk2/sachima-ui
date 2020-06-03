@@ -78,6 +78,8 @@ const RBAC = ({ users, roles, objects, userrole, roleobject }) => {
   const [dialogopen, setDialogOpen] = useState(false)
   const [type, setType] = useState('user')
 
+  const [curid, setCurid] = useState(null)
+
   // fetch data
   // useEffect(() => {
   //   console.log('rrrrrrrrrrrrrrrrrrrrrr')
@@ -161,8 +163,10 @@ const RBAC = ({ users, roles, objects, userrole, roleobject }) => {
     setDialogOpen(false)
   }
 
-  const onClick = id => {
-    alert(id)
+  const onClick = (id, type) => {
+    setCurid(id)
+    setType(type)
+    setDialogOpen(true)
   }
 
   // if (users === undefined) {
@@ -212,7 +216,7 @@ const RBAC = ({ users, roles, objects, userrole, roleobject }) => {
                   deleteIcon={<DoneIcon />}
                   onMouseEnter={() => { onMouseEnter(user.id) }}
                   onMouseLeave={() => { onMouseLeave(user.id) }}
-                  onClick={() => onClick(user.id)}
+                  onClick={() => onClick(user.id, 'user')}
                   key={'user' + user.id}
                   id={user.id}
                 />
@@ -237,7 +241,7 @@ const RBAC = ({ users, roles, objects, userrole, roleobject }) => {
                   deleteIcon={<DoneIcon />}
                   onMouseEnter={() => { onMouseEnter(role.id) }}
                   onMouseLeave={() => { onMouseLeave(role.id) }}
-                  onClick={() => onClick(role.id)}
+                  onClick={() => onClick(role.id, 'role')}
                   key={'role' + role.id}
                   id={role.id}
                 />
@@ -262,7 +266,7 @@ const RBAC = ({ users, roles, objects, userrole, roleobject }) => {
                 deleteIcon={<DoneIcon />}
                 onMouseEnter={() => { onMouseEnter(obj.id) }}
                 onMouseLeave={() => { onMouseLeave(obj.id) }}
-                onClick={() => onClick(obj.id)}
+                onClick={() => onClick(obj.id, 'object')}
                 key={'obj' + obj.id}
                 id={obj.id}
               />)
@@ -279,6 +283,7 @@ const RBAC = ({ users, roles, objects, userrole, roleobject }) => {
         type={type}
         data={{ users, roles, objects }}
         close={handleDialogClose}
+        id={curid}
       ></RBACDialog>
       {/* </ctx.Provider> */}
     </div>

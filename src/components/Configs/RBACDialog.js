@@ -111,7 +111,10 @@ const RBACDialog = ({ open, close, type, data, id }) => {
         [type, data]
     );
 
+    const [titleid, setTitleID] = useState(id)
+
     const handleCancel = () => {
+        setTitleID(null)
         close()
     }
     const submit = async () =>
@@ -129,7 +132,7 @@ const RBACDialog = ({ open, close, type, data, id }) => {
 
     return (
         <Dialog maxWidth={'lg'} fullWidth open={open} onClose={close}  >
-            <DialogTitle id="form-dialog-title">{title}</DialogTitle>
+            <DialogTitle id="form-dialog-title">{title} {id}</DialogTitle>
             <DialogContent dividers={true}>
                 <SmallChips data={currentList} />
                 {form}
