@@ -31,7 +31,7 @@ export function useForceUpdate() {
 
 const useStyles = makeStyles(theme => ({
     // binsetter: {
-    //     width: maxWidth
+    //     width: 1000
     // },
     buttons: {
         '& > *': {
@@ -42,6 +42,7 @@ const useStyles = makeStyles(theme => ({
         '& > *': {
             margin: theme.spacing(1),
         },
+        // width: 1200
     },
     log: {
         width: 250,
@@ -166,7 +167,7 @@ function FeatureDetail({ currule, feature }) {
                         <BinSetter data={} />
                     ))} */}
             {/* {Object.entries(features).length === 0 ? "loading..." : JSON.stringify(features[Object.keys(features)[value]])} */}
-            <div>{currule}</div>
+            {/* <div>{currule}</div> */}
             <div className={classes.buttons}>
                 <Button startIcon={<AddCircleOutlineIcon />} variant="contained" color="secondary" onClick={handleNew}>New</Button>
 

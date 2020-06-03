@@ -65,8 +65,10 @@ const PrettoSlider = withStyles({
 
 const useStyles = makeStyles({
     root: {
-        width: 800,
-        flexGrow: 1,
+        display: 'flex',
+        width: 1000
+        // width: 1000,
+        // flexGrow: 1,
     },
     select: {
         margin: "dense",

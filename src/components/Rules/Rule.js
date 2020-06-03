@@ -60,6 +60,9 @@ const useStyles = makeStyles(theme => ({
         height: 800,
         // width: maxWidth,
     },
+    featureDetail: {
+        backgroundColor: '#ff88ff'
+    },
     dynamicbtn: {
         '& > *': {
             margin: theme.spacing(1),
