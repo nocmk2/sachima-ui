@@ -161,9 +161,13 @@ const RBAC = ({ users, roles, objects, userrole, roleobject }) => {
     setDialogOpen(false)
   }
 
-  if (users === undefined) {
-    return <CircularProgress></CircularProgress>
+  const onClick = id => {
+    alert(id)
   }
+
+  // if (users === undefined) {
+  //   return <CircularProgress></CircularProgress>
+  // }
 
   return (
     <div className={classes.root}>
@@ -206,8 +210,9 @@ const RBAC = ({ users, roles, objects, userrole, roleobject }) => {
                   color="secondary"
                   onDelete={handleDelete}
                   deleteIcon={<DoneIcon />}
-                  onMouseEnter={(event) => { onMouseEnter(user.id) }}
-                  onMouseLeave={(event) => { onMouseLeave(user.id) }}
+                  onMouseEnter={() => { onMouseEnter(user.id) }}
+                  onMouseLeave={() => { onMouseLeave(user.id) }}
+                  onClick={() => onClick(user.id)}
                   key={'user' + user.id}
                   id={user.id}
                 />
@@ -230,8 +235,9 @@ const RBAC = ({ users, roles, objects, userrole, roleobject }) => {
                   label={role.name}
                   onDelete={handleDelete}
                   deleteIcon={<DoneIcon />}
-                  onMouseEnter={(event) => { onMouseEnter(role.id) }}
-                  onMouseLeave={(event) => { onMouseLeave(role.id) }}
+                  onMouseEnter={() => { onMouseEnter(role.id) }}
+                  onMouseLeave={() => { onMouseLeave(role.id) }}
+                  onClick={() => onClick(role.id)}
                   key={'role' + role.id}
                   id={role.id}
                 />
@@ -254,8 +260,9 @@ const RBAC = ({ users, roles, objects, userrole, roleobject }) => {
                 clickable
                 onDelete={handleDelete}
                 deleteIcon={<DoneIcon />}
-                onMouseEnter={(event) => { onMouseEnter(obj.id) }}
-                onMouseLeave={(event) => { onMouseLeave(obj.id) }}
+                onMouseEnter={() => { onMouseEnter(obj.id) }}
+                onMouseLeave={() => { onMouseLeave(obj.id) }}
+                onClick={() => onClick(obj.id)}
                 key={'obj' + obj.id}
                 id={obj.id}
               />)

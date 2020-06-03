@@ -5,6 +5,14 @@ const Role = ({ initData, onChange }) => {
 
     const [role, setRole] = useState(initData)
 
+    const changeID = e => {
+        setRole({ ...role, id: e.target.value })
+    }
+
+    const changeName = e => {
+        setRole({ ...role, name: e.target.value })
+    }
+
     return (
         <>
             <TextField
@@ -14,6 +22,7 @@ const Role = ({ initData, onChange }) => {
                 type="text"
                 value={role.id}
                 fullWidth
+                onChange={changeID}
             />
             <TextField
                 margin="normal"
@@ -22,6 +31,7 @@ const Role = ({ initData, onChange }) => {
                 type="text"
                 value={role.name}
                 fullWidth
+                onChange={changeName}
             />
         </>
     )

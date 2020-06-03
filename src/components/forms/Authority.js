@@ -25,6 +25,14 @@ const Authority = ({ initData, onChange }) => {
 
     const [authority, setAuthority] = useState(initData)
 
+    const changeID = e => {
+        setAuthority({ ...authority, id: e.target.value })
+    }
+
+    const changeName = e => {
+        setAuthority({ ...authority, name: e.target.value })
+    }
+
     return (
         <>
             {/* {JSON.stringify(data)} */}
@@ -36,7 +44,7 @@ const Authority = ({ initData, onChange }) => {
                 type="text"
                 fullWidth
                 value={authority.id}
-            // variant="outlined"
+                onChange={changeID}
             />
             <TextField
                 margin="normal"
@@ -45,7 +53,7 @@ const Authority = ({ initData, onChange }) => {
                 type="text"
                 fullWidth
                 value={authority.name}
-            // variant="outlined"
+                onChange={changeName}
             />
             <FormControl
                 className={classes.formControl}>
